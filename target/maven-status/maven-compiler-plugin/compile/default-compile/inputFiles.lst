@@ -1,4 +1,7 @@
 D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegestiondocumentaria\entity\Oficio.java
+D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegestiondocumentaria\entity\DetalleDestinatario.java
+D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegestiondocumentaria\entity\DetalleSustentacion.java
+D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegestiondocumentaria\entity\Sustentacion.java
 D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegestiondocumentaria\entity\Persona.java
 D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegestiondocumentaria\entity\Documento.java
 D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegestiondocumentaria\entity\Egresado.java
@@ -10,4 +13,5 @@ D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegesti
 D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegestiondocumentaria\entity\GradoInstruccion.java
 D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegestiondocumentaria\config\HibernateConfig.java
 D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegestiondocumentaria\entity\ActaSustentacionTesis.java
+D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegestiondocumentaria\entity\DetalleDocumento.java
 D:\coding\Java\SistemaDeGestionDocumentaria\src\main\java\com\unu\sistemadegestiondocumentaria\entity\Administrativo.java
