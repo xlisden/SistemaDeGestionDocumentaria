@@ -24,6 +24,11 @@ public class Expediente {
     public Expediente() {
     }
 
+    public Expediente(int nroExpediente, Egresado egresado) {
+        this.nroExpediente = nroExpediente;
+        this.egresado = egresado;
+    }
+
     public Expediente(int id, int nroExpediente, Egresado egresado) {
         this.id = id;
         this.nroExpediente = nroExpediente;

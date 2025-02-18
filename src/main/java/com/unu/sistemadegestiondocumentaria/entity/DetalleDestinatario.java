@@ -26,6 +26,11 @@ public class DetalleDestinatario {
     public DetalleDestinatario() {
     }
 
+    public DetalleDestinatario(Documento documento, Administrativo destinatario) {
+        this.documento = documento;
+        this.destinatario = destinatario;
+    }
+
     public DetalleDestinatario(int id, Documento documento, Administrativo destinatario) {
         this.id = id;
         this.documento = documento;

@@ -35,6 +35,14 @@ public class Documento {
     public Documento() {
     }
 
+    public Documento(String correlativo, Date fechaEmision, TipoDocumento tipoDocumento, Estado estado, Administrativo emisor) {
+        this.correlativo = correlativo;
+        this.fechaEmision = fechaEmision;
+        this.tipoDocumento = tipoDocumento;
+        this.estado = estado;
+        this.emisor = emisor;
+    }
+
     public Documento(int id, String correlativo, Date fechaEmision, TipoDocumento tipoDocumento, Estado estado, Administrativo emisor) {
         this.id = id;
         this.correlativo = correlativo;

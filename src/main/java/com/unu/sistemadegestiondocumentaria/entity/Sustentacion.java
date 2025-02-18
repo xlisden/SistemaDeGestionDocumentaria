@@ -34,6 +34,13 @@ public class Sustentacion {
     public Sustentacion() {
     }
 
+    public Sustentacion(Administrativo jurado1, Administrativo jurado2, Administrativo jurado3, Administrativo asesor) {
+        this.jurado1 = jurado1;
+        this.jurado2 = jurado2;
+        this.jurado3 = jurado3;
+        this.asesor = asesor;
+    }
+
     public Sustentacion(int id, Administrativo jurado1, Administrativo jurado2, Administrativo jurado3, Administrativo asesor) {
         this.id = id;
         this.jurado1 = jurado1;

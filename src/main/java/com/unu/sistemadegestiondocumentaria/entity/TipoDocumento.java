@@ -17,6 +17,10 @@ public class TipoDocumento {
     public TipoDocumento() {
     }
 
+    public TipoDocumento(String nombre) {
+        this.nombre = nombre;
+    }
+
     public TipoDocumento(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;

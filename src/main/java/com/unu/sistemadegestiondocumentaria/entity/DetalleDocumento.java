@@ -26,6 +26,11 @@ public class DetalleDocumento {
     public DetalleDocumento() {
     }
 
+    public DetalleDocumento(Documento documento, Expediente expediente) {
+        this.documento = documento;
+        this.expediente = expediente;
+    }
+
     public DetalleDocumento(int id, Documento documento, Expediente expediente) {
         this.id = id;
         this.documento = documento;

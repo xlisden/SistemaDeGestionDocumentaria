@@ -22,6 +22,10 @@ public class Administrativo {
     public Administrativo() {
     }
 
+    public Administrativo(Persona persona) {
+        this.persona = persona;
+    }
+
     public Administrativo(int id, Persona persona) {
         this.id = id;
         this.persona = persona;

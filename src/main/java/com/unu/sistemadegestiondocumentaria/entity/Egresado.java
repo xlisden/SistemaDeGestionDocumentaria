@@ -22,6 +22,10 @@ public class Egresado {
     public Egresado() {
     }
 
+    public Egresado(Persona persona) {
+        this.persona = persona;
+    }
+
     public Egresado(int id, Persona persona) {
         this.id = id;
         this.persona = persona;

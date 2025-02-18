@@ -33,6 +33,12 @@ public class Memorandum {
         this.documento = documento;
     }
 
+    public Memorandum(String asunto, String referencia, Documento documento) {
+        this.asunto = asunto;
+        this.referencia = referencia;
+        this.documento = documento;
+    }
+
     public int getId() {
         return id;
     }

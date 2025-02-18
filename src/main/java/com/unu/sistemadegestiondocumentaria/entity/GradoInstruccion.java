@@ -17,6 +17,10 @@ public class GradoInstruccion {
     public GradoInstruccion() {
     }
 
+    public GradoInstruccion(String nombre) {
+        this.nombre = nombre;
+    }
+
     public GradoInstruccion(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;

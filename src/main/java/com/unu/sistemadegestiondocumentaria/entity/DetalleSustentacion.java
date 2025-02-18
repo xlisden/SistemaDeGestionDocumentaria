@@ -26,6 +26,11 @@ public class DetalleSustentacion {
     public DetalleSustentacion() {
     }
 
+    public DetalleSustentacion(Sustentacion sustentacion, Expediente expediente) {
+        this.sustentacion = sustentacion;
+        this.expediente = expediente;
+    }
+
     public DetalleSustentacion(int id, Sustentacion sustentacion, Expediente expediente) {
         this.id = id;
         this.sustentacion = sustentacion;

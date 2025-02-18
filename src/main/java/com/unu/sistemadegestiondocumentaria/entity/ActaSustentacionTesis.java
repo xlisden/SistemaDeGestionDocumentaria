@@ -26,6 +26,12 @@ public class ActaSustentacionTesis {
     public ActaSustentacionTesis() {
     }
 
+    public ActaSustentacionTesis(String tema, int calificacion, Documento documento) {
+        this.tema = tema;
+        this.calificacion = calificacion;
+        this.documento = documento;
+    }
+
     public ActaSustentacionTesis(int id, String tema, int calificacion, Documento documento) {
         this.id = id;
         this.tema = tema;
