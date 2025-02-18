@@ -7,6 +7,7 @@ import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 public class EstadoRepository implements IEstadoRepository {
 
@@ -76,6 +77,20 @@ public class EstadoRepository implements IEstadoRepository {
             System.out.println(ex.getMessage());
         }
         return e;
+    }
+
+    @Override
+    public Estado getByNombre(String nombre) {
+        Estado estado = null;
+        em = hc.getEntityManager();
+        try {
+            estado = (Estado) em.createQuery("SELECT e FROM Estado e WHERE e.nombre = :nombre", Estado.class).setParameter("nombre", nombre).getSingleResult();
+        } catch (NoResultException e) {
+            throw new ValidationException(Validation.warningColor + "El Estado no ha sido encontrado." + Validation.normalColor);
+        } finally {
+            hc.closeConnection();
+        }
+        return estado;
     }
 
 }

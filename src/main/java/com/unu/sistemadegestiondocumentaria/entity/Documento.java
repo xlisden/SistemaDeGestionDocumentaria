@@ -16,7 +16,7 @@ public class Documento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String correlativo; //el tema del correlativo sera implementado en la implementacion del repository
+    private String correlativo;
 
     private Date fechaEmision;
 

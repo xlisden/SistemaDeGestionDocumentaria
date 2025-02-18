@@ -14,4 +14,7 @@ public interface IEstadoRepository {
     public List<Estado> getAllEstados();
 
     public Estado getByIdEstado(int id);
+    
+    public Estado getByNombre(String nombre);
+    
 }
