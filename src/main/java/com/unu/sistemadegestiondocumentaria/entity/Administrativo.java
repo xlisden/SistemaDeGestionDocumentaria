@@ -7,8 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "administrativos")
 public class Administrativo {
 
     @Id
@@ -45,6 +47,11 @@ public class Administrativo {
 
     public void setPersona(Persona persona) {
         this.persona = persona;
+    }
+
+    @Override
+    public String toString() {
+        return "Administrativo{" + "id=" + id + ", persona=" + persona + '}';
     }
 
 }

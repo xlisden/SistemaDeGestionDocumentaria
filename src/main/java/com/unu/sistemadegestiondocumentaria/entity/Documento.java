@@ -8,8 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "documentos")
 public class Documento {
 
     @Id
@@ -98,6 +100,11 @@ public class Documento {
 
     public void setEmisor(Administrativo emisor) {
         this.emisor = emisor;
+    }
+
+    @Override
+    public String toString() {
+        return "Documento{" + "id=" + id + ", correlativo=" + correlativo + ", fechaEmision=" + fechaEmision + ", tipoDocumento=" + tipoDocumento + ", estado=" + estado + ", emisor=" + emisor + '}';
     }
 
 }

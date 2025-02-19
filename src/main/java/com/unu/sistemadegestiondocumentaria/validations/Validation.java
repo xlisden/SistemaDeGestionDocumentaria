@@ -17,38 +17,39 @@ public class Validation {
 
     public void validateGradoInstruccion(GradoInstruccion gi) {
         if (gi.getNombre().isBlank()) {
-            throw new ValidationException(warningColor + "El nombre del Grado de Instrucción no puede estar vacío." + normalColor);
+            throw new ValidationException(showWarning("El nombre del Grado de Instrucción no puede estar vacío."));
         }
     }
 
     public void validateTipoDocumento(TipoDocumento td) {
         if (td.getNombre().isBlank()) {
-            throw new ValidationException(warningColor + "El nombre del Tipo de Documento no puede estar vacío." + normalColor);
+            throw new ValidationException(showWarning("El nombre del Tipo de Documento no puede estar vacío."));
         }
     }
 
     public void validateEstado(Estado e) {
         if (e.getNombre().isBlank()) {
-            throw new ValidationException(warningColor + "El nombre del Estado no puede estar vacío." + normalColor);
+            throw new ValidationException(showWarning("El nombre del Estado no puede estar vacío."));
         }
     }
 
     public void validatePersona(Persona p) {
         if (p.getNombre().isBlank()) {
-            throw new ValidationException(warningColor + "El nombre de la Persona no puede estar vacío." + normalColor);
+            throw new ValidationException(showWarning("El nombre de la Persona no puede estar vacío."));
         }
         
         if (p.getApellidoPaterno().isBlank()) {
-            throw new ValidationException(warningColor + "El apellido paterno de la Persona no puede estar vacío." + normalColor);
+            throw new ValidationException(showWarning("El apellido paterno de la Persona no puede estar vacío."));
         }
         
         if (p.getApellidoMaterno().isBlank()) {
-            throw new ValidationException(warningColor + "El apellido materno de la Persona no puede estar vacío." + normalColor);
+            throw new ValidationException(showWarning("El apellido materno de la Persona no puede estar vacío."));
         }
         
         if (p.getGradoInstruccion() == null) {
-            throw new ValidationException(warningColor + "El Grado de Instrucción de la Persona no puede estar vacío." + normalColor);
+            throw new ValidationException(showWarning("El Grado de Instrucción de la Persona no puede estar vacío."));
         }
+        validateGradoInstruccion(p.getGradoInstruccion() );
     }
 
     public void validateEgresado(Egresado e) {
@@ -65,26 +66,30 @@ public class Validation {
 
     public void validateDocumento(Documento doc) {
         if (doc.getFechaEmision() == null) {
-            throw new ValidationException(warningColor + "La fecha de emisión del Documento no puede estar vacía." + normalColor);
+            throw new ValidationException(showWarning("La fecha de emisión del Documento no puede estar vacía." ));
         }
         
         if (doc.getTipoDocumento() == null) {
-            throw new ValidationException(warningColor + "El tipo de documento del Documento no puede estar vacío." + normalColor);
+            throw new ValidationException(showWarning("El tipo de documento del Documento no puede estar vacío."));
         } else {
             validateTipoDocumento(doc.getTipoDocumento());
         }
         
         if (doc.getEstado() == null) {
-            throw new ValidationException(warningColor + "El estado del Documento no puede estar vacío." + normalColor);
+            throw new ValidationException(showWarning("El estado del Documento no puede estar vacío."));
         } else {
             validateEstado(doc.getEstado());
         }
 
         if (doc.getEmisor() == null) {
-            throw new ValidationException(warningColor + "El emisor del Documento no puede estar vacío." + normalColor);
+            throw new ValidationException(showWarning("El emisor del Documento no puede estar vacío."));
         } else {
             validateAdministrativo(doc.getEmisor());
         }
+    }
+    
+    private String showWarning(String w){
+        return warningColor + w + normalColor;
     }
 
 }

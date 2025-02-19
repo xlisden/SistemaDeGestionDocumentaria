@@ -7,8 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "expedientes")
 public class Expediente {
 
     @Id
@@ -57,6 +59,11 @@ public class Expediente {
 
     public void setEgresado(Egresado egresado) {
         this.egresado = egresado;
+    }
+
+    @Override
+    public String toString() {
+        return "Expediente{" + "id=" + id + ", nroExpediente=" + nroExpediente + ", egresado=" + egresado + '}';
     }
 
 }

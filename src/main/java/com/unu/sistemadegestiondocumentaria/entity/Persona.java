@@ -7,8 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "personas")
 public class Persona {
 
     @Id
@@ -81,6 +83,11 @@ public class Persona {
 
     public void setGradoInstruccion(GradoInstruccion gradoInstruccion) {
         this.gradoInstruccion = gradoInstruccion;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "id=" + id + ", nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", gradoInstruccion=" + gradoInstruccion + '}';
     }
 
 }

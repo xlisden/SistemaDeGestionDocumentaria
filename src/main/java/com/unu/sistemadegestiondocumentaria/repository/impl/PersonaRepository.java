@@ -50,8 +50,8 @@ public class PersonaRepository implements IPersonaRepository {
 
     @Override
     public void deletePersona(int id) {
-        em = hc.getEntityManager();
         Persona p = getByIdPersona(id);
+        em = hc.getEntityManager();
         em.getTransaction().begin();
         em.remove(p);
         em.getTransaction().commit();

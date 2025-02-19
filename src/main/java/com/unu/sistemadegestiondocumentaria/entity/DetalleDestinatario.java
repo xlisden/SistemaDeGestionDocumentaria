@@ -7,8 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "detalles_destinatario")
 public class DetalleDestinatario {
 
     @Id
@@ -59,6 +61,11 @@ public class DetalleDestinatario {
 
     public void setDestinatario(Administrativo destinatario) {
         this.destinatario = destinatario;
+    }
+
+    @Override
+    public String toString() {
+        return "DetalleDestinatario{" + "id=" + id + ", documento=" + documento + ", destinatario=" + destinatario + '}';
     }
 
 }

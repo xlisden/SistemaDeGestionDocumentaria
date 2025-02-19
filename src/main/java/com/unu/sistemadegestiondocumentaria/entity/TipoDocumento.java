@@ -4,8 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "tipos_documento")
 public class TipoDocumento {
 
     @Id
@@ -40,6 +42,11 @@ public class TipoDocumento {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    @Override
+    public String toString() {
+        return "TipoDocumento{" + "id=" + id + ", nombre=" + nombre + '}';
     }
 
 }

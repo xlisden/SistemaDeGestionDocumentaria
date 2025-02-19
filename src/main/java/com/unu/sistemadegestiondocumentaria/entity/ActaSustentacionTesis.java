@@ -7,8 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "actas_sustentacion_tesis")
 public class ActaSustentacionTesis {
 
     @Id
@@ -69,6 +71,11 @@ public class ActaSustentacionTesis {
 
     public void setDocumento(Documento documento) {
         this.documento = documento;
+    }
+
+    @Override
+    public String toString() {
+        return "ActaSustentacionTesis{" + "id=" + id + ", tema=" + tema + ", calificacion=" + calificacion + ", documento=" + documento + '}';
     }
 
 }
