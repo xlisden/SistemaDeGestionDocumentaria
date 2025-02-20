@@ -16,33 +16,33 @@ public class Validation {
     public static String infoColor = "\033[34m";
 
     public void validateGradoInstruccion(GradoInstruccion gi) {
-        if (gi.getNombre().isBlank()) {
+        if (gi.getNombre() == null || gi.getNombre().isBlank()) {
             throw new ValidationException(showWarning("El nombre del Grado de Instrucción no puede estar vacío."));
         }
     }
 
     public void validateTipoDocumento(TipoDocumento td) {
-        if (td.getNombre().isBlank()) {
+        if (td.getNombre() == null || td.getNombre().isBlank()) {
             throw new ValidationException(showWarning("El nombre del Tipo de Documento no puede estar vacío."));
         }
     }
 
     public void validateEstado(Estado e) {
-        if (e.getNombre().isBlank()) {
+        if (e.getNombre() == null || e.getNombre().isBlank()) {
             throw new ValidationException(showWarning("El nombre del Estado no puede estar vacío."));
         }
     }
 
     public void validatePersona(Persona p) {
-        if (p.getNombre().isBlank()) {
+        if (p.getNombre() == null || p.getNombre().isBlank()) {
             throw new ValidationException(showWarning("El nombre de la Persona no puede estar vacío."));
         }
         
-        if (p.getApellidoPaterno().isBlank()) {
+        if (p.getApellidoPaterno() == null || p.getApellidoPaterno().isBlank()) {
             throw new ValidationException(showWarning("El apellido paterno de la Persona no puede estar vacío."));
         }
         
-        if (p.getApellidoMaterno().isBlank()) {
+        if (p.getApellidoMaterno() == null || p.getApellidoMaterno().isBlank()) {
             throw new ValidationException(showWarning("El apellido materno de la Persona no puede estar vacío."));
         }
         
@@ -88,7 +88,7 @@ public class Validation {
         }
     }
     
-    private String showWarning(String w){
+    public static String showWarning(String w){
         return warningColor + w + normalColor;
     }
 

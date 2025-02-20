@@ -1,4 +1,4 @@
-package com.unu.sistemadegestiondocumentaria.repository.impl;
+package com.unu.sistemadegestiondocumentaria.service;
 
 import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
@@ -81,7 +81,7 @@ public class DocumentoRepository implements IDocumentoRepository {
         }
         return doc;
     }
-    
+
     @Override
     public void updateEstadoDocumento(int id) {
         em = hc.getEntityManager();
@@ -94,8 +94,8 @@ public class DocumentoRepository implements IDocumentoRepository {
             System.out.println(ex.getMessage());
         } finally {
             hc.closeConnection();
-        }        
-    }    
+        }
+    }
 
     private String setCorrelativo() {
         Documento doc = em.createQuery("SELECT doc FROM Documento doc ORDER BY doc.id", Documento.class).getResultList().getLast();
@@ -116,16 +116,16 @@ public class DocumentoRepository implements IDocumentoRepository {
             return c + "";
         }
     }
-    
-    private void setDocumento(Documento documento, Documento doc){
+
+    private void setDocumento(Documento documento, Documento doc) {
         documento.setCorrelativo(doc.getCorrelativo());
         documento.setFechaEmision(doc.getFechaEmision());
         documento.setTipoDocumento(doc.getTipoDocumento());
         documento.setEstado(doc.getEstado());
         documento.setEmisor(doc.getEmisor());
     }
-    
-    private void setEntregado(Documento documento){
+
+    private void setEntregado(Documento documento) {
         documento.setEstado(estadoRepository.getByNombre("ENTREGADO"));
     }
 

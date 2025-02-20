@@ -1,26 +1,26 @@
-package com.unu.sistemadegestiondocumentaria.repository.impl;
+package com.unu.sistemadegestiondocumentaria.service;
 
 import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
-import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
-import com.unu.sistemadegestiondocumentaria.repository.ITipoDocumentoRepository;
+import com.unu.sistemadegestiondocumentaria.entity.Persona;
+import com.unu.sistemadegestiondocumentaria.repository.IPersonaRepository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 import java.util.List;
 import javax.persistence.EntityManager;
 
-public class TipoDocumentoRepository implements ITipoDocumentoRepository {
+public class PersonaRepository implements IPersonaRepository {
 
     private HibernateConfig hc = new HibernateConfig();
     private Validation validaciones = new Validation();
     private EntityManager em;
 
     @Override
-    public void addTipoDocumento(TipoDocumento tipoDocumento) {
+    public void addPersona(Persona persona) {
         em = hc.getEntityManager();
         em.getTransaction().begin();
         try {
-            validaciones.validateTipoDocumento(tipoDocumento);
-            em.persist(tipoDocumento);
+            validaciones.validatePersona(persona);
+            em.persist(persona);
             em.getTransaction().commit();
         } catch (ValidationException ex) {
             System.out.println(ex.getMessage());
@@ -30,13 +30,16 @@ public class TipoDocumentoRepository implements ITipoDocumentoRepository {
     }
 
     @Override
-    public void updateTipoDocumento(int id, TipoDocumento tipoDocumento) {
+    public void updatePersona(int id, Persona persona) {
         em = hc.getEntityManager();
-        TipoDocumento td = getByIdTipoDocumento(id);
+        Persona p = getByIdPersona(id);
         em.getTransaction().begin();
         try {
-            validaciones.validateTipoDocumento(tipoDocumento);
-            td.setNombre(tipoDocumento.getNombre());
+            validaciones.validatePersona(persona);
+            p.setNombre(persona.getNombre());
+            p.setApellidoPaterno(persona.getApellidoPaterno());
+            p.setApellidoMaterno(persona.getApellidoMaterno());
+            p.setGradoInstruccion(persona.getGradoInstruccion());
             em.getTransaction().commit();
         } catch (ValidationException ex) {
             System.out.println(ex.getMessage());
@@ -46,36 +49,36 @@ public class TipoDocumentoRepository implements ITipoDocumentoRepository {
     }
 
     @Override
-    public void deleteTipoDocumento(int id) {
+    public void deletePersona(int id) {
+        Persona p = getByIdPersona(id);
         em = hc.getEntityManager();
-        TipoDocumento td = getByIdTipoDocumento(id);
         em.getTransaction().begin();
-        em.remove(td);
+        em.remove(p);
         em.getTransaction().commit();
         hc.closeConnection();
     }
 
     @Override
-    public List<TipoDocumento> getAllTipoDocumentos() {
+    public List<Persona> getAllPersonas() {
         em = hc.getEntityManager();
-        List<TipoDocumento> tiposdocumento = em.createQuery("SELECT td FROM TipoDocumento td", TipoDocumento.class).getResultList();
+        List<Persona> estados = em.createQuery("SELECT p FROM Persona p", Persona.class).getResultList();
         hc.closeConnection();
-        return tiposdocumento;
+        return estados;
     }
 
     @Override
-    public TipoDocumento getByIdTipoDocumento(int id) {
+    public Persona getByIdPersona(int id) {
         em = hc.getEntityManager();
-        TipoDocumento td = em.find(TipoDocumento.class, id);
+        Persona p = em.find(Persona.class, id);
         hc.closeConnection();
         try {
-            if (td == null) {
-                throw new ValidationException(Validation.warningColor + "El Tipo de Documento no ha sido encontrado." + Validation.normalColor);
+            if (p == null) {
+                throw new ValidationException(Validation.warningColor + "La Persona no ha sido encontrado." + Validation.normalColor);
             }
         } catch (ValidationException ex) {
             System.out.println(ex.getMessage());
         }
-        return td;
+        return p;
     }
 
 }

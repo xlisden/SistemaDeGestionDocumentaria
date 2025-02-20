@@ -1,4 +1,4 @@
-package com.unu.sistemadegestiondocumentaria.repository.impl;
+package com.unu.sistemadegestiondocumentaria.service;
 
 import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;

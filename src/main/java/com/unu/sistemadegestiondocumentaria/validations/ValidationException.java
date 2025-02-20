@@ -6,4 +6,8 @@ public class ValidationException extends RuntimeException {
         super(message);
     }
 
+    public void printMessage() {
+        System.out.println(Validation.showWarning(getMessage()));
+    }
+
 }
