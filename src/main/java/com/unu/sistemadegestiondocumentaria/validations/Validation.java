@@ -34,33 +34,47 @@ public class Validation {
     }
 
     public void validatePersona(Persona p) {
-        if (p.getNombre() == null || p.getNombre().isBlank()) {
+        if(p == null){
+            throw new ValidationException(showWarning("La Persona no puede estar vacía."));
+        } //p.getNombre() == null || 
+        
+        if (p.getNombre().isBlank()) {
             throw new ValidationException(showWarning("El nombre de la Persona no puede estar vacío."));
         }
         
-        if (p.getApellidoPaterno() == null || p.getApellidoPaterno().isBlank()) {
+        if (p.getApellidoPaterno().isBlank()) {
             throw new ValidationException(showWarning("El apellido paterno de la Persona no puede estar vacío."));
         }
         
-        if (p.getApellidoMaterno() == null || p.getApellidoMaterno().isBlank()) {
+        if (p.getApellidoMaterno().isBlank()) {
             throw new ValidationException(showWarning("El apellido materno de la Persona no puede estar vacío."));
         }
         
         if (p.getGradoInstruccion() == null) {
             throw new ValidationException(showWarning("El Grado de Instrucción de la Persona no puede estar vacío."));
         }
+        
         validateGradoInstruccion(p.getGradoInstruccion() );
     }
 
     public void validateEgresado(Egresado e) {
+        if(e.getPersona() == null){
+            throw new ValidationException(showWarning("La Persona del Egresado no puede estar vacía."));
+        }
         validatePersona(e.getPersona());
     }
 
     public void validateAdministrativo(Administrativo ad) {
+        if(ad.getPersona() == null){
+            throw new ValidationException(showWarning("La Persona del Administrativo no puede estar vacía."));
+        }
         validatePersona(ad.getPersona());
     }
 
     public void validateExpediente(Expediente e) {
+        if(e.getEgresado()== null){
+            throw new ValidationException(showWarning("El Egresado del Expediente no puede estar vacío"));
+        }
         validateEgresado(e.getEgresado());
     }
 
@@ -71,21 +85,18 @@ public class Validation {
         
         if (doc.getTipoDocumento() == null) {
             throw new ValidationException(showWarning("El tipo de documento del Documento no puede estar vacío."));
-        } else {
-            validateTipoDocumento(doc.getTipoDocumento());
-        }
+        } 
+        validateTipoDocumento(doc.getTipoDocumento());
         
         if (doc.getEstado() == null) {
             throw new ValidationException(showWarning("El estado del Documento no puede estar vacío."));
-        } else {
-            validateEstado(doc.getEstado());
         }
+        validateEstado(doc.getEstado());
 
         if (doc.getEmisor() == null) {
             throw new ValidationException(showWarning("El emisor del Documento no puede estar vacío."));
-        } else {
-            validateAdministrativo(doc.getEmisor());
         }
+        validateAdministrativo(doc.getEmisor());
     }
     
     public static String showWarning(String w){

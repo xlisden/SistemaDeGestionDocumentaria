@@ -1,7 +1,7 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
-import com.unu.sistemadegestiondocumentaria.repository.Repository;
+import com.unu.sistemadegestiondocumentaria.repository.*;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;

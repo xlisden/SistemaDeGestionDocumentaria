@@ -57,6 +57,9 @@ public class Repository<T> {
         em = hc.getEntityManager();
         T t = em.find(typeClass, id);
         hc.closeConnection();
+        if(t == null){
+            throw new ValidationException(showWarning("El Grado de Instrucción no puede estar vacío."));
+        }        
         return t;
     }
 
