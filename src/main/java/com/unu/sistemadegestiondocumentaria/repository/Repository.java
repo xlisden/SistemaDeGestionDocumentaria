@@ -1,19 +1,25 @@
 package com.unu.sistemadegestiondocumentaria.repository;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+
 import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
+import static com.unu.sistemadegestiondocumentaria.validations.Validation.magentaColor;
+import static com.unu.sistemadegestiondocumentaria.validations.Validation.normalColor;
 import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
-import java.util.List;
-import javax.persistence.EntityManager;
 
 public class Repository<T> {
 
     private Class<T> typeClass;
     private HibernateConfig hc = new HibernateConfig();
     private EntityManager em;
+    private String className = "";
 
     public Repository(Class<T> type) {
         this.typeClass = type;
+        className = typeClass.getName().substring(44, typeClass.getName().length());
     }
 
     public void add(T t) {
@@ -25,6 +31,7 @@ public class Repository<T> {
     }
 
     public void update(int id, T t) {
+        System.out.println(magentaColor + "update de repository" + normalColor);
         T tAux = getById(id);
         em = hc.getEntityManager();
         tAux = t;
@@ -38,7 +45,7 @@ public class Repository<T> {
         em = hc.getEntityManager();
         T t = em.find(typeClass, id);
         if(t == null){
-            throw new ValidationException(showWarning("El Grado de Instrucción no puede estar vacío."));
+            throw new ValidationException(showWarning("El " + className + " " + id + " no existe en la base de datos."));
         }
         em.getTransaction().begin();
         em.remove(t);
@@ -54,11 +61,12 @@ public class Repository<T> {
     }
 
     public T getById(int id) {
+        System.out.println(magentaColor + "get by id de repository" + normalColor);
         em = hc.getEntityManager();
         T t = em.find(typeClass, id);
         hc.closeConnection();
         if(t == null){
-            throw new ValidationException(showWarning("El Grado de Instrucción no puede estar vacío."));
+            throw new ValidationException(showWarning("El " + className + " " + id+ " no existe en la base de datos."));
         }        
         return t;
     }

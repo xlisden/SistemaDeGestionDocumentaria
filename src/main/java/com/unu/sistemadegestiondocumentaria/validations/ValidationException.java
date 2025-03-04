@@ -7,7 +7,11 @@ public class ValidationException extends RuntimeException {
     }
 
     public void printMessage() {
-        System.out.println(Validation.showWarning(getMessage()));
+        String message = getMessage();
+        System.out.println(Validation.showWarning(message));
+        StackTraceElement[] info = getStackTrace();
+        System.out.println(Validation.showWarning(info[0]+""));
+        System.out.println();
     }
 
 }

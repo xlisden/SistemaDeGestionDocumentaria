@@ -1,11 +1,11 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
-import com.unu.sistemadegestiondocumentaria.repository.*;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
-import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
 import java.util.List;
+
+import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
+import com.unu.sistemadegestiondocumentaria.repository.Repository;
+import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 public class GradoInstruccionService extends Repository<GradoInstruccion> {
 
@@ -30,9 +30,9 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
         try {
             validaciones.validateGradoInstruccion(t);
             GradoInstruccion gi = getById(id);
-            if (gi == null) {
-                throw new ValidationException(showWarning("El Grado de Instrucción no puede estar vacío."));
-            }
+            // if (gi == null) {
+            //     throw new ValidationException(showWarning("El Grado de Instrucción "+ id + " no existe en la base de datos."));
+            // }
             gi.setNombre(t.getNombre());
             super.update(id, gi);
         } catch (ValidationException e) {
@@ -56,7 +56,12 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
 
     @Override
     public GradoInstruccion getById(int id) {
-        return super.getById(id);
+        try {
+            return super.getById(id);
+        } catch (ValidationException e) {
+            e.printMessage();
+        }
+        return null; 
     }
 
 }

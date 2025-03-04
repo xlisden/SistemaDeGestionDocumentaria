@@ -1,11 +1,12 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
+import java.util.List;
+
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
-import com.unu.sistemadegestiondocumentaria.repository.*;
+import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
-import java.util.List;
 
 public class EstadoService extends Repository<Estado> {
 
@@ -31,7 +32,7 @@ public class EstadoService extends Repository<Estado> {
             validaciones.validateEstado(t);
             Estado est = getById(id);
             if (est == null) {
-                throw new ValidationException(showWarning("El Estado no puede estar vacío."));
+                throw new ValidationException(showWarning("El Estado " + id + " no existe en la base de datos."));
             }
             est.setNombre(t.getNombre());
             super.update(id, est);
@@ -56,7 +57,12 @@ public class EstadoService extends Repository<Estado> {
 
     @Override
     public Estado getById(int id) {
-        return super.getById(id);
+        try {
+            return super.getById(id);
+        } catch (ValidationException e) {
+            e.printMessage();
+        }
+        return null; 
     }
     
     public Estado getByNombre(String nombre){

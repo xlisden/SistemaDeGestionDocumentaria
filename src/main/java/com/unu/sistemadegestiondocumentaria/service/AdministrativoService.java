@@ -1,12 +1,13 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
+import java.util.List;
+
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
-import com.unu.sistemadegestiondocumentaria.repository.*;
+import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
-import java.util.List;
 
 public class AdministrativoService extends Repository<Administrativo> {
 
@@ -58,7 +59,12 @@ public class AdministrativoService extends Repository<Administrativo> {
 
     @Override
     public Administrativo getById(int id) {
-        return super.getById(id);
+        try {
+            return super.getById(id);
+        } catch (ValidationException e) {
+            e.printMessage();
+        }
+        return null; 
     }
 
     private Persona getPersona(int id, Persona p) {

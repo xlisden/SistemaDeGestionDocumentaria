@@ -1,12 +1,15 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
+import java.util.List;
+
 import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
-import com.unu.sistemadegestiondocumentaria.repository.*;
+import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import static com.unu.sistemadegestiondocumentaria.validations.Validation.magentaColor;
+import static com.unu.sistemadegestiondocumentaria.validations.Validation.normalColor;
 import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
-import java.util.List;
 
 public class EgresadoService extends Repository<Egresado> {
 
@@ -29,6 +32,7 @@ public class EgresadoService extends Repository<Egresado> {
 
     @Override
     public void update(int id, Egresado t) {
+        System.out.println(magentaColor + "update de egresado" + normalColor);
         try {
             validaciones.validateEgresado(t);
             Egresado eg = getById(id);
@@ -58,10 +62,17 @@ public class EgresadoService extends Repository<Egresado> {
 
     @Override
     public Egresado getById(int id) {
-        return super.getById(id);
+        System.out.println(magentaColor + "get by id de egresado" + normalColor);
+        try {
+            return super.getById(id);
+        } catch (ValidationException e) {
+            e.printMessage();
+        }
+        return null; 
     }
 
     private Persona getPersona(int id, Persona p) {
+        System.out.println(magentaColor + "get persona de egresado" + normalColor);
         Persona persona = personaService.getById(id);
         persona.setNombre(p.getNombre());
         persona.setApellidoPaterno(p.getApellidoPaterno());

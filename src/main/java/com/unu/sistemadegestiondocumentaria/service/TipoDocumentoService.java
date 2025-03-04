@@ -1,11 +1,12 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
+import java.util.List;
+
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
-import com.unu.sistemadegestiondocumentaria.repository.*;
+import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
-import java.util.List;
 
 public class TipoDocumentoService extends Repository<TipoDocumento> {
 
@@ -31,7 +32,7 @@ public class TipoDocumentoService extends Repository<TipoDocumento> {
             validaciones.validateTipoDocumento(t);
             TipoDocumento td = getById(id);
             if (td == null) {
-                throw new ValidationException(showWarning("El Tipo de Documento no puede estar vacío."));
+                throw new ValidationException(showWarning("El Tipo de Documento " + id + " no existe en la base de datos."));
             }
             td.setNombre(t.getNombre());
             super.update(id, td);
@@ -56,7 +57,12 @@ public class TipoDocumentoService extends Repository<TipoDocumento> {
 
     @Override
     public TipoDocumento getById(int id) {
-        return super.getById(id);
+        try {
+            return super.getById(id);
+        } catch (ValidationException e) {
+            e.printMessage();
+        }
+        return null; 
     }
 
 }

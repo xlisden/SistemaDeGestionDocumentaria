@@ -14,6 +14,7 @@ public class Validation {
     public static String warningColor = "\033[43m";
     public static String normalColor = "\033[0m";
     public static String infoColor = "\033[34m";
+    public static String magentaColor  = "\033[35m";
 
     public void validateGradoInstruccion(GradoInstruccion gi) {
         if (gi.getNombre() == null || gi.getNombre().isBlank()) {

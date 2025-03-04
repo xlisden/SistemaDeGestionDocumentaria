@@ -1,15 +1,17 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+
 import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
-import com.unu.sistemadegestiondocumentaria.repository.*;
+import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
-import java.time.LocalDate;
-import java.util.List;
-import javax.persistence.EntityManager;
 
 public class DocumentoService extends Repository<Documento> {
 
@@ -72,7 +74,12 @@ public class DocumentoService extends Repository<Documento> {
 
     @Override
     public Documento getById(int id) {
-        return super.getById(id);
+        try {
+            return super.getById(id);
+        } catch (ValidationException e) {
+            e.printMessage();
+        }
+        return null; 
     }
 
     public void updateEstadoDocumento(int id) {
