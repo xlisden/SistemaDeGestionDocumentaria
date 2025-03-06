@@ -51,8 +51,7 @@ public class EstadoService extends Repository<Estado> {
     }
 
     public List<Estado> getAll() {
-        String query = "SELECT est FROM Estado est";
-        return super.getAll(query);
+        return super.getAll();
     }
 
     @Override

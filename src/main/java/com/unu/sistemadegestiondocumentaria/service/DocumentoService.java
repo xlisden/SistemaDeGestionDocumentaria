@@ -68,8 +68,7 @@ public class DocumentoService extends Repository<Documento> {
     }
 
     public List<Documento> getAll() {
-        String query = "SELECT doc FROM Documento doc";
-        return super.getAll(query);
+        return super.getAll();
     }
 
     @Override

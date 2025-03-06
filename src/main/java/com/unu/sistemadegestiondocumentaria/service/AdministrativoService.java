@@ -21,23 +21,25 @@ public class AdministrativoService extends Repository<Administrativo> {
     @Override
     public void add(Administrativo t) {
         try {
-            validaciones.validateAdministrativo(t);
+            validaciones.validatePersona(t.getPersona());
+            personaService.add(t.getPersona());
+            int idPersona = personaService.getLastId();
+            t.getPersona().setId(idPersona);
             super.add(t);
         } catch (ValidationException e) {
             e.printMessage();
         }
     }
 
-    @Override
-    public void update(int id, Administrativo t) {
+    public void update(int id, Persona p) {
         try {
-            validaciones.validateAdministrativo(t);
             Administrativo ad = getById(id);
             if (ad == null) {
                 throw new ValidationException(showWarning("El Administrativo no puede estar vacío."));
-            }
-            ad.setPersona(getPersona(ad.getId(), t.getPersona()));
-            super.update(id, ad);
+            }            
+            validaciones.validatePersona(p);
+            int idPersona = ad.getPersona().getId();
+            personaService.update(idPersona, p);
         } catch (ValidationException e) {
             e.printMessage();
         }
@@ -52,9 +54,9 @@ public class AdministrativoService extends Repository<Administrativo> {
         }
     }
 
+    @Override
     public List<Administrativo> getAll() {
-        String query = "SELECT ad FROM Administrativo ad";
-        return super.getAll(query);
+        return super.getAll();
     }
 
     @Override
@@ -65,15 +67,6 @@ public class AdministrativoService extends Repository<Administrativo> {
             e.printMessage();
         }
         return null; 
-    }
-
-    private Persona getPersona(int id, Persona p) {
-        Persona persona = personaService.getById(id);
-        persona.setNombre(p.getNombre());
-        persona.setApellidoPaterno(p.getApellidoPaterno());
-        persona.setApellidoMaterno(p.getApellidoMaterno());
-        persona.setGradoInstruccion(p.getGradoInstruccion());
-        return persona;
     }
 
 }

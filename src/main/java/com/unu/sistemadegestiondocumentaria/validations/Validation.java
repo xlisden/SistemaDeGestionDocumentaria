@@ -39,15 +39,15 @@ public class Validation {
             throw new ValidationException(showWarning("La Persona no puede estar vacía."));
         } //p.getNombre() == null || 
         
-        if (p.getNombre().isBlank()) {
+        if (p.getNombre() == null || p.getNombre().isBlank()) {
             throw new ValidationException(showWarning("El nombre de la Persona no puede estar vacío."));
         }
         
-        if (p.getApellidoPaterno().isBlank()) {
+        if (p.getApellidoPaterno() == null || p.getApellidoPaterno().isBlank()) {
             throw new ValidationException(showWarning("El apellido paterno de la Persona no puede estar vacío."));
         }
         
-        if (p.getApellidoMaterno().isBlank()) {
+        if (p.getApellidoMaterno() == null || p.getApellidoMaterno().isBlank()) {
             throw new ValidationException(showWarning("El apellido materno de la Persona no puede estar vacío."));
         }
         
@@ -55,7 +55,7 @@ public class Validation {
             throw new ValidationException(showWarning("El Grado de Instrucción de la Persona no puede estar vacío."));
         }
         
-        validateGradoInstruccion(p.getGradoInstruccion() );
+        validateGradoInstruccion(p.getGradoInstruccion());
     }
 
     public void validateEgresado(Egresado e) {

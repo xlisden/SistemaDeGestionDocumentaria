@@ -50,8 +50,7 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
     }
 
     public List<GradoInstruccion> getAll() {
-        String query = "SELECT gi FROM GradoInstruccion gi";
-        return super.getAll(query);
+        return super.getAll();
     }
 
     @Override

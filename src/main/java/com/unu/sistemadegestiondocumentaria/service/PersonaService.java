@@ -52,8 +52,7 @@ public class PersonaService extends Repository<Persona> {
     }
 
     public List<Persona> getAllPersonas() {
-        String query = "SELECT p FROM Persona p";
-        return super.getAll(query);        
+        return super.getAll();        
     }
 
     @Override
@@ -65,6 +64,8 @@ public class PersonaService extends Repository<Persona> {
         }
         return null;        
     }
+
+
 
 
 }

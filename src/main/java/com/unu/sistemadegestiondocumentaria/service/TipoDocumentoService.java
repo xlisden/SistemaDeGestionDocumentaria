@@ -51,8 +51,7 @@ public class TipoDocumentoService extends Repository<TipoDocumento> {
     }
 
     public List<TipoDocumento> getAll() {
-        String query = "SELECT td FROM TipoDocumento td";
-        return super.getAll(query);
+        return super.getAll();
     }
 
     @Override
