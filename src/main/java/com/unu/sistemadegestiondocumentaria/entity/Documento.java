@@ -45,10 +45,10 @@ public class Documento {
     public Documento() {
     }
 
-    public Documento(Date fechaEmision, int idTipoDoc, int idEstado, int idEmisor) {
+    //no creo estado porque se supone que es pendiente. A menos que el ing. ingrese los docs. una vez entregados
+    public Documento(Date fechaEmision, int idTipoDoc, int idEmisor) {
         this.fechaEmision = fechaEmision;
         this.idTipoDoc = idTipoDoc;
-        this.idEstado = idEstado;
         this.idEmisor = idEmisor;
     }
 

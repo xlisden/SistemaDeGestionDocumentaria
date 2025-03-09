@@ -19,8 +19,9 @@ public class DocumentoService extends Repository<Documento> {
     @Override
     public void add(Documento t) {
         try {
-            Validation.validateDocumento(t);
+            t.setEstado(estadoService.getByNombre("PENDIENTE"));
             t.setCorrelativo(setCorrelativo());
+            Validation.validateDocumento(t);
             super.add(t);
         } catch (ValidationException e) {
             e.printMessage();
@@ -35,14 +36,10 @@ public class DocumentoService extends Repository<Documento> {
             if (doc == null) {
                 throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
             }
-            if (doc.getCorrelativo() == null || doc.getCorrelativo().isBlank()) {
-                throw new ValidationException(Validation.showWarning("El correlativo delsss Documento no puede estar vacío."));
-            }
-//            doc.setCorrelativo(t.getCorrelativo());
-//            doc.setFechaEmision(t.getFechaEmision());
-//            doc.setTipoDocumento(t.getTipoDocumento());
-//            doc.setEstado(t.getEstado());
-//            doc.setEmisor(t.getEmisor());
+            // por que?
+//            if (doc.getCorrelativo() == null || doc.getCorrelativo().isBlank()) {
+//                throw new ValidationException(Validation.showWarning("El correlativo del Documento no puede estar vacío."));
+//            }
             setDocumento(doc, t);
             super.update(id, doc);
         } catch (ValidationException e) {
@@ -59,6 +56,7 @@ public class DocumentoService extends Repository<Documento> {
         }
     }
 
+    @Override
     public List<Documento> getAll() {
         return super.getAll();
     }

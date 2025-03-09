@@ -31,8 +31,8 @@ public class SistemaDeGestionDocumentaria {
         Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 
         addGradosInstruccion();
-        // addTiposDocumento();
-        // addEstados();
+         addTiposDocumento();
+         addEstados();
         // addPersonas();
         // addEgresados();
         // addExpedientes();
