@@ -37,8 +37,8 @@ public class SistemaDeGestionDocumentaria {
         // addEgresados();
         // addExpedientes();
 
-        System.out.println(Validation.infoColor + "addAdministrativos()" + Validation.normalColor);
-      addExpedientes();
+        System.out.println(Validation.infoColor + "addExpedientes()" + Validation.normalColor);
+        addExpedientes();
         System.out.println(Validation.infoColor + "finalizo()" + Validation.normalColor);
 
 //        System.out.println(Validation.infoColor + "addEgresados()" + Validation.normalColor);
@@ -131,7 +131,7 @@ public class SistemaDeGestionDocumentaria {
 //             service.add(new Persona("*nombre_"+i, "*apPat_"+i, "*apMat_"+i, i));
 //         }
         service.delete(3);
-         service.update(1, new Persona("hola", "soy", "nuevo", 2));
+        service.update(1, new Persona("hola", "soy", "nuevo", 2));
         imprimirElementos(service.getAll());
     }
 
@@ -141,23 +141,24 @@ public class SistemaDeGestionDocumentaria {
 //        for (int i = 1; i <= 4; i++) {
 //            service.add(new Persona("*name*" + i, "*appat*" + i, "*apmat*" + i, i));
 //        }
-
 //        service.update(3, new Persona("hola", "soy una", "nueva persona", 1));
         service.add(new Persona("we**", "are**", "banditos**", 2));
 //        service.update(1, new Persona("hola", "soy", "nuevo", 2));
         service.delete(5);
-        
+
         imprimirElementos(service.getAll());
     }
 
     private static void addExpedientes() {
         ExpedienteService service = new ExpedienteService(Expediente.class);
-        GradoInstruccionService giService = new GradoInstruccionService(GradoInstruccion.class);
 
-        for (int i = 1; i <= 4; i++) {
-//            service.add(new Egresado("weN"+i, "weAp"+i, "weAm"+i, giService.getById(i)));
-        }
-
+//        for (int i = 1; i <= 4; i++) {
+//            service.add(new Persona("**nom"+i, "**apPat"+i, "**apMat"+i, i));
+//        }
+//        service.update(1, new Persona("hola", "soy", "nuevo", 2));
+        service.delete(6);
+        service.delete(7);
+        service.add(new Persona("soy8", "el8", "nro8", 2));
         imprimirElementos(service.getAll());
     }
 

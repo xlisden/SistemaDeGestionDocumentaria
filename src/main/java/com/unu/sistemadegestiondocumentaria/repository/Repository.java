@@ -50,7 +50,6 @@ public class Repository<T> {
     }
 
     public List<T> getAll() {
-        System.out.println(Validation.infoColor + "get all in repository" + Validation.normalColor);
         em = hc.getEntityManager();
         List<T> tList = em.createQuery("SELECT x FROM " + className + " x", typeClass).getResultList();
         hc.closeConnection();

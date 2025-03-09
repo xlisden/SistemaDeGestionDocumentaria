@@ -28,12 +28,14 @@ public class ExpedienteService extends Repository<Expediente> {
         try {
             egresadoService.add(t);
             eg = egresadoService.getLast();
-            if (!egresadoService.getAll().isEmpty() && eg.getId() == getLast().getEgresado().getId()) {
-                return;
+            if (!getAll().isEmpty()) {
+                if (eg.getId() == getLast().getEgresado().getId()) {
+                    return;
+                }
             }
 
             ex = new Expediente(eg);
-            ex.setNroExpediente(getNroExp());
+            ex.setNroExpediente(eg.getId());
             super.add(ex);
         } catch (ValidationException e) {
             e.printMessage();
@@ -79,34 +81,46 @@ public class ExpedienteService extends Repository<Expediente> {
         return null;
     }
 
-    public Expediente getByEgresado2(int idEg) {
-        Expediente t = null;
-        em = hc.getEntityManager();
-        t = em.createQuery("SELECT x FROM Expediente x WHERE x.idEgresado = :idEg", Expediente.class).setMaxResults(1).getSingleResult();
-        hc.closeConnection();
-        return t;
-    }
+//    public Expediente getByEgresado2(int idEg) {
+//        Expediente t = null;
+//        em = hc.getEntityManager();
+//        t = em.createQuery("SELECT x FROM Expediente x WHERE x.idEgresado = :idEg", Expediente.class).setMaxResults(1).getSingleResult();
+//        hc.closeConnection();
+//        return t;
+//    }
+//
+//    private Expediente getByEgresado(int idEg) {
+//        Expediente eg = null;
+//        super.getByQuery("SELECT x FROM Expediente x WHERE x.idEgresado = :idEg");
+//        return eg;
+//    }
 
-    private Expediente getByEgresado(int idEg) {
-        Expediente eg = null;
-        super.getByQuery("SELECT x FROM Expediente x WHERE x.idEgresado = :idEg");
-        return eg;
-    }
-
+    /*
+    Si se supone que el exp es unico, al igual que el egresado. si eliminamos al egresado 3, esta bien que el sgte exp sea el 4, asi ya no haya un exp 3
+    Entonces no debe seguir correlativo. Simplemente ser igual al id
+    */
+    /*
     private int getNroExp() {
         int nroExp = 0;
-        Expediente exp = null;
+        Expediente exp = new Expediente();
         try {
-            exp = super.getLast();
-            if (exp == null) {
-                nroExp = 1;
-            } else {
+            if(!getAll().isEmpty()){
+                exp = super.getLast();
                 nroExp = exp.getNroExpediente() + 1;
+            }else{
+                return 1;
             }
+//            exp = super.getLast();
+//            if (exp == null) {
+//                nroExp = 1;
+//            } else {
+//                nroExp = exp.getNroExpediente() + 1;
+//            }
         } catch (ValidationException e) {
             e.printMessage();
         }
         return nroExp;
     }
+*/
 
 }
