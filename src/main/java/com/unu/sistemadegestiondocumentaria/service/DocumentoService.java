@@ -3,9 +3,6 @@ package com.unu.sistemadegestiondocumentaria.service;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
-import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
@@ -13,10 +10,7 @@ import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class DocumentoService extends Repository<Documento> {
 
-    
     private EstadoService estadoService = new EstadoService(Estado.class);
-    private HibernateConfig hc = new HibernateConfig();
-    private EntityManager em;
 
     public DocumentoService(Class<Documento> type) {
         super(type);
@@ -41,7 +35,7 @@ public class DocumentoService extends Repository<Documento> {
             if (doc == null) {
                 throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
             }
-            if(doc.getCorrelativo() == null || doc.getCorrelativo().isBlank()){
+            if (doc.getCorrelativo() == null || doc.getCorrelativo().isBlank()) {
                 throw new ValidationException(Validation.showWarning("El correlativo delsss Documento no puede estar vacío."));
             }
 //            doc.setCorrelativo(t.getCorrelativo());
@@ -76,7 +70,7 @@ public class DocumentoService extends Repository<Documento> {
         } catch (ValidationException e) {
             e.printMessage();
         }
-        return null; 
+        return null;
     }
 
     public void updateEstadoDocumento(int id) {
@@ -92,25 +86,20 @@ public class DocumentoService extends Repository<Documento> {
         }
     }
 
-    public String setCorrelativo() {
-        Documento doc = em.createQuery("SELECT doc FROM Documento doc ORDER BY doc.id DESC", Documento.class).setMaxResults(1).getSingleResult();
-        
-        //si la lista esta vacia 001
-        if (doc == null) {
+    private String setCorrelativo() {
+        Documento doc = null;
+        if (getAll().isEmpty()) {
             return "001";
         } else {
-            System.out.println(Validation.infoColor + "A. Emision = " + doc.getFechaEmision().getYear() + Validation.normalColor);
-            System.out.println(Validation.infoColor + "A. Actual = " + LocalDate.now().getYear() + Validation.normalColor);
-        }
-        
-        //si el anio del ultimo doc es menor al anio actual 001
-        if (doc.getFechaEmision().getYear() + 1900 < LocalDate.now().getYear()) {
-            return "001";
-        } else {
-            //si no que sume
-            int c = Integer.parseInt(doc.getCorrelativo());
-            c++;
-            return c + "";
+            doc = super.getLast();
+            System.out.println(Validation.magentaColor + "A. Emision = " + doc.getFechaEmision().getYear() + Validation.normalColor);
+            System.out.println(Validation.magentaColor + "A. Actual = " + LocalDate.now().getYear() + Validation.normalColor);
+            if (doc.getFechaEmision().getYear() + 1900 < LocalDate.now().getYear()) {
+                return "001";
+            } else {
+                int c = Integer.parseInt(doc.getCorrelativo()) + 1;
+                return c + "";
+            }
         }
     }
 

@@ -80,7 +80,7 @@ public class Validation {
     }
 
     public static void validateDocumento(Documento doc) {
-        if (doc.getFechaEmision() == null) {
+        if (doc.getFechaEmision() == null || doc.getFechaEmision().toString().isBlank()) {
             throw new ValidationException(showWarning("La fecha de emisión del Documento no puede estar vacía." ));
         }
         

@@ -27,24 +27,10 @@ public class Expediente {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Egresado egresado;
 
-    // @Transient
-    // private String nombre;
-    // @Transient
-    // private String apellidoPaterno;
-    // @Transient
-    // private String apellidoMaterno;
-    // @Transient
-    // private GradoInstruccion gradoInstruccion;    
-
     public Expediente() {
     }
 
     public Expediente(Egresado egresado) {
-        this.egresado = egresado;
-    }
-
-    public Expediente(int nroExpediente, Egresado egresado) {
-        this.nroExpediente = nroExpediente;
         this.egresado = egresado;
     }
 
@@ -53,14 +39,6 @@ public class Expediente {
         this.nroExpediente = nroExpediente;
         this.egresado = egresado;
     }
-
-    // public Expediente(String nombre, String apellidoPaterno, String apellidoMaterno, GradoInstruccion gradoInstruccion) {
-    //     this.nombre = nombre;
-    //     this.apellidoPaterno = apellidoPaterno;
-    //     this.apellidoMaterno = apellidoMaterno;
-    //     this.gradoInstruccion = gradoInstruccion;
-    //     this.egresado = new Egresado(new Persona(nombre, apellidoPaterno, apellidoMaterno, gradoInstruccion));
-    // }
 
     public int getId() {
         return id;
@@ -90,37 +68,5 @@ public class Expediente {
     public String toString() {
         return "Expediente{" + "id=" + id + ", nroExpediente=" + nroExpediente + ", egresado=" + egresado + '}';
     }
-
-    // public String getNombre() {
-    //     return nombre;
-    // }
-
-    // public void setNombre(String nombre) {
-    //     this.nombre = nombre;
-    // }
-
-    // public String getApellidoPaterno() {
-    //     return apellidoPaterno;
-    // }
-
-    // public void setApellidoPaterno(String apellidoPaterno) {
-    //     this.apellidoPaterno = apellidoPaterno;
-    // }
-
-    // public String getApellidoMaterno() {
-    //     return apellidoMaterno;
-    // }
-
-    // public void setApellidoMaterno(String apellidoMaterno) {
-    //     this.apellidoMaterno = apellidoMaterno;
-    // }
-
-    // public GradoInstruccion getGradoInstruccion() {
-    //     return gradoInstruccion;
-    // }
-
-    // public void setGradoInstruccion(GradoInstruccion gradoInstruccion) {
-    //     this.gradoInstruccion = gradoInstruccion;
-    // }
 
 }

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "documentos")
@@ -34,7 +35,21 @@ public class Documento {
     @JoinColumn(name = "id_emisor", foreignKey = @ForeignKey(name = "fk_emisor_documento"))
     private Administrativo emisor;
 
+    @Transient
+    private int idTipoDoc;
+    @Transient
+    private int idEstado;
+    @Transient
+    private int idEmisor;
+
     public Documento() {
+    }
+
+    public Documento(Date fechaEmision, int idTipoDoc, int idEstado, int idEmisor) {
+        this.fechaEmision = fechaEmision;
+        this.idTipoDoc = idTipoDoc;
+        this.idEstado = idEstado;
+        this.idEmisor = idEmisor;
     }
 
     public Documento(Date fechaEmision, TipoDocumento tipoDocumento, Estado estado, Administrativo emisor) {
@@ -112,6 +127,30 @@ public class Documento {
     @Override
     public String toString() {
         return "Documento{" + "id=" + id + ", correlativo=" + correlativo + ", fechaEmision=" + fechaEmision + ", tipoDocumento=" + tipoDocumento + ", estado=" + estado + ", emisor=" + emisor + '}';
+    }
+
+    public int getIdTipoDoc() {
+        return idTipoDoc;
+    }
+
+    public void setIdTipoDoc(int idTipoDoc) {
+        this.idTipoDoc = idTipoDoc;
+    }
+
+    public int getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(int idEstado) {
+        this.idEstado = idEstado;
+    }
+
+    public int getIdEmisor() {
+        return idEmisor;
+    }
+
+    public void setIdEmisor(int idEmisor) {
+        this.idEmisor = idEmisor;
     }
 
 }

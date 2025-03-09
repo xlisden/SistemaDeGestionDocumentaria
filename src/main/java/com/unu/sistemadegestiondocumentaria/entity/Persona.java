@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "personas")
@@ -23,6 +24,7 @@ public class Persona {
 
     private String apellidoMaterno;
     
+    @Transient
     private int idGradoInst;
 
     @ManyToOne

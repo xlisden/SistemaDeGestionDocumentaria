@@ -37,9 +37,7 @@ public class SistemaDeGestionDocumentaria {
         // addEgresados();
         // addExpedientes();
 
-        System.out.println(Validation.infoColor + "addExpedientes()" + Validation.normalColor);
         addExpedientes();
-        System.out.println(Validation.infoColor + "finalizo()" + Validation.normalColor);
 
 //        System.out.println(Validation.infoColor + "addEgresados()" + Validation.normalColor);
 //        addEgresados();
