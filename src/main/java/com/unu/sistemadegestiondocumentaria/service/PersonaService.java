@@ -1,16 +1,15 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
+import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import java.util.List;
 
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
-import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class PersonaService extends Repository<Persona> {
 
-    private Validation validaciones = new Validation();
+    private GradoInstruccionService giService = new GradoInstruccionService(GradoInstruccion.class);
 
     public PersonaService(Class<Persona> type) {
         super(type);
@@ -19,7 +18,9 @@ public class PersonaService extends Repository<Persona> {
     @Override
     public void add(Persona t) {
         try {
-            validaciones.validatePersona(t);
+            GradoInstruccion gi = giService.getById(t.getIdGradoInst());
+            t.setGradoInstruccion(gi);
+            Validation.validatePersona(t);
             super.add(t);
         } catch (ValidationException e) {
             e.printMessage();
@@ -28,20 +29,27 @@ public class PersonaService extends Repository<Persona> {
 
     @Override
     public void update(int id, Persona t) {
+        Persona p = null;
         try {
-            validaciones.validatePersona(t);
-            Persona p = getById(id);
+            p = getById(id);
             if (p == null) {
-                throw new ValidationException(showWarning("La persona " + id + " no existe en la base de datos."));
+                throw new ValidationException(Validation.showWarning("La persona " + id + " no existe en la base de datos."));
             }
+            
+            GradoInstruccion gi = giService.getById(t.getIdGradoInst());
+            t.setGradoInstruccion(gi);
+            Validation.validatePersona(t);
+            
             p.setNombre(t.getNombre());
             p.setApellidoPaterno(t.getApellidoPaterno());
             p.setApellidoMaterno(t.getApellidoMaterno());
+            p.setGradoInstruccion(t.getGradoInstruccion());
             super.update(id, p);
         } catch (ValidationException e) {
             e.printMessage();
         }
     }
+
     @Override
     public void delete(int id) {
         try {
@@ -52,7 +60,7 @@ public class PersonaService extends Repository<Persona> {
     }
 
     public List<Persona> getAllPersonas() {
-        return super.getAll();        
+        return super.getAll();
     }
 
     @Override
@@ -62,10 +70,7 @@ public class PersonaService extends Repository<Persona> {
         } catch (ValidationException e) {
             e.printMessage();
         }
-        return null;        
+        return null;
     }
-
-
-
 
 }

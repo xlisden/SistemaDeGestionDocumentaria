@@ -9,15 +9,12 @@ import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
-import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class ExpedienteService extends Repository<Expediente> {
 
-    private PersonaService personaService = new PersonaService(Persona.class);
     private EgresadoService egresadoService = new EgresadoService(Egresado.class);
-    private Validation validaciones = new Validation();
+
     private HibernateConfig hc = new HibernateConfig();
     private EntityManager em;
 
@@ -25,13 +22,18 @@ public class ExpedienteService extends Repository<Expediente> {
         super(type);
     }
 
-    public void add(Egresado t) {
+    public void add(Persona t) {
+        Egresado eg = null;
+        Expediente ex = null;
         try {
-            validaciones.validatePersona(t.getPersona());
-            personaService.add(t.getPersona());
-            int idPersona = personaService.getLastId();
-            t.getPersona().setId(idPersona);
-            Expediente ex = new Expediente(t);
+            egresadoService.add(t);
+            eg = egresadoService.getLast();
+            if (!egresadoService.getAll().isEmpty() && eg.getId() == getLast().getEgresado().getId()) {
+                return;
+            }
+
+            ex = new Expediente(eg);
+            ex.setNroExpediente(getNroExp());
             super.add(ex);
         } catch (ValidationException e) {
             e.printMessage();
@@ -42,30 +44,21 @@ public class ExpedienteService extends Repository<Expediente> {
         try {
             Expediente exp = getById(id);
             if (exp == null) {
-                throw new ValidationException(showWarning("El Expediente no puede estar vacío."));
+                throw new ValidationException(Validation.showWarning("El Expediente no puede estar vacío."));
             }
-            validaciones.validatePersona(p);
-            int idPersona = exp.getEgresado().getPersona().getId();
-            personaService.update(idPersona, p);
-            super.update(id, exp);
+
+            egresadoService.update(exp.getEgresado().getId(), p);
+            //no hacemos update del nroExp porque se supone que va de acuerdo al egresado. Se supone que es unico, al igual que el egresado.
+            //si eliminamos al egresado 3, esta bien que el sgte exp sea el 4, asi ya no haya un exp 3
         } catch (ValidationException e) {
             e.printMessage();
         }
     }
 
-    //tambien podriamos cambiar los datos del egresado del expediente, directamente desde el expediente
-    // aunque al final llegariamos al update del expediente
-    public void updateEgresado(int idEg, Egresado t) {
-        egresadoService.update(idEg, t);
-    }
-
     @Override
     public void delete(int id) {
         try {
-            Expediente ex = getById(id);
             super.delete(id);
-            egresadoService.delete(ex.getEgresado().getId());
-            personaService.delete(ex.getEgresado().getPersona().getId());
         } catch (ValidationException e) {
             e.printMessage();
         }
@@ -83,15 +76,37 @@ public class ExpedienteService extends Repository<Expediente> {
         } catch (ValidationException e) {
             e.printMessage();
         }
-        return null; 
+        return null;
     }
 
-    public Expediente getByEgresado(int idEg){
+    public Expediente getByEgresado2(int idEg) {
         Expediente t = null;
         em = hc.getEntityManager();
         t = em.createQuery("SELECT x FROM Expediente x WHERE x.idEgresado = :idEg", Expediente.class).setMaxResults(1).getSingleResult();
         hc.closeConnection();
-        return t;        
+        return t;
+    }
+
+    private Expediente getByEgresado(int idEg) {
+        Expediente eg = null;
+        super.getByQuery("SELECT x FROM Expediente x WHERE x.idEgresado = :idEg");
+        return eg;
+    }
+
+    private int getNroExp() {
+        int nroExp = 0;
+        Expediente exp = null;
+        try {
+            exp = super.getLast();
+            if (exp == null) {
+                nroExp = 1;
+            } else {
+                nroExp = exp.getNroExpediente() + 1;
+            }
+        } catch (ValidationException e) {
+            e.printMessage();
+        }
+        return nroExp;
     }
 
 }

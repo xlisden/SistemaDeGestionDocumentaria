@@ -22,6 +22,8 @@ public class Persona {
     private String apellidoPaterno;
 
     private String apellidoMaterno;
+    
+    private int idGradoInst;
 
     @ManyToOne
     @JoinColumn(name = "id_grado_instruccion", foreignKey = @ForeignKey(name = "fk_grado_instruccion_persona"))
@@ -30,6 +32,13 @@ public class Persona {
     public Persona() {
     }
 
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, int idGradoInst) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;        
+        this.idGradoInst = idGradoInst;
+    }
+    
     public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, GradoInstruccion gradoInstruccion) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -89,5 +98,15 @@ public class Persona {
     public String toString() {
         return "Persona{" + "id=" + id + ", nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", gradoInstruccion=" + gradoInstruccion + '}';
     }
+
+    public int getIdGradoInst() {
+        return idGradoInst;
+    }
+
+    public void setIdGradoInst(int idGradoInst) {
+        this.idGradoInst = idGradoInst;
+    }
+    
+    
 
 }

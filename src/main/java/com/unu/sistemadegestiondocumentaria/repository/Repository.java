@@ -5,9 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
-import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class Repository<T> {
 
@@ -19,7 +17,6 @@ public class Repository<T> {
     public Repository(Class<T> type) {
         this.typeClass = type;
         className = typeClass.getName().substring(44, typeClass.getName().length());
-        System.out.println(Validation.infoColor + "constructor Repository" + Validation.normalColor);
     }
 
     public void add(T t) {
@@ -44,7 +41,7 @@ public class Repository<T> {
         em = hc.getEntityManager();
         T t = em.find(typeClass, id);
         if(t == null){
-            throw new ValidationException(showWarning("El " + className + " " + id + " no existe en la base de datos."));
+            throw new ValidationException(Validation.showWarning("El " + className + " " + id + " no existe en la base de datos."));
         }
         em.getTransaction().begin();
         em.remove(t);
@@ -65,7 +62,7 @@ public class Repository<T> {
         T t = em.find(typeClass, id);
         hc.closeConnection();
         if(t == null){
-            throw new ValidationException(showWarning("El " + className + " " + id+ " no existe en la base de datos."));
+            throw new ValidationException(Validation.showWarning("El " + className + " " + id+ " no existe en la base de datos."));
         }        
         return t;
     }
@@ -82,6 +79,14 @@ public class Repository<T> {
         T t = null;
         em = hc.getEntityManager();
         t = em.createQuery("SELECT x FROM " + className + " x ORDER BY x.id DESC", typeClass).setMaxResults(1).getSingleResult();
+        hc.closeConnection();
+        return t;
+    }
+    
+    public T getByQuery(String query){
+        T t = null;
+        em = hc.getEntityManager();
+        t = em.createQuery(query, typeClass).setMaxResults(1).getSingleResult();
         hc.closeConnection();
         return t;
     }

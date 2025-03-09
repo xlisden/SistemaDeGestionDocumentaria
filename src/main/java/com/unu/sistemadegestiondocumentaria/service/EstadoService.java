@@ -4,13 +4,11 @@ import java.util.List;
 
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
-import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class EstadoService extends Repository<Estado> {
 
-    private Validation validaciones = new Validation();
+    
 
     public EstadoService(Class<Estado> type) {
         super(type);
@@ -19,7 +17,7 @@ public class EstadoService extends Repository<Estado> {
     @Override
     public void add(Estado t) {
         try {
-            validaciones.validateEstado(t);
+            Validation.validateEstado(t);
             super.add(t);
         } catch (ValidationException e) {
             e.printMessage();
@@ -29,10 +27,10 @@ public class EstadoService extends Repository<Estado> {
     @Override
     public void update(int id, Estado t) {
         try {
-            validaciones.validateEstado(t);
+            Validation.validateEstado(t);
             Estado est = getById(id);
             if (est == null) {
-                throw new ValidationException(showWarning("El Estado " + id + " no existe en la base de datos."));
+                throw new ValidationException(Validation.showWarning("El Estado " + id + " no existe en la base de datos."));
             }
             est.setNombre(t.getNombre());
             super.update(id, est);

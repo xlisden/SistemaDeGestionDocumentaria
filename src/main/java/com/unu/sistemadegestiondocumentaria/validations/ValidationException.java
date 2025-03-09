@@ -11,6 +11,9 @@ public class ValidationException extends RuntimeException {
         System.out.println(Validation.showWarning(message));
         StackTraceElement[] info = getStackTrace();
         System.out.println(Validation.showWarning(info[0]+""));
+        System.out.println(Validation.showWarning(info[1]+""));
+        System.out.println(Validation.showWarning(info[2]+""));
+        System.out.println(Validation.showWarning(info[3]+""));
         System.out.println();
     }
 

@@ -9,13 +9,11 @@ import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
-import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class DocumentoService extends Repository<Documento> {
 
-    private Validation validaciones = new Validation();
+    
     private EstadoService estadoService = new EstadoService(Estado.class);
     private HibernateConfig hc = new HibernateConfig();
     private EntityManager em;
@@ -27,7 +25,7 @@ public class DocumentoService extends Repository<Documento> {
     @Override
     public void add(Documento t) {
         try {
-            validaciones.validateDocumento(t);
+            Validation.validateDocumento(t);
             t.setCorrelativo(setCorrelativo());
             super.add(t);
         } catch (ValidationException e) {
@@ -38,13 +36,13 @@ public class DocumentoService extends Repository<Documento> {
     @Override
     public void update(int id, Documento t) {
         try {
-            validaciones.validateDocumento(t);
+            Validation.validateDocumento(t);
             Documento doc = getById(id);
             if (doc == null) {
-                throw new ValidationException(showWarning("El Documento no puede estar vacío."));
+                throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
             }
             if(doc.getCorrelativo() == null || doc.getCorrelativo().isBlank()){
-                throw new ValidationException(showWarning("El correlativo delsss Documento no puede estar vacío."));
+                throw new ValidationException(Validation.showWarning("El correlativo delsss Documento no puede estar vacío."));
             }
 //            doc.setCorrelativo(t.getCorrelativo());
 //            doc.setFechaEmision(t.getFechaEmision());
@@ -85,7 +83,7 @@ public class DocumentoService extends Repository<Documento> {
         try {
             Documento doc = getById(id);
             if (doc == null) {
-                throw new ValidationException(showWarning("El Documento no puede estar vacío."));
+                throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
             }
             doc.setEstado(estadoService.getByNombre("ENTREGADO"));
             super.update(id, doc);

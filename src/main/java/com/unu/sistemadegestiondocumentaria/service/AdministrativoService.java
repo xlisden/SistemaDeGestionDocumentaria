@@ -5,27 +5,29 @@ import java.util.List;
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
-import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class AdministrativoService extends Repository<Administrativo> {
 
     private PersonaService personaService = new PersonaService(Persona.class);
-    private Validation validaciones = new Validation();
-
+    
     public AdministrativoService(Class<Administrativo> type) {
         super(type);
     }
 
-    @Override
-    public void add(Administrativo t) {
+    public void add(Persona t) {
+        int idPersona = 0;
+        Administrativo ad = null;
         try {
-            validaciones.validatePersona(t.getPersona());
-            personaService.add(t.getPersona());
-            int idPersona = personaService.getLastId();
-            t.getPersona().setId(idPersona);
-            super.add(t);
+            personaService.add(t);
+            idPersona = personaService.getLastId();
+            if(!getAll().isEmpty() && idPersona == getLast().getPersona().getId()) {
+                return;
+            }
+            t.setId(idPersona);
+            
+            ad = new Administrativo(t);
+            super.add(ad);
         } catch (ValidationException e) {
             e.printMessage();
         }
@@ -35,9 +37,9 @@ public class AdministrativoService extends Repository<Administrativo> {
         try {
             Administrativo ad = getById(id);
             if (ad == null) {
-                throw new ValidationException(showWarning("El Administrativo no puede estar vacío."));
+                throw new ValidationException(Validation.showWarning("El Administrativo no puede estar vacío."));
             }            
-            validaciones.validatePersona(p);
+
             int idPersona = ad.getPersona().getId();
             personaService.update(idPersona, p);
         } catch (ValidationException e) {

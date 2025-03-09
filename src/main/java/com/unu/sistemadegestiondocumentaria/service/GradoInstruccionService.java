@@ -9,7 +9,7 @@ import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 public class GradoInstruccionService extends Repository<GradoInstruccion> {
 
-    private Validation validaciones = new Validation();
+    
 
     public GradoInstruccionService(Class<GradoInstruccion> type) {
         super(type);
@@ -18,7 +18,7 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
     @Override
     public void add(GradoInstruccion t) {
         try {
-            validaciones.validateGradoInstruccion(t);
+            Validation.validateGradoInstruccion(t);
             super.add(t);
         } catch (ValidationException e) {
             e.printMessage();
@@ -28,10 +28,10 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
     @Override
     public void update(int id, GradoInstruccion t) {
         try {
-            validaciones.validateGradoInstruccion(t);
+            Validation.validateGradoInstruccion(t);
             GradoInstruccion gi = getById(id);
             // if (gi == null) {
-            //     throw new ValidationException(showWarning("El Grado de Instrucción "+ id + " no existe en la base de datos."));
+            //     throw new ValidationException(Validation.showWarning("El Grado de Instrucción "+ id + " no existe en la base de datos."));
             // }
             gi.setNombre(t.getNombre());
             super.update(id, gi);

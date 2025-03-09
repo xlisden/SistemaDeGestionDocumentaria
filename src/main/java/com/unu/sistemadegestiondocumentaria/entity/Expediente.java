@@ -1,5 +1,6 @@
 package com.unu.sistemadegestiondocumentaria.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "expedientes")
@@ -19,8 +22,9 @@ public class Expediente {
 
     private int nroExpediente;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_egresado", foreignKey = @ForeignKey(name = "fk_egresado_expediente"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Egresado egresado;
 
     // @Transient
