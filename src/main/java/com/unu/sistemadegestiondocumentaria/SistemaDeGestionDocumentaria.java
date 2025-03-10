@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
+import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
@@ -12,6 +13,7 @@ import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 import com.unu.sistemadegestiondocumentaria.service.AdministrativoService;
+import com.unu.sistemadegestiondocumentaria.service.DocumentoService;
 import com.unu.sistemadegestiondocumentaria.service.EgresadoService;
 import com.unu.sistemadegestiondocumentaria.service.EstadoService;
 import com.unu.sistemadegestiondocumentaria.service.ExpedienteService;
@@ -19,6 +21,8 @@ import com.unu.sistemadegestiondocumentaria.service.GradoInstruccionService;
 import com.unu.sistemadegestiondocumentaria.service.PersonaService;
 import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -27,18 +31,21 @@ import com.unu.sistemadegestiondocumentaria.validations.Validation;
 public class SistemaDeGestionDocumentaria {
 
     public static void main(String[] args) {
-
         Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
+//               int n = 1;
+//                String c = String.format("%03d%n", n);
+////        String correlativo = String.format("%03d%n", 1);
+////        //System.out.format("%08d", n);    //  -->  "00461012"
+//        System.out.println("correlativo = " + c);
 
-        addGradosInstruccion();
-         addTiposDocumento();
-         addEstados();
+//        addGradosInstruccion();
+//        addTiposDocumento();
+//        addEstados();
+//        addAdministrativos();
         // addPersonas();
         // addEgresados();
         // addExpedientes();
-
-        addExpedientes();
-
+        addDocumentos();
 //        System.out.println(Validation.infoColor + "addEgresados()" + Validation.normalColor);
 //        addEgresados();
 //        System.out.println(Validation.infoColor + "finalizo()" + Validation.normalColor);
@@ -64,7 +71,7 @@ public class SistemaDeGestionDocumentaria {
         // service.delete(11);
         // service.delete(20);
 
-        // imprimirElementos(service.getAll());
+        imprimirElementos(service.getAll());
     }
 
     private static void addTiposDocumento() {
@@ -140,9 +147,9 @@ public class SistemaDeGestionDocumentaria {
 //            service.add(new Persona("*name*" + i, "*appat*" + i, "*apmat*" + i, i));
 //        }
 //        service.update(3, new Persona("hola", "soy una", "nueva persona", 1));
-        service.add(new Persona("we**", "are**", "banditos**", 2));
+        service.add(new Persona("we**", "are**", "banditos**", 9));
 //        service.update(1, new Persona("hola", "soy", "nuevo", 2));
-        service.delete(5);
+//        service.delete(5);
 
         imprimirElementos(service.getAll());
     }
@@ -154,9 +161,21 @@ public class SistemaDeGestionDocumentaria {
 //            service.add(new Persona("**nom"+i, "**apPat"+i, "**apMat"+i, i));
 //        }
 //        service.update(1, new Persona("hola", "soy", "nuevo", 2));
-        service.delete(6);
-        service.delete(7);
-        service.add(new Persona("soy8", "el8", "nro8", 2));
+//        service.delete(6);
+//        service.delete(7);
+//        service.add(new Persona("soy8", "el8", "nro8", 2));
+        service.add(new Persona("hola, yo", "ser nueva", "persona", 9));
+        imprimirElementos(service.getAll());
+
+    }
+
+    private static void addDocumentos() {
+        DocumentoService service = new DocumentoService(Documento.class);
+
+        service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2));
+        service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
+        service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 3));
+
         imprimirElementos(service.getAll());
     }
 
@@ -165,4 +184,5 @@ public class SistemaDeGestionDocumentaria {
             System.out.println(Validation.infoColor + x.toString() + Validation.normalColor);
         }
     }
+
 }

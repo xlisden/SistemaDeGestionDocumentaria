@@ -1,16 +1,20 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
+import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import java.time.LocalDate;
 import java.util.List;
 
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
+import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class DocumentoService extends Repository<Documento> {
 
     private EstadoService estadoService = new EstadoService(Estado.class);
+    private TipoDocumentoService tdService = new TipoDocumentoService(TipoDocumento.class);
+    private AdministrativoService emisorService = new AdministrativoService(Administrativo.class);
 
     public DocumentoService(Class<Documento> type) {
         super(type);
@@ -18,10 +22,18 @@ public class DocumentoService extends Repository<Documento> {
 
     @Override
     public void add(Documento t) {
+        TipoDocumento td = null;
+        Administrativo emisor = null;
         try {
+            td = tdService.getById(t.getIdTipoDoc());
+            emisor = emisorService.getById(t.getIdEmisor());
+            
+            t.setTipoDocumento(td);
+            t.setEmisor(emisor);
             t.setEstado(estadoService.getByNombre("PENDIENTE"));
             t.setCorrelativo(setCorrelativo());
             Validation.validateDocumento(t);
+            
             super.add(t);
         } catch (ValidationException e) {
             e.printMessage();
@@ -90,13 +102,13 @@ public class DocumentoService extends Repository<Documento> {
             return "001";
         } else {
             doc = super.getLast();
-            System.out.println(Validation.magentaColor + "A. Emision = " + doc.getFechaEmision().getYear() + Validation.normalColor);
-            System.out.println(Validation.magentaColor + "A. Actual = " + LocalDate.now().getYear() + Validation.normalColor);
             if (doc.getFechaEmision().getYear() + 1900 < LocalDate.now().getYear()) {
                 return "001";
             } else {
-                int c = Integer.parseInt(doc.getCorrelativo()) + 1;
-                return c + "";
+                int n = Integer.parseInt(doc.getCorrelativo().trim());
+                n++;
+                String c = String.format("%03d%n", n);
+                return c;
             }
         }
     }

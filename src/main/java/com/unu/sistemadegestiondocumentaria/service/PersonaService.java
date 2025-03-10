@@ -6,6 +6,7 @@ import java.util.List;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
+import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
 
 public class PersonaService extends Repository<Persona> {
 
@@ -17,8 +18,13 @@ public class PersonaService extends Repository<Persona> {
 
     @Override
     public void add(Persona t) {
+        GradoInstruccion gi = null;
         try {
-            GradoInstruccion gi = giService.getById(t.getIdGradoInst());
+            gi = giService.getById(t.getIdGradoInst());
+            System.out.println("gi = " + gi);
+//            if(gi == null){
+//                throw new ValidationException(showWarning("El Grado de Instrucción de la Persona no puede estar vacío."));
+//            }
             t.setGradoInstruccion(gi);
             Validation.validatePersona(t);
             super.add(t);
