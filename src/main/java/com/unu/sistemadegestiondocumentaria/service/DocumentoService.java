@@ -27,13 +27,13 @@ public class DocumentoService extends Repository<Documento> {
         try {
             td = tdService.getById(t.getIdTipoDoc());
             emisor = emisorService.getById(t.getIdEmisor());
-            
+
             t.setTipoDocumento(td);
             t.setEmisor(emisor);
             t.setEstado(estadoService.getByNombre("PENDIENTE"));
             t.setCorrelativo(setCorrelativo());
             Validation.validateDocumento(t);
-            
+
             super.add(t);
         } catch (ValidationException e) {
             e.printMessage();
@@ -42,17 +42,18 @@ public class DocumentoService extends Repository<Documento> {
 
     @Override
     public void update(int id, Documento t) {
+        Administrativo emisor = null;
+        Documento doc = null;
+        TipoDocumento td = null;
         try {
-            Validation.validateDocumento(t);
-            Documento doc = getById(id);
+            doc = getById(id);
             if (doc == null) {
                 throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
             }
-            // por que?
-//            if (doc.getCorrelativo() == null || doc.getCorrelativo().isBlank()) {
-//                throw new ValidationException(Validation.showWarning("El correlativo del Documento no puede estar vacío."));
-//            }
+
             setDocumento(doc, t);
+            Validation.validateDocumento(doc);
+
             super.update(id, doc);
         } catch (ValidationException e) {
             e.printMessage();
@@ -113,12 +114,29 @@ public class DocumentoService extends Repository<Documento> {
         }
     }
 
-    private void setDocumento(Documento documento, Documento doc) {
-        documento.setCorrelativo(doc.getCorrelativo());
+    public Documento setDocumento(Documento documento, Documento doc) {
+        Administrativo emisor = null;
+        Estado estado = null;
+        String correlativo = null;
+        TipoDocumento td = null;
+
+        emisor = (doc.getIdEmisor() == 0) ? 
+            (doc.getEmisor() != null ? doc.getEmisor() : documento.getEmisor()) : 
+            emisorService.getById(doc.getIdEmisor());
+        td = (doc.getIdTipoDoc() == 0) ?
+            ((doc.getTipoDocumento() != null) ? doc.getTipoDocumento() : documento.getTipoDocumento()) :
+            tdService.getById(doc.getIdTipoDoc());
+        
+        correlativo = doc.getCorrelativo() != null ? doc.getCorrelativo() : documento.getCorrelativo();
+        estado = doc.getEstado() != null ? doc.getEstado() : documento.getEstado();
+
+        documento.setCorrelativo(correlativo);
         documento.setFechaEmision(doc.getFechaEmision());
-        documento.setTipoDocumento(doc.getTipoDocumento());
-        documento.setEstado(doc.getEstado());
-        documento.setEmisor(doc.getEmisor());
+        documento.setTipoDocumento(td);
+        documento.setEstado(estado);
+        documento.setEmisor(emisor);
+
+        return documento;
     }
 
 }

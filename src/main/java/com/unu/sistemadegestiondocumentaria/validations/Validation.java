@@ -6,6 +6,7 @@ import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
+import com.unu.sistemadegestiondocumentaria.entity.Oficio;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 
@@ -98,6 +99,21 @@ public class Validation {
             throw new ValidationException(showWarning("El emisor del Documento no puede estar vacío."));
         }
         validateAdministrativo(doc.getEmisor());
+    }
+    
+    public static void validateOficio(Oficio oficio){
+        if (oficio.getDocumento() == null) {
+            throw new ValidationException(showWarning("El documento del Oficio no puede estar vacío."));
+        }
+        validateDocumento(oficio.getDocumento());
+
+        if (oficio.getAsunto() == null || oficio.getAsunto().isBlank()) {
+            throw new ValidationException(showWarning("El asunto del Ofcio no puede estar vacío." ));
+        }
+        
+        if (oficio.getReferencia()== null || oficio.getReferencia().isBlank()) {
+            throw new ValidationException(showWarning("La referencia del Documento no puede estar vacía." ));
+        }
     }
     
     public static String showWarning(String w){

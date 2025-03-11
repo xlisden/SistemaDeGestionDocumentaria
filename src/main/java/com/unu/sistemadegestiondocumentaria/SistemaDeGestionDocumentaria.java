@@ -4,22 +4,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
-import com.unu.sistemadegestiondocumentaria.entity.Documento;
-import com.unu.sistemadegestiondocumentaria.entity.Egresado;
-import com.unu.sistemadegestiondocumentaria.entity.Estado;
-import com.unu.sistemadegestiondocumentaria.entity.Expediente;
-import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
-import com.unu.sistemadegestiondocumentaria.entity.Persona;
-import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
-import com.unu.sistemadegestiondocumentaria.service.AdministrativoService;
-import com.unu.sistemadegestiondocumentaria.service.DocumentoService;
-import com.unu.sistemadegestiondocumentaria.service.EgresadoService;
-import com.unu.sistemadegestiondocumentaria.service.EstadoService;
-import com.unu.sistemadegestiondocumentaria.service.ExpedienteService;
-import com.unu.sistemadegestiondocumentaria.service.GradoInstruccionService;
-import com.unu.sistemadegestiondocumentaria.service.PersonaService;
-import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
+import com.unu.sistemadegestiondocumentaria.entity.*;
+import com.unu.sistemadegestiondocumentaria.service.*;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -32,23 +18,20 @@ public class SistemaDeGestionDocumentaria {
 
     public static void main(String[] args) {
         Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
-//               int n = 1;
-//                String c = String.format("%03d%n", n);
-////        String correlativo = String.format("%03d%n", 1);
-////        //System.out.format("%08d", n);    //  -->  "00461012"
-//        System.out.println("correlativo = " + c);
 
 //        addGradosInstruccion();
 //        addTiposDocumento();
 //        addEstados();
 //        addAdministrativos();
-        // addPersonas();
-        // addEgresados();
-        // addExpedientes();
-        addDocumentos();
-//        System.out.println(Validation.infoColor + "addEgresados()" + Validation.normalColor);
+//        addPersonas();
 //        addEgresados();
-//        System.out.println(Validation.infoColor + "finalizo()" + Validation.normalColor);
+//        addExpedientes();
+//        addDocumentos();
+//        addOficios();
+
+        System.out.println(Validation.infoColor + "addOficios()" + Validation.normalColor);
+        addOficios();
+        System.out.println(Validation.infoColor + "finalizo()" + Validation.normalColor);
     }
 
     private static void addGradosInstruccion() {
@@ -172,10 +155,32 @@ public class SistemaDeGestionDocumentaria {
     private static void addDocumentos() {
         DocumentoService service = new DocumentoService(Documento.class);
 
-        service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2));
-        service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
-        service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 3));
+//        service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2));
+//        service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
+//        service.update(4, new Documento(Date.valueOf("2024-04-10"), 3, 1));
+//        service.delete(7);
+//        service.delete(129);
+//        service.getById(42);
+//        service.updateEstadoDocumento(2);
+        imprimirElementos(service.getAll());
+    }
 
+    private static void addOficios() {
+        OficioService service = new OficioService(Oficio.class);
+
+//        service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2));
+//        service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
+//        for (int i = 1; i <= 6; i++) {
+//            int idTipoDoc = (int)(Math.random() * 3) + 1;
+//            int idEmisor = (int)(Math.random() * 4) + 1;
+//            service.add(new Oficio(Date.valueOf(LocalDate.now()), idTipoDoc, idEmisor, "asunto"+i, "referencia"+i));
+//        }
+//        service.update(4, new Oficio(Date.valueOf("2024-04-10"), 1, 1, "asunto**", "referencia4"));
+//        service.update(2, new Oficio(Date.valueOf("2022-02-12"), 2,2, "**asunto", "**referencia"));
+//        service.delete(7);
+//        service.delete(129);
+        service.delete(3);
+        service.updateEstadoDocumento(2);
         imprimirElementos(service.getAll());
     }
 

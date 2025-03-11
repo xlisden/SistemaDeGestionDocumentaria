@@ -50,6 +50,7 @@ public class PersonaService extends Repository<Persona> {
             p.setApellidoPaterno(t.getApellidoPaterno());
             p.setApellidoMaterno(t.getApellidoMaterno());
             p.setGradoInstruccion(t.getGradoInstruccion());
+            
             super.update(id, p);
         } catch (ValidationException e) {
             e.printMessage();

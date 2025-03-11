@@ -1,5 +1,6 @@
 package com.unu.sistemadegestiondocumentaria.entity;
 
+import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "oficios")
@@ -25,7 +27,20 @@ public class Oficio {
     @JoinColumn(name = "id_documento", foreignKey = @ForeignKey(name = "fk_documento_oficio"))
     private Documento documento;
 
+    @Transient
+    private int idTipoDoc;
+    @Transient
+    private int idEmisor;
+    @Transient
+    private Date fechaEmisor;
+
     public Oficio() {
+    }
+
+    public Oficio(Date fechaEmision, int idTipoDoc, int idEmisor, String asunto, String referencia) {
+        this.asunto = asunto;
+        this.referencia = referencia;
+        this.documento = new Documento(fechaEmision, idTipoDoc, idEmisor);
     }
 
     public Oficio(int id, String asunto, String referencia, Documento documento) {
@@ -76,6 +91,30 @@ public class Oficio {
     @Override
     public String toString() {
         return "Oficio{" + "id=" + id + ", asunto=" + asunto + ", referencia=" + referencia + ", documento=" + documento + '}';
+    }
+
+    public int getIdTipoDoc() {
+        return idTipoDoc;
+    }
+
+    public void setIdTipoDoc(int idTipoDoc) {
+        this.idTipoDoc = idTipoDoc;
+    }
+
+    public int getIdEmisor() {
+        return idEmisor;
+    }
+
+    public void setIdEmisor(int idEmisor) {
+        this.idEmisor = idEmisor;
+    }
+
+    public Date getFechaEmisor() {
+        return fechaEmisor;
+    }
+
+    public void setFechaEmisor(Date fechaEmisor) {
+        this.fechaEmisor = fechaEmisor;
     }
 
 }
