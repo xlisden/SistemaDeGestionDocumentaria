@@ -8,10 +8,17 @@ import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class EstadoService extends Repository<Estado> {
 
-    
+    private static EstadoService INSTANCIA;
 
-    public EstadoService(Class<Estado> type) {
+    private EstadoService(Class<Estado> type) {
         super(type);
+    }
+    
+    public static EstadoService instanciar(){
+        if (INSTANCIA == null) {
+            INSTANCIA = new EstadoService(Estado.class);
+        }
+        return INSTANCIA;
     }
 
     @Override

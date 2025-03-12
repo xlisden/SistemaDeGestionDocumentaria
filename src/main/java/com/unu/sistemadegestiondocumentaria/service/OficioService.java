@@ -1,20 +1,27 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import java.util.List;
 
 import com.unu.sistemadegestiondocumentaria.entity.Oficio;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
-import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class OficioService extends Repository<Oficio> {
 
-    private final DocumentoService docService = new DocumentoService(Documento.class);
+    private final DocumentoService docService = DocumentoService.instanciar();
 
-    public OficioService(Class<Oficio> type) {
+    private static OficioService INSTANCIA;
+
+    private OficioService(Class<Oficio> type) {
         super(type);
+    }
+
+    public static OficioService instanciar() {
+        if (INSTANCIA == null) {
+            INSTANCIA = new OficioService(Oficio.class);
+        }
+        return INSTANCIA;
     }
 
     @Override
@@ -40,7 +47,7 @@ public class OficioService extends Repository<Oficio> {
             if (oficio == null) {
                 throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
             }
-            
+
             doc = docService.getById(oficio.getDocumento().getId());
             doc = docService.setDocumento(doc, t.getDocumento());
             t.setDocumento(doc);

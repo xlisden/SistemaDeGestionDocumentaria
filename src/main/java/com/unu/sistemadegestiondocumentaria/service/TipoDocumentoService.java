@@ -8,10 +8,17 @@ import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class TipoDocumentoService extends Repository<TipoDocumento> {
 
-    
+    private static TipoDocumentoService INSTANCIA;
 
-    public TipoDocumentoService(Class<TipoDocumento> type) {
+    private TipoDocumentoService(Class<TipoDocumento> type) {
         super(type);
+    }
+    
+    public static TipoDocumentoService instanciar(){
+        if (INSTANCIA == null) {
+            INSTANCIA = new TipoDocumentoService(TipoDocumento.class);
+        }
+        return INSTANCIA;
     }
 
     @Override

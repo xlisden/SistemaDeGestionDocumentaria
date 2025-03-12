@@ -6,14 +6,22 @@ import java.util.List;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
-import static com.unu.sistemadegestiondocumentaria.validations.Validation.showWarning;
 
 public class PersonaService extends Repository<Persona> {
 
-    private GradoInstruccionService giService = new GradoInstruccionService(GradoInstruccion.class);
+    private final GradoInstruccionService giService = GradoInstruccionService.instanciar();
+    
+    private static PersonaService INSTANCIA;
 
-    public PersonaService(Class<Persona> type) {
+    private PersonaService(Class<Persona> type) {
         super(type);
+    }
+
+    public static PersonaService instanciar() {
+        if (INSTANCIA == null) {
+            INSTANCIA = new PersonaService(Persona.class);
+        }
+        return INSTANCIA;
     }
 
     @Override
@@ -23,7 +31,7 @@ public class PersonaService extends Repository<Persona> {
             gi = giService.getById(t.getIdGradoInst());
             System.out.println("gi = " + gi);
 //            if(gi == null){
-//                throw new ValidationException(showWarning("El Grado de Instrucción de la Persona no puede estar vacío."));
+//                throw new ValidationException(showWarning("El Persona de Instrucción de la Persona no puede estar vacío."));
 //            }
             t.setGradoInstruccion(gi);
             Validation.validatePersona(t);
@@ -41,16 +49,16 @@ public class PersonaService extends Repository<Persona> {
             if (p == null) {
                 throw new ValidationException(Validation.showWarning("La persona " + id + " no existe en la base de datos."));
             }
-            
+
             GradoInstruccion gi = giService.getById(t.getIdGradoInst());
             t.setGradoInstruccion(gi);
             Validation.validatePersona(t);
-            
+
             p.setNombre(t.getNombre());
             p.setApellidoPaterno(t.getApellidoPaterno());
             p.setApellidoMaterno(t.getApellidoMaterno());
             p.setGradoInstruccion(t.getGradoInstruccion());
-            
+
             super.update(id, p);
         } catch (ValidationException e) {
             e.printMessage();

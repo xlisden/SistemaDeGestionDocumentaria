@@ -2,9 +2,6 @@ package com.unu.sistemadegestiondocumentaria.service;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
-import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
 import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
@@ -13,13 +10,19 @@ import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class ExpedienteService extends Repository<Expediente> {
 
-    private EgresadoService egresadoService = new EgresadoService(Egresado.class);
+    private final EgresadoService egresadoService = EgresadoService.instanciar();
 
-    private HibernateConfig hc = new HibernateConfig();
-    private EntityManager em;
+    private static ExpedienteService INSTANCIA;
 
-    public ExpedienteService(Class<Expediente> type) {
+    private ExpedienteService(Class<Expediente> type) {
         super(type);
+    }
+
+    public static ExpedienteService instanciar() {
+        if (INSTANCIA == null) {
+            INSTANCIA = new ExpedienteService(Expediente.class);
+        }
+        return INSTANCIA;
     }
 
     public void add(Persona t) {
@@ -98,8 +101,8 @@ public class ExpedienteService extends Repository<Expediente> {
     /*
     Si se supone que el exp es unico, al igual que el egresado. si eliminamos al egresado 3, esta bien que el sgte exp sea el 4, asi ya no haya un exp 3
     Entonces no debe seguir correlativo. Simplemente ser igual al id
-    */
-    /*
+     */
+ /*
     private int getNroExp() {
         int nroExp = 0;
         Expediente exp = new Expediente();
@@ -121,6 +124,5 @@ public class ExpedienteService extends Repository<Expediente> {
         }
         return nroExp;
     }
-*/
-
+     */
 }

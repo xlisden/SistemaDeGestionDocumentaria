@@ -12,12 +12,21 @@ import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class DocumentoService extends Repository<Documento> {
 
-    private EstadoService estadoService = new EstadoService(Estado.class);
-    private TipoDocumentoService tdService = new TipoDocumentoService(TipoDocumento.class);
-    private AdministrativoService emisorService = new AdministrativoService(Administrativo.class);
+    private final EstadoService estadoService = EstadoService.instanciar();
+    private final TipoDocumentoService tdService = TipoDocumentoService.instanciar();
+    private final AdministrativoService emisorService = AdministrativoService.instanciar();
 
-    public DocumentoService(Class<Documento> type) {
+    private static DocumentoService INSTANCIA;
+
+    private DocumentoService(Class<Documento> type) {
         super(type);
+    }
+
+    public static DocumentoService instanciar() {
+        if (INSTANCIA == null) {
+            INSTANCIA = new DocumentoService(Documento.class);
+        }
+        return INSTANCIA;
     }
 
     @Override
@@ -42,9 +51,7 @@ public class DocumentoService extends Repository<Documento> {
 
     @Override
     public void update(int id, Documento t) {
-        Administrativo emisor = null;
         Documento doc = null;
-        TipoDocumento td = null;
         try {
             doc = getById(id);
             if (doc == null) {
@@ -120,13 +127,13 @@ public class DocumentoService extends Repository<Documento> {
         String correlativo = null;
         TipoDocumento td = null;
 
-        emisor = (doc.getIdEmisor() == 0) ? 
-            (doc.getEmisor() != null ? doc.getEmisor() : documento.getEmisor()) : 
-            emisorService.getById(doc.getIdEmisor());
-        td = (doc.getIdTipoDoc() == 0) ?
-            ((doc.getTipoDocumento() != null) ? doc.getTipoDocumento() : documento.getTipoDocumento()) :
-            tdService.getById(doc.getIdTipoDoc());
-        
+        emisor = (doc.getIdEmisor() == 0)
+                ? (doc.getEmisor() != null ? doc.getEmisor() : documento.getEmisor())
+                : emisorService.getById(doc.getIdEmisor());
+        td = (doc.getIdTipoDoc() == 0)
+                ? ((doc.getTipoDocumento() != null) ? doc.getTipoDocumento() : documento.getTipoDocumento())
+                : tdService.getById(doc.getIdTipoDoc());
+
         correlativo = doc.getCorrelativo() != null ? doc.getCorrelativo() : documento.getCorrelativo();
         estado = doc.getEstado() != null ? doc.getEstado() : documento.getEstado();
 

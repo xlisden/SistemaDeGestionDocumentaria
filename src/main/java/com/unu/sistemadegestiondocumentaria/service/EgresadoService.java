@@ -6,12 +6,22 @@ import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
+
 public class EgresadoService extends Repository<Egresado> {
 
-    private PersonaService personaService = new PersonaService(Persona.class);
+    private final PersonaService personaService = PersonaService.instanciar();
 
-    public EgresadoService(Class<Egresado> type) {
+    private static EgresadoService INSTANCIA;
+
+    private EgresadoService(Class<Egresado> type) {
         super(type);
+    }
+
+    public static EgresadoService instanciar() {
+        if (INSTANCIA == null) {
+            INSTANCIA = new EgresadoService(Egresado.class);
+        }
+        return INSTANCIA;
     }
 
     public void add(Persona t) {
@@ -20,11 +30,11 @@ public class EgresadoService extends Repository<Egresado> {
         try {
             personaService.add(t);
             idPersona = personaService.getLastId();
-            if(!getAll().isEmpty() && idPersona == getLast().getPersona().getId()) {
+            if (!getAll().isEmpty() && idPersona == getLast().getPersona().getId()) {
                 return;
             }
             t.setId(idPersona);
-            
+
             eg = new Egresado(t);
             super.add(eg);
         } catch (ValidationException e) {
@@ -38,7 +48,7 @@ public class EgresadoService extends Repository<Egresado> {
             if (eg == null) {
                 throw new ValidationException(Validation.showWarning("El Egresado no puede estar vacío."));
             }
-            
+
             int idPersona = eg.getPersona().getId();
             personaService.update(idPersona, p);
         } catch (ValidationException e) {
@@ -67,7 +77,7 @@ public class EgresadoService extends Repository<Egresado> {
         } catch (ValidationException e) {
             e.printMessage();
         }
-        return null; 
+        return null;
     }
 
 }

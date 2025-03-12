@@ -9,10 +9,17 @@ import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 public class GradoInstruccionService extends Repository<GradoInstruccion> {
 
-    
+    private static GradoInstruccionService INSTANCIA;
 
-    public GradoInstruccionService(Class<GradoInstruccion> type) {
+    private GradoInstruccionService(Class<GradoInstruccion> type) {
         super(type);
+    }
+    
+    public static GradoInstruccionService instanciar(){
+        if (INSTANCIA == null) {
+            INSTANCIA = new GradoInstruccionService(GradoInstruccion.class);
+        }
+        return INSTANCIA;
     }
 
     @Override
@@ -60,7 +67,7 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
         } catch (ValidationException e) {
             e.printMessage();
         }
-        return null; 
+        return null;
     }
 
 }

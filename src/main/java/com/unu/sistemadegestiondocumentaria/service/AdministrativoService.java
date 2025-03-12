@@ -9,10 +9,19 @@ import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class AdministrativoService extends Repository<Administrativo> {
 
-    private PersonaService personaService = new PersonaService(Persona.class);
-    
-    public AdministrativoService(Class<Administrativo> type) {
+    private final PersonaService personaService = PersonaService.instanciar();
+
+    private static AdministrativoService INSTANCIA;
+
+    private AdministrativoService(Class<Administrativo> type) {
         super(type);
+    }
+
+    public static AdministrativoService instanciar() {
+        if (INSTANCIA == null) {
+            INSTANCIA = new AdministrativoService(Administrativo.class);
+        }
+        return INSTANCIA;
     }
 
     public void add(Persona t) {
@@ -21,11 +30,11 @@ public class AdministrativoService extends Repository<Administrativo> {
         try {
             personaService.add(t);
             idPersona = personaService.getLastId();
-            if(!getAll().isEmpty() && idPersona == getLast().getPersona().getId()) {
+            if (!getAll().isEmpty() && idPersona == getLast().getPersona().getId()) {
                 return;
             }
             t.setId(idPersona);
-            
+
             ad = new Administrativo(t);
             super.add(ad);
         } catch (ValidationException e) {
@@ -38,7 +47,7 @@ public class AdministrativoService extends Repository<Administrativo> {
             Administrativo ad = getById(id);
             if (ad == null) {
                 throw new ValidationException(Validation.showWarning("El Administrativo no puede estar vacío."));
-            }            
+            }
 
             int idPersona = ad.getPersona().getId();
             personaService.update(idPersona, p);
@@ -68,7 +77,7 @@ public class AdministrativoService extends Repository<Administrativo> {
         } catch (ValidationException e) {
             e.printMessage();
         }
-        return null; 
+        return null;
     }
 
 }
