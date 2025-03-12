@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "detalles_destinatario")
@@ -25,12 +26,22 @@ public class DetalleDestinatario {
     @JoinColumn(name = "id_destinatario", foreignKey = @ForeignKey(name = "fk_destinatario_detalle_destinatario"))
     private Administrativo destinatario;
 
+    @Transient
+    private int idDoc;
+    @Transient
+    private int idDest;
+
     public DetalleDestinatario() {
     }
 
     public DetalleDestinatario(Documento documento, Administrativo destinatario) {
         this.documento = documento;
         this.destinatario = destinatario;
+    }
+
+    public DetalleDestinatario(int idDoc, int idDest) {
+        this.idDoc = idDoc;
+        this.idDest = idDest;
     }
 
     public DetalleDestinatario(int id, Documento documento, Administrativo destinatario) {
@@ -67,5 +78,23 @@ public class DetalleDestinatario {
     public String toString() {
         return "DetalleDestinatario{" + "id=" + id + ", documento=" + documento + ", destinatario=" + destinatario + '}';
     }
+
+    public int getIdDoc() {
+        return idDoc;
+    }
+
+    public void setIdDoc(int idDoc) {
+        this.idDoc = idDoc;
+    }
+
+    public int getIdDest() {
+        return idDest;
+    }
+
+    public void setIdDest(int idDest) {
+        this.idDest = idDest;
+    }
+    
+    
 
 }

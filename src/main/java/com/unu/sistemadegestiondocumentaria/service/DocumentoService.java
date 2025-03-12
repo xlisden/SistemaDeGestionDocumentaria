@@ -10,12 +10,13 @@ import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
+import java.util.Arrays;
 
 public class DocumentoService extends Repository<Documento> {
 
     private final EstadoService estadoService = EstadoService.instanciar();
     private final TipoDocumentoService tdService = TipoDocumentoService.instanciar();
-    private final AdministrativoService emisorService = AdministrativoService.instanciar();
+    private final AdministrativoService administrativoService  = AdministrativoService.instanciar();
     private final DetDestinatarioService detDestinatarioService = DetDestinatarioService.instanciar();
 
     private static DocumentoService INSTANCIA;
@@ -37,7 +38,7 @@ public class DocumentoService extends Repository<Documento> {
         Administrativo emisor = null;
         try {
             td = tdService.getById(t.getIdTipoDoc());
-            emisor = emisorService.getById(t.getIdEmisor());
+            emisor = administrativoService.getById(t.getIdEmisor());
 
             t.setTipoDocumento(td);
             t.setEmisor(emisor);
@@ -48,13 +49,13 @@ public class DocumentoService extends Repository<Documento> {
             super.add(t);
             
             
-            System.out.println("doc in OficioService = " + t);
+            System.out.println("doc in DocService = " + t);
             
             if (!t.getIdDestinatarios().isEmpty()) {
                 Administrativo dest = null;
                 for (Integer i : t.getIdDestinatarios()){
-//                    dest =
-                    System.out.println("idDest in DocService = " + i);
+                    dest = administrativoService.getById(i);
+                    detDestinatarioService.add(new DetalleDestinatario(t, dest));
                 }
             }
             
@@ -117,6 +118,25 @@ public class DocumentoService extends Repository<Documento> {
             e.printMessage();
         }
     }
+    
+    public void updateDestinatarios(int idDoc, List<Integer> destinatarios){
+        try {
+            Documento doc = getById(idDoc);
+            if (doc == null) {
+                throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
+            }
+            
+            if (!doc.getIdDestinatarios().isEmpty()) {
+                Administrativo dest = null;
+                for (Integer i : destinatarios){
+//                    detDestinatarioService.update(new DetalleDestinatario(t, dest));
+                }
+            }
+        } catch (ValidationException e) {
+            e.printMessage();
+        }
+    }
+    
 
     private String setCorrelativo() {
         Documento doc = null;
@@ -143,7 +163,7 @@ public class DocumentoService extends Repository<Documento> {
 
         emisor = (doc.getIdEmisor() == 0)
                 ? (doc.getEmisor() != null ? doc.getEmisor() : documento.getEmisor())
-                : emisorService.getById(doc.getIdEmisor());
+                : administrativoService.getById(doc.getIdEmisor());
         td = (doc.getIdTipoDoc() == 0)
                 ? ((doc.getTipoDocumento() != null) ? doc.getTipoDocumento() : documento.getTipoDocumento())
                 : tdService.getById(doc.getIdTipoDoc());

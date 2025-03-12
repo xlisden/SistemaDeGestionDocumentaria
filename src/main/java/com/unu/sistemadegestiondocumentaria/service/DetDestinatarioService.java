@@ -6,6 +6,9 @@ import com.unu.sistemadegestiondocumentaria.validations.*;
 import java.util.List;
 
 public class DetDestinatarioService extends Repository<DetalleDestinatario> {
+    
+//    private final DocumentoService documentoService = DocumentoService.instanciar();
+//    private final AdministrativoService administrativoService  = AdministrativoService.instanciar();
 
     private static DetDestinatarioService INSTANCIA;
 
@@ -33,9 +36,12 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
     @Override
     public void update(int id, DetalleDestinatario t) {
         try {
-            Validation.validateDetDestinatario(t);
-            
             DetalleDestinatario detDest = getById(id);
+            if (detDest == null) {
+                throw new ValidationException(Validation.showWarning("El Det. Destinatario no puede estar vacío."));
+            }
+            
+            Validation.validateDetDestinatario(t);
             detDest.setDocumento(t.getDocumento());
             detDest.setDestinatario(t.getDestinatario());
             

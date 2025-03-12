@@ -28,10 +28,11 @@ public class SistemaDeGestionDocumentaria {
 //        addEgresados();
 //        addExpedientes();
 //        addDocumentos();
-        addOficios();
+//        addOficios();
+//        testDetDestinatarios();
 
         System.out.println(Validation.infoColor + "addOficios()" + Validation.normalColor);
-        addOficios();
+        testDetDestinatarios();
         System.out.println(Validation.infoColor + "finalizo()" + Validation.normalColor);
     }
 
@@ -130,7 +131,7 @@ public class SistemaDeGestionDocumentaria {
             for (int i = 1; i <= 6; i++) {
                 int idGradoInst = (int) (Math.random() * 4) + 1;
                 service.add(new Persona("*name*" + i, "*appat*" + i, "*apmat*" + i, idGradoInst));
-            }   
+            }
         }
 
 //        service.update(3, new Persona("hola", "soy una", "nueva persona", 1));
@@ -176,8 +177,9 @@ public class SistemaDeGestionDocumentaria {
         for (int i = 1; i <= 6; i++) {
             int idTipoDoc = (int) (Math.random() * 3) + 1;
             int idEmisor = (int) (Math.random() * 6) + 1;
-            int idDest = 2;
-            List<Integer> dest = new ArrayList<>(idDest);
+            List<Integer> dest = new ArrayList<>();
+            dest.add(4);
+            dest.add(2);
             service.add(new Oficio(Date.valueOf(LocalDate.now()), idTipoDoc, idEmisor, dest, "asunto" + i, "referencia" + i));
         }
 //        service.update(4, new Oficio(Date.valueOf("2024-04-10"), 1, 1, "asunto**", "referencia4"));
@@ -187,6 +189,11 @@ public class SistemaDeGestionDocumentaria {
 //        service.delete(3);
 //        service.updateEstadoDocumento(2);
         imprimirElementos(service.getAll());
+    }
+
+    private static void testDetDestinatarios() {
+        DetDestinatarioService service = DetDestinatarioService.instanciar();
+        service.update(2, new DetalleDestinatario(1, 4));
     }
 
     private static <T> void imprimirElementos(List<T> lista) {
