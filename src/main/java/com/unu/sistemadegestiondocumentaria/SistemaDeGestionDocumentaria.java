@@ -9,6 +9,7 @@ import com.unu.sistemadegestiondocumentaria.service.*;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,15 +20,15 @@ public class SistemaDeGestionDocumentaria {
     public static void main(String[] args) {
         Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 
-//        addGradosInstruccion();
-//        addTiposDocumento();
-//        addEstados();
-//        addAdministrativos();
+        addGradosInstruccion();
+        addTiposDocumento();
+        addEstados();
+        addAdministrativos();
 //        addPersonas();
 //        addEgresados();
 //        addExpedientes();
 //        addDocumentos();
-//        addOficios();
+        addOficios();
 
         System.out.println(Validation.infoColor + "addOficios()" + Validation.normalColor);
         addOficios();
@@ -54,7 +55,7 @@ public class SistemaDeGestionDocumentaria {
         // service.delete(11);
         // service.delete(20);
 
-        imprimirElementos(service.getAll());
+//        imprimirElementos(service.getAll());
     }
 
     private static void addTiposDocumento() {
@@ -69,7 +70,7 @@ public class SistemaDeGestionDocumentaria {
         // service.delete(1);
         // service.delete(39);
 
-        imprimirElementos(service.getAll());
+//        imprimirElementos(service.getAll());
     }
 
     private static void addEstados() {
@@ -87,7 +88,7 @@ public class SistemaDeGestionDocumentaria {
         // service.delete(23);
         // service.update(93, new Estado("updateed"));
 
-        imprimirElementos(service.getAll());
+//        imprimirElementos(service.getAll());
     }
 
     private static void addPersonas() {
@@ -125,15 +126,18 @@ public class SistemaDeGestionDocumentaria {
     private static void addAdministrativos() {
         AdministrativoService service = AdministrativoService.instanciar();
 
-//        for (int i = 1; i <= 4; i++) {
-//            service.add(new Persona("*name*" + i, "*appat*" + i, "*apmat*" + i, i));
-//        }
+        if (service.getAll().isEmpty()) {
+            for (int i = 1; i <= 6; i++) {
+                int idGradoInst = (int) (Math.random() * 4) + 1;
+                service.add(new Persona("*name*" + i, "*appat*" + i, "*apmat*" + i, idGradoInst));
+            }   
+        }
+
 //        service.update(3, new Persona("hola", "soy una", "nueva persona", 1));
-        service.add(new Persona("we**", "are**", "banditos**", 9));
+//        service.add(new Persona("we**", "are**", "banditos**", 9));
 //        service.update(1, new Persona("hola", "soy", "nuevo", 2));
 //        service.delete(5);
-
-        imprimirElementos(service.getAll());
+//        imprimirElementos(service.getAll());
     }
 
     private static void addExpedientes() {
@@ -169,17 +173,19 @@ public class SistemaDeGestionDocumentaria {
 
 //        service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2));
 //        service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
-//        for (int i = 1; i <= 6; i++) {
-//            int idTipoDoc = (int)(Math.random() * 3) + 1;
-//            int idEmisor = (int)(Math.random() * 4) + 1;
-//            service.add(new Oficio(Date.valueOf(LocalDate.now()), idTipoDoc, idEmisor, "asunto"+i, "referencia"+i));
-//        }
+        for (int i = 1; i <= 6; i++) {
+            int idTipoDoc = (int) (Math.random() * 3) + 1;
+            int idEmisor = (int) (Math.random() * 6) + 1;
+            int idDest = 2;
+            List<Integer> dest = new ArrayList<>(idDest);
+            service.add(new Oficio(Date.valueOf(LocalDate.now()), idTipoDoc, idEmisor, dest, "asunto" + i, "referencia" + i));
+        }
 //        service.update(4, new Oficio(Date.valueOf("2024-04-10"), 1, 1, "asunto**", "referencia4"));
 //        service.update(2, new Oficio(Date.valueOf("2022-02-12"), 2,2, "**asunto", "**referencia"));
 //        service.delete(7);
 //        service.delete(129);
-        service.delete(3);
-        service.updateEstadoDocumento(2);
+//        service.delete(3);
+//        service.updateEstadoDocumento(2);
         imprimirElementos(service.getAll());
     }
 

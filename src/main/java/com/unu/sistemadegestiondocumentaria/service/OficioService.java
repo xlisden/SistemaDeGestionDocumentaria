@@ -29,6 +29,7 @@ public class OficioService extends Repository<Oficio> {
         Documento doc = null;
         try {
             doc = t.getDocumento();
+            System.out.println("doc in OficioService = " + doc);
             docService.add(doc);
 
             Validation.validateOficio(t);

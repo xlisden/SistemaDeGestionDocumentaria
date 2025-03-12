@@ -42,3 +42,4 @@ com\unu\sistemadegestiondocumentaria\service\OficioService.class
 com\unu\sistemadegestiondocumentaria\entity\GradoInstruccion.class
 com\unu\sistemadegestiondocumentaria\entity\Documento_.class
 com\unu\sistemadegestiondocumentaria\entity\Sustentacion_.class
+com\unu\sistemadegestiondocumentaria\service\DetDestinatarioService.class

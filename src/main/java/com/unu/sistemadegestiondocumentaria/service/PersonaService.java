@@ -29,7 +29,6 @@ public class PersonaService extends Repository<Persona> {
         GradoInstruccion gi = null;
         try {
             gi = giService.getById(t.getIdGradoInst());
-            System.out.println("gi = " + gi);
 //            if(gi == null){
 //                throw new ValidationException(showWarning("El Persona de Instrucción de la Persona no puede estar vacío."));
 //            }

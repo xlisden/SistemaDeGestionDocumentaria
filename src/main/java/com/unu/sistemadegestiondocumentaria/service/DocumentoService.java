@@ -1,6 +1,7 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
+import com.unu.sistemadegestiondocumentaria.entity.DetalleDestinatario;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class DocumentoService extends Repository<Documento> {
     private final EstadoService estadoService = EstadoService.instanciar();
     private final TipoDocumentoService tdService = TipoDocumentoService.instanciar();
     private final AdministrativoService emisorService = AdministrativoService.instanciar();
+    private final DetDestinatarioService detDestinatarioService = DetDestinatarioService.instanciar();
 
     private static DocumentoService INSTANCIA;
 
@@ -44,6 +46,18 @@ public class DocumentoService extends Repository<Documento> {
             Validation.validateDocumento(t);
 
             super.add(t);
+            
+            
+            System.out.println("doc in OficioService = " + t);
+            
+            if (!t.getIdDestinatarios().isEmpty()) {
+                Administrativo dest = null;
+                for (Integer i : t.getIdDestinatarios()){
+//                    dest =
+                    System.out.println("idDest in DocService = " + i);
+                }
+            }
+            
         } catch (ValidationException e) {
             e.printMessage();
         }

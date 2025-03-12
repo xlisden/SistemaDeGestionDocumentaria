@@ -1,6 +1,7 @@
 package com.unu.sistemadegestiondocumentaria.entity;
 
 import java.sql.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,9 @@ public class Oficio {
     @Transient
     private int idEmisor;
     @Transient
-    private Date fechaEmisor;
+    private Date fechaEmision;
+    @Transient
+    private List<Integer> idDestinatarios;
 
     public Oficio() {
     }
@@ -41,6 +44,12 @@ public class Oficio {
         this.asunto = asunto;
         this.referencia = referencia;
         this.documento = new Documento(fechaEmision, idTipoDoc, idEmisor);
+    }
+
+    public Oficio(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, String asunto, String referencia) {
+        this.asunto = asunto;
+        this.referencia = referencia;
+        this.documento = new Documento(fechaEmision, idTipoDoc, idEmisor, idDestinatarios);
     }
 
     public Oficio(int id, String asunto, String referencia, Documento documento) {
@@ -109,12 +118,20 @@ public class Oficio {
         this.idEmisor = idEmisor;
     }
 
-    public Date getFechaEmisor() {
-        return fechaEmisor;
+    public Date getFechaEmision() {
+        return fechaEmision;
     }
 
-    public void setFechaEmisor(Date fechaEmisor) {
-        this.fechaEmisor = fechaEmisor;
+    public void setFechaEmision(Date fechaEmision) {
+        this.fechaEmision = fechaEmision;
+    }
+
+    public List<Integer> getIdDestinatarios() {
+        return idDestinatarios;
+    }
+
+    public void setIdDestinatarios(List<Integer> idDestinatarios) {
+        this.idDestinatarios = idDestinatarios;
     }
 
 }

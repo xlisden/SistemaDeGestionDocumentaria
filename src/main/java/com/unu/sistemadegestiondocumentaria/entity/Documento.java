@@ -1,6 +1,7 @@
 package com.unu.sistemadegestiondocumentaria.entity;
 
 import java.sql.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -41,6 +42,10 @@ public class Documento {
     private int idEstado;
     @Transient
     private int idEmisor;
+    @Transient
+    private List<Integer> idDestinatarios;
+    @Transient
+    private List<Administrativo> destinatarios;
 
     public Documento() {
     }
@@ -50,6 +55,13 @@ public class Documento {
         this.fechaEmision = fechaEmision;
         this.idTipoDoc = idTipoDoc;
         this.idEmisor = idEmisor;
+    }
+
+    public Documento(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios) {
+        this.fechaEmision = fechaEmision;
+        this.idTipoDoc = idTipoDoc;
+        this.idEmisor = idEmisor;
+        this.idDestinatarios = idDestinatarios;
     }
 
     public Documento(String correlativo, Date fechaEmision, int idTipoDoc, int idEmisor) {
@@ -158,6 +170,22 @@ public class Documento {
 
     public void setIdEmisor(int idEmisor) {
         this.idEmisor = idEmisor;
+    }
+
+    public List<Administrativo> getDestinatarios() {
+        return destinatarios;
+    }
+
+    public void setDestinatarios(List<Administrativo> destinatarios) {
+        this.destinatarios = destinatarios;
+    }
+
+    public List<Integer> getIdDestinatarios() {
+        return idDestinatarios;
+    }
+
+    public void setIdDestinatarios(List<Integer> idDestinatarios) {
+        this.idDestinatarios = idDestinatarios;
     }
 
 }

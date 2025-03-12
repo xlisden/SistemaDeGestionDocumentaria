@@ -1,6 +1,7 @@
 package com.unu.sistemadegestiondocumentaria.validations;
 
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
+import com.unu.sistemadegestiondocumentaria.entity.DetalleDestinatario;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
@@ -114,6 +115,18 @@ public class Validation {
         if (oficio.getReferencia()== null || oficio.getReferencia().isBlank()) {
             throw new ValidationException(showWarning("La referencia del Documento no puede estar vacía." ));
         }
+    }
+    
+    public static void validateDetDestinatario(DetalleDestinatario detDest){
+        if (detDest.getDocumento() == null) {
+            throw new ValidationException(showWarning("El documento del Det. Destinatario no puede estar vacío."));
+        }
+        validateDocumento(detDest.getDocumento());
+        
+        if (detDest.getDestinatario() == null) {
+            throw new ValidationException(showWarning("El destinatario del Det. Destinatario no puede estar vacío."));
+        }
+        validateAdministrativo(detDest.getDestinatario());
     }
     
     public static String showWarning(String w){

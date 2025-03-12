@@ -36,11 +36,10 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
     public void update(int id, GradoInstruccion t) {
         try {
             Validation.validateGradoInstruccion(t);
+            
             GradoInstruccion gi = getById(id);
-            // if (gi == null) {
-            //     throw new ValidationException(Validation.showWarning("El Grado de Instrucción "+ id + " no existe en la base de datos."));
-            // }
             gi.setNombre(t.getNombre());
+            
             super.update(id, gi);
         } catch (ValidationException e) {
             e.printMessage();
@@ -56,6 +55,7 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
         }
     }
 
+    @Override
     public List<GradoInstruccion> getAll() {
         return super.getAll();
     }
