@@ -35,7 +35,7 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void addGradosInstruccion() {
-        GradoInstruccionService service = new GradoInstruccionService(GradoInstruccion.class);
+        GradoInstruccionService service = GradoInstruccionService.instanciar();
 
         // service.delete(1);
         // service.delete(3);
@@ -58,7 +58,7 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void addTiposDocumento() {
-        TipoDocumentoService service = new TipoDocumentoService(TipoDocumento.class);
+        TipoDocumentoService service = TipoDocumentoService.instanciar();
         if (service.getAll().isEmpty()) {
             service.add(new TipoDocumento("OFICIO"));
             service.add(new TipoDocumento("MEMORÁNDUM"));
@@ -73,7 +73,7 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void addEstados() {
-        EstadoService service = new EstadoService(Estado.class);
+        EstadoService service = EstadoService.instanciar();
 
         if (service.getAll().isEmpty()) {
             service.add(new Estado("PENDIENTE"));
@@ -91,11 +91,10 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void addPersonas() {
-        PersonaService service = new PersonaService(Persona.class);
-        GradoInstruccionService giService = new GradoInstruccionService(GradoInstruccion.class);
+        PersonaService service = PersonaService.instanciar();
 
         for (int i = 1; i <= 5; i++) {
-            service.add(new Persona("nombre" + i, "apPaterno" + i, "apMaterno" + i, giService.getById(i)));
+            service.add(new Persona("nombre" + i, "apPaterno" + i, "apMaterno" + i, i));
         }
         // service.delete(4);
         // service.delete(39);
@@ -112,7 +111,7 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void addEgresados() {
-        EgresadoService service = new EgresadoService(Egresado.class);
+        EgresadoService service = EgresadoService.instanciar();
         // GradoInstruccionService giService = new GradoInstruccionService(GradoInstruccion.class);
 
 //         for (int i = 1; i <= 4; i++) {
@@ -124,7 +123,7 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void addAdministrativos() {
-        AdministrativoService service = new AdministrativoService(Administrativo.class);
+        AdministrativoService service = AdministrativoService.instanciar();
 
 //        for (int i = 1; i <= 4; i++) {
 //            service.add(new Persona("*name*" + i, "*appat*" + i, "*apmat*" + i, i));
@@ -138,7 +137,7 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void addExpedientes() {
-        ExpedienteService service = new ExpedienteService(Expediente.class);
+        ExpedienteService service = ExpedienteService.instanciar();
 
 //        for (int i = 1; i <= 4; i++) {
 //            service.add(new Persona("**nom"+i, "**apPat"+i, "**apMat"+i, i));
@@ -153,7 +152,7 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void addDocumentos() {
-        DocumentoService service = new DocumentoService(Documento.class);
+        DocumentoService service = DocumentoService.instanciar();
 
 //        service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2));
 //        service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
@@ -166,7 +165,7 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void addOficios() {
-        OficioService service = new OficioService(Oficio.class);
+        OficioService service = OficioService.instanciar();
 
 //        service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2));
 //        service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
