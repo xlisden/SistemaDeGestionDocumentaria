@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 
 import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
 import com.unu.sistemadegestiondocumentaria.validations.*;
+import java.util.Map;
+import javax.persistence.Query;
 
 public class Repository<T> {
 
@@ -40,7 +42,7 @@ public class Repository<T> {
     public void delete(int id) {
         em = hc.getEntityManager();
         T t = em.find(typeClass, id);
-        if(t == null){
+        if (t == null) {
             throw new ValidationException(Validation.showWarning("El " + className + " " + id + " no existe en la base de datos."));
         }
         em.getTransaction().begin();
@@ -60,32 +62,40 @@ public class Repository<T> {
         em = hc.getEntityManager();
         T t = em.find(typeClass, id);
         hc.closeConnection();
-        if(t == null){
-            throw new ValidationException(Validation.showWarning("El " + className + " " + id+ " no existe en la base de datos."));
-        }        
+        if (t == null) {
+            throw new ValidationException(Validation.showWarning("El " + className + " " + id + " no existe en la base de datos."));
+        }
         return t;
     }
 
-    public int getLastId(){
+    public int getLastId() {
         int id = -1;
         em = hc.getEntityManager();
         id = em.createQuery("SELECT x.id FROM " + className + " x ORDER BY x.id DESC", Integer.class).setMaxResults(1).getSingleResult();
         hc.closeConnection();
         return id;
-    }  
-    
-    public T getLast(){
+    }
+
+    public T getLast() {
         T t = null;
         em = hc.getEntityManager();
         t = em.createQuery("SELECT x FROM " + className + " x ORDER BY x.id DESC", typeClass).setMaxResults(1).getSingleResult();
         hc.closeConnection();
         return t;
     }
-    
-    public T getByQuery(String query){
+
+    public T getByQuery(String query, Map<String, Object> parameters) {
         T t = null;
+        Query q = null;
         em = hc.getEntityManager();
-        t = em.createQuery(query, typeClass).setMaxResults(1).getSingleResult();
+        q = em.createQuery(query, typeClass);
+        if (!parameters.isEmpty()) {
+            for (String key : parameters.keySet()) {
+                System.out.println("key + value = " + key + " + " + parameters.get(key));
+                q.setParameter(key, parameters.get(key));
+            }
+        }
+        t = (T) q.setMaxResults(1).getSingleResult();
         hc.closeConnection();
         return t;
     }

@@ -31,7 +31,7 @@ public class SistemaDeGestionDocumentaria {
 //        addOficios();
 //        testDetDestinatarios();
 
-        System.out.println(Validation.infoColor + "addOficios()" + Validation.normalColor);
+        System.out.println(Validation.infoColor + "testDetDestinatarios()" + Validation.normalColor);
         testDetDestinatarios();
         System.out.println(Validation.infoColor + "finalizo()" + Validation.normalColor);
     }
@@ -192,8 +192,9 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void testDetDestinatarios() {
-//        DetDestinatarioService service = DetDestinatarioService.instanciar();
+        DetDestinatarioService service = DetDestinatarioService.instanciar();
 //        service.update(2, new DetalleDestinatario(1, 4));
+        System.out.println("idDetDest in main = " + service.getId(5,2));
     }
 
     private static <T> void imprimirElementos(List<T> lista) {
