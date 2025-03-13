@@ -192,8 +192,8 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void testDetDestinatarios() {
-        DetDestinatarioService service = DetDestinatarioService.instanciar();
-        service.update(2, new DetalleDestinatario(1, 4));
+//        DetDestinatarioService service = DetDestinatarioService.instanciar();
+//        service.update(2, new DetalleDestinatario(1, 4));
     }
 
     private static <T> void imprimirElementos(List<T> lista) {

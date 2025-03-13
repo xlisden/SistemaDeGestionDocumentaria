@@ -6,11 +6,20 @@ import javax.persistence.Persistence;
 
 public class HibernateConfig {
 
+    private static HibernateConfig INSTANCIA;
+
     private EntityManagerFactory factory;
     private EntityManager entityManager;
 
-    public HibernateConfig() {
+    private HibernateConfig() {
         this.factory = Persistence.createEntityManagerFactory("sistema_gestion_documentaria_pu");
+    }
+
+    public static HibernateConfig instanciar() {
+        if (INSTANCIA == null) {
+            INSTANCIA = new HibernateConfig();
+        }
+        return INSTANCIA;
     }
 
     public EntityManager getEntityManager() {

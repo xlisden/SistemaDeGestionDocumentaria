@@ -10,7 +10,7 @@ import com.unu.sistemadegestiondocumentaria.validations.*;
 public class Repository<T> {
 
     private Class<T> typeClass;
-    private HibernateConfig hc = new HibernateConfig();
+    private final HibernateConfig hc = HibernateConfig.instanciar();
     private EntityManager em;
     private String className = "";
 
