@@ -28,7 +28,7 @@ public class SistemaDeGestionDocumentaria {
 //        addEgresados();
 //        addExpedientes();
 //        addDocumentos();
-//        addOficios();
+        addOficios();
 //        testDetDestinatarios();
 
         System.out.println(Validation.infoColor + "testDetDestinatarios()" + Validation.normalColor);
@@ -174,27 +174,39 @@ public class SistemaDeGestionDocumentaria {
 
 //        service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2));
 //        service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
-        for (int i = 1; i <= 6; i++) {
-            int idTipoDoc = (int) (Math.random() * 3) + 1;
-            int idEmisor = (int) (Math.random() * 6) + 1;
-            List<Integer> dest = new ArrayList<>();
-            dest.add(4);
-            dest.add(2);
-            service.add(new Oficio(Date.valueOf(LocalDate.now()), idTipoDoc, idEmisor, dest, "asunto" + i, "referencia" + i));
+        if (service.getAll().isEmpty()) {
+            for (int i = 1; i <= 6; i++) {
+                int idTipoDoc = (int) (Math.random() * 3) + 1;
+                int idEmisor = (int) (Math.random() * 6) + 1;
+                List<Integer> dest = new ArrayList<>();
+                dest.add(4);
+                dest.add(2);
+                service.add(new Oficio(Date.valueOf(LocalDate.now()), idTipoDoc, idEmisor, dest, "asunto" + i, "referencia" + i));
+            }
         }
+
 //        service.update(4, new Oficio(Date.valueOf("2024-04-10"), 1, 1, "asunto**", "referencia4"));
 //        service.update(2, new Oficio(Date.valueOf("2022-02-12"), 2,2, "**asunto", "**referencia"));
 //        service.delete(7);
 //        service.delete(129);
 //        service.delete(3);
 //        service.updateEstadoDocumento(2);
-        imprimirElementos(service.getAll());
+//        imprimirElementos(service.getAll());
     }
 
     private static void testDetDestinatarios() {
-        DetDestinatarioService service = DetDestinatarioService.instanciar();
-//        service.update(2, new DetalleDestinatario(1, 4));
-        System.out.println("idDetDest in main = " + service.getId(5,2));
+//        DetDestinatarioService service = DetDestinatarioService.instanciar();
+//        AdministrativoService adService = AdministrativoService.instanciar();
+        DocumentoService service = DocumentoService.instanciar();
+
+//        List<Integer> dest = new ArrayList<>();
+//        dest.add(4);
+        int idDest = 1;
+        service.updateDestinatario(2, 2, 1);
+        service.updateDestinatario(3, 2, 3);
+        service.updateDestinatario(4, 2, 5);
+//            
+
     }
 
     private static <T> void imprimirElementos(List<T> lista) {

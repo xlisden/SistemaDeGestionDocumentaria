@@ -91,7 +91,6 @@ public class Repository<T> {
         q = em.createQuery(query, typeClass);
         if (!parameters.isEmpty()) {
             for (String key : parameters.keySet()) {
-                System.out.println("key + value = " + key + " + " + parameters.get(key));
                 q.setParameter(key, parameters.get(key));
             }
         }

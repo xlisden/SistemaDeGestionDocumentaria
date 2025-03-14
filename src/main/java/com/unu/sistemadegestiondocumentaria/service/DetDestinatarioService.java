@@ -1,5 +1,6 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
+import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDestinatario;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
@@ -11,7 +12,8 @@ import java.util.Map;
 public class DetDestinatarioService extends Repository<DetalleDestinatario> {
 
 //    private final DocumentoService documentoService = DocumentoService.instanciar();
-//    private final AdministrativoService administrativoService  = AdministrativoService.instanciar();
+    private final AdministrativoService administrativoService = AdministrativoService.instanciar();
+    
     private static DetDestinatarioService INSTANCIA;
 
     private DetDestinatarioService(Class<DetalleDestinatario> type) {
@@ -35,19 +37,20 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
         }
     }
 
-    @Override
-    public void update(int id, DetalleDestinatario t) {
+    public void update(DetalleDestinatario t, Administrativo nuevoDest) {
+        int id = 0;
+        DetalleDestinatario detDest = null;
         try {
-            DetalleDestinatario detDest = getById(id);
+            id = getId(t.getDocumento().getId(), t.getDestinatario().getId());
+            detDest = getById(id);
             if (detDest == null) {
                 throw new ValidationException(Validation.showWarning("El Det. Destinatario no puede estar vacío."));
             }
 
             Validation.validateDetDestinatario(t);
-            detDest.setDocumento(t.getDocumento());
-            detDest.setDestinatario(t.getDestinatario());
+            detDest.setDestinatario(nuevoDest);
 
-            super.update(id, t);
+            super.update(id, detDest);
         } catch (ValidationException e) {
             e.printMessage();
         }
@@ -77,8 +80,6 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
         return null;
     }
 
-//        super.getByQuery("SELECT x FROM Expediente x WHERE x.idEgresado = :idEg");(
-//        t = em.createQuery("SELECT x FROM Expediente x WHERE x.idEgresado = :idEg", Expediente.class).setMaxResults(1).getSingleResult();
     public int getId(int idDoc, int idDest) {
         int id = 0;
         Map<String, Object> parametros = new HashMap<>();

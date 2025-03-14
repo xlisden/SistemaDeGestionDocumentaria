@@ -1,6 +1,7 @@
 package com.unu.sistemadegestiondocumentaria.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -48,6 +49,8 @@ public class Documento {
     private List<Administrativo> destinatarios;
 
     public Documento() {
+        idDestinatarios = new ArrayList<>();
+        destinatarios = new ArrayList<>();
     }
 
     //no creo estado porque se supone que es pendiente. A menos que el ing. ingrese los docs. una vez entregados
@@ -55,6 +58,8 @@ public class Documento {
         this.fechaEmision = fechaEmision;
         this.idTipoDoc = idTipoDoc;
         this.idEmisor = idEmisor;
+        idDestinatarios = new ArrayList<>();
+        destinatarios = new ArrayList<>();
     }
 
     public Documento(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios) {
@@ -62,6 +67,7 @@ public class Documento {
         this.idTipoDoc = idTipoDoc;
         this.idEmisor = idEmisor;
         this.idDestinatarios = idDestinatarios;
+        destinatarios = new ArrayList<>();
     }
 
     public Documento(String correlativo, Date fechaEmision, int idTipoDoc, int idEmisor) {
@@ -69,6 +75,8 @@ public class Documento {
         this.fechaEmision = fechaEmision;
         this.idTipoDoc = idTipoDoc;
         this.idEmisor = idEmisor;
+        idDestinatarios = new ArrayList<>();
+        destinatarios = new ArrayList<>();
     }
 
     public Documento(Date fechaEmision, TipoDocumento tipoDocumento, Estado estado, Administrativo emisor) {
@@ -76,6 +84,8 @@ public class Documento {
         this.tipoDocumento = tipoDocumento;
         this.estado = estado;
         this.emisor = emisor;
+        idDestinatarios = new ArrayList<>();
+        destinatarios = new ArrayList<>();
     }
 
     public Documento(String correlativo, Date fechaEmision, TipoDocumento tipoDocumento, Estado estado, Administrativo emisor) {
@@ -84,6 +94,8 @@ public class Documento {
         this.tipoDocumento = tipoDocumento;
         this.estado = estado;
         this.emisor = emisor;
+        idDestinatarios = new ArrayList<>();
+        destinatarios = new ArrayList<>();
     }
 
     public Documento(int id, String correlativo, Date fechaEmision, TipoDocumento tipoDocumento, Estado estado, Administrativo emisor) {
@@ -93,6 +105,8 @@ public class Documento {
         this.tipoDocumento = tipoDocumento;
         this.estado = estado;
         this.emisor = emisor;
+        idDestinatarios = new ArrayList<>();
+        destinatarios = new ArrayList<>();
     }
 
     public int getId() {
