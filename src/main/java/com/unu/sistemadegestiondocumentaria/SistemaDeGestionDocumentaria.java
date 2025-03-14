@@ -195,18 +195,18 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void testDetDestinatarios() {
-//        DetDestinatarioService service = DetDestinatarioService.instanciar();
+        DetDestinatarioService service = DetDestinatarioService.instanciar();
 //        AdministrativoService adService = AdministrativoService.instanciar();
-        DocumentoService service = DocumentoService.instanciar();
+        DocumentoService docService = DocumentoService.instanciar();
 
 //        List<Integer> dest = new ArrayList<>();
 //        dest.add(4);
-        int idDest = 1;
-        service.updateDestinatario(2, 2, 1);
-        service.updateDestinatario(3, 2, 3);
-        service.updateDestinatario(4, 2, 5);
-//            
-
+//        int idDest = 1;
+//        docService.updateDestinatario(2, 2, 1);
+//        docService.updateDestinatario(3, 2, 3);
+//        docService.updateDestinatario(4, 2, 5);
+        docService.deleteDestinatario(6, 3);
+            
     }
 
     private static <T> void imprimirElementos(List<T> lista) {

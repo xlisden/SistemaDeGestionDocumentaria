@@ -56,9 +56,10 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
         }
     }
 
-    @Override
-    public void delete(int id) {
+    public void delete(int idDoc, int idDest) {
+        int id = 0;
         try {
+            id = getId(idDoc, idDest);
             super.delete(id);
         } catch (ValidationException e) {
             e.printMessage();

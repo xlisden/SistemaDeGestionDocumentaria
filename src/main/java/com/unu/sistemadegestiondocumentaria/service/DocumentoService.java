@@ -122,8 +122,9 @@ public class DocumentoService extends Repository<Documento> {
     public void updateDestinatario(int idDoc, int idAntDest, int idNuevoDest) {
         Administrativo nuevoDest = null;
         Administrativo antDest = null;
+        Documento doc = null;
         try {
-            Documento doc = getById(idDoc);
+            doc = getById(idDoc);
             if (doc == null) {
                 throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
             }
@@ -131,6 +132,22 @@ public class DocumentoService extends Repository<Documento> {
             nuevoDest = administrativoService.getById(idNuevoDest);
             antDest = administrativoService.getById(idAntDest);
             detDestinatarioService.update(new DetalleDestinatario(doc, antDest), nuevoDest);
+        } catch (ValidationException e) {
+            e.printMessage();
+        }
+    }
+
+    public void deleteDestinatario(int idDoc, int idDest) {
+        Administrativo dest = null;
+        Documento doc = null;
+        try {
+            doc = getById(idDoc);
+            if (doc == null) {
+                throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
+            }
+            
+            dest = administrativoService.getById(idDest);
+            detDestinatarioService.delete(idDoc, idDest);
         } catch (ValidationException e) {
             e.printMessage();
         }
