@@ -34,23 +34,8 @@ public class Oficio extends DocumentoAtributos{
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Documento documento;
 
-    // @Transient
-    // private int idTipoDoc;
-    // @Transient
-    // private int idEmisor;
-    // @Transient
-    // private Date fechaEmision;
-    // @Transient
-    // private List<Integer> idDestinatarios;
-
     public Oficio() {
     }
-
-    // public Oficio(Date fechaEmision, int idTipoDoc, int idEmisor, String asunto, String referencia) {
-    //     this.asunto = asunto;
-    //     this.referencia = referencia;
-    //     this.documento = new Documento(fechaEmision, idTipoDoc, idEmisor);
-    // }
 
     public Oficio(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, String asunto, String referencia) {
         super(fechaEmision, idDestinatarios, idEmisor, idTipoDoc);
@@ -109,37 +94,5 @@ public class Oficio extends DocumentoAtributos{
     public String toString() {
         return "Oficio{" + "id=" + id + ", asunto=" + asunto + ", referencia=" + referencia + ", documento=" + documento + '}';
     }
-
-    // public int getIdTipoDoc() {
-    //     return idTipoDoc;
-    // }
-
-    // public void setIdTipoDoc(int idTipoDoc) {
-    //     this.idTipoDoc = idTipoDoc;
-    // }
-
-    // public int getIdEmisor() {
-    //     return idEmisor;
-    // }
-
-    // public void setIdEmisor(int idEmisor) {
-    //     this.idEmisor = idEmisor;
-    // }
-
-    // public Date getFechaEmision() {
-    //     return fechaEmision;
-    // }
-
-    // public void setFechaEmision(Date fechaEmision) {
-    //     this.fechaEmision = fechaEmision;
-    // }
-
-    // public List<Integer> getIdDestinatarios() {
-    //     return idDestinatarios;
-    // }
-
-    // public void setIdDestinatarios(List<Integer> idDestinatarios) {
-    //     this.idDestinatarios = idDestinatarios;
-    // }
 
 }
