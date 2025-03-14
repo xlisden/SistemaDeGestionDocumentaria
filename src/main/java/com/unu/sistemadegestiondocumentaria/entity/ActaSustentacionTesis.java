@@ -1,5 +1,6 @@
 package com.unu.sistemadegestiondocumentaria.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "actas_sustentacion_tesis")
@@ -21,8 +25,9 @@ public class ActaSustentacionTesis {
 
     private int calificacion; //validacion de menor y mayor
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_documento", foreignKey = @ForeignKey(name = "fk_documento_acta"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Documento documento;
 
     public ActaSustentacionTesis() {
