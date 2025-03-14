@@ -2,6 +2,8 @@ package com.unu.sistemadegestiondocumentaria.entity;
 
 import java.sql.Date;
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "oficios")
@@ -24,8 +29,9 @@ public class Oficio {
 
     private String referencia;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_documento", foreignKey = @ForeignKey(name = "fk_documento_oficio"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Documento documento;
 
     @Transient

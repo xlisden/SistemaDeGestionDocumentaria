@@ -65,7 +65,14 @@ public class OficioService extends Repository<Oficio> {
 
     @Override
     public void delete(int id) {
+        Oficio oficio = null;
         try {
+            oficio = getById(id);
+            if (oficio == null) {
+                return;
+            }
+            docService.deleteDetDestinatarios(oficio.getDocumento().getId());
+
             super.delete(id);
         } catch (ValidationException e) {
             e.printMessage();

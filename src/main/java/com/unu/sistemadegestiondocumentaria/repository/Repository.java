@@ -84,19 +84,54 @@ public class Repository<T> {
         return t;
     }
 
+    @SuppressWarnings("unchecked")
     public T getByQuery(String query, Map<String, Object> parameters) {
         T t = null;
         Query q = null;
+
         em = hc.getEntityManager();
         q = em.createQuery(query, typeClass);
+
         if (!parameters.isEmpty()) {
             for (String key : parameters.keySet()) {
                 q.setParameter(key, parameters.get(key));
             }
         }
-        t = (T) q.setMaxResults(1).getSingleResult();
+
+        List<T> resultados = q.getResultList();
+        if (!resultados.isEmpty()) {
+            t = resultados.get(0);
+        }
+
         hc.closeConnection();
         return t;
+    }
+
+    public int deleteOrUpdateByQuery(String query, Map<String, Object> parameters) {
+        int filas = 0;
+        Query q = null;
+
+        em = hc.getEntityManager();
+        q = em.createQuery(query);
+
+        if (!parameters.isEmpty()) {
+            for (String key : parameters.keySet()) {
+                q.setParameter(key, parameters.get(key));
+            }
+        }
+
+        try {
+            em.getTransaction().begin();
+            filas = q.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+        }
+        
+        hc.closeConnection();
+        return filas;
     }
 
 }

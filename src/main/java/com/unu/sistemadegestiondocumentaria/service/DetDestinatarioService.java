@@ -4,16 +4,15 @@ import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDestinatario;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.unu.sistemadegestiondocumentaria.entity.Documento;
+
 public class DetDestinatarioService extends Repository<DetalleDestinatario> {
 
-//    private final DocumentoService documentoService = DocumentoService.instanciar();
-    private final AdministrativoService administrativoService = AdministrativoService.instanciar();
-    
     private static DetDestinatarioService INSTANCIA;
 
     private DetDestinatarioService(Class<DetalleDestinatario> type) {
@@ -83,11 +82,13 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
 
     public int getId(int idDoc, int idDest) {
         int id = 0;
+        DetalleDestinatario detDest = null;
         Map<String, Object> parametros = new HashMap<>();
+
         parametros.put("idDoc", idDoc);
         parametros.put("idDest", idDest);
         try {
-            DetalleDestinatario detDest = getByQuery("SELECT x FROM DetalleDestinatario x WHERE x.documento.id = :idDoc AND x.destinatario.id = :idDest", parametros);
+            detDest = getByQuery( "SELECT x FROM DetalleDestinatario x WHERE x.documento.id = :idDoc AND x.destinatario.id = :idDest", parametros);
             if (!(detDest == null)) {
                 id = detDest.getId();
                 return id;
@@ -96,6 +97,16 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
             e.printMessage();
         }
         return 0;
+    }
+
+    public void deleteByDoc(int idDoc) {
+        Map<String, Object> parametros = new HashMap<>();
+        try {
+            parametros.put("idDoc", idDoc);
+            deleteOrUpdateByQuery("DELETE FROM DetalleDestinatario d WHERE d.documento.id = :idDoc", parametros);
+        } catch (ValidationException e) {
+            e.printMessage();
+        }
     }
 
 }

@@ -53,8 +53,6 @@ public class DocumentoService extends Repository<Documento> {
                 for (Integer i : t.getIdDestinatarios()) {
                     dest = administrativoService.getById(i);
                     t.getDestinatarios().add(dest);
-                    System.out.println("agregue un nuevo dest!");
-                    System.out.println("destinatarios en add det dest" + Arrays.toString(t.getDestinatarios().toArray()));
                     detDestinatarioService.add(new DetalleDestinatario(t, dest));
                 }
             }
@@ -151,6 +149,20 @@ public class DocumentoService extends Repository<Documento> {
         } catch (ValidationException e) {
             e.printMessage();
         }
+    }
+
+    public void deleteDetDestinatarios(int idDoc){
+        Documento doc = null;
+        try {
+            doc = getById(idDoc);
+            if (doc == null) {
+                throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
+            }            
+
+            detDestinatarioService.deleteByDoc(idDoc);
+        } catch (ValidationException e) {
+            e.printMessage();
+        }        
     }
 
     private String setCorrelativo() {

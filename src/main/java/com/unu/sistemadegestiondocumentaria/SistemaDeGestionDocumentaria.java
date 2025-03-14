@@ -187,9 +187,9 @@ public class SistemaDeGestionDocumentaria {
 
 //        service.update(4, new Oficio(Date.valueOf("2024-04-10"), 1, 1, "asunto**", "referencia4"));
 //        service.update(2, new Oficio(Date.valueOf("2022-02-12"), 2,2, "**asunto", "**referencia"));
-//        service.delete(7);
-//        service.delete(129);
-//        service.delete(3);
+       service.delete(7);
+       service.delete(129);
+       service.delete(3);
 //        service.updateEstadoDocumento(2);
 //        imprimirElementos(service.getAll());
     }
@@ -205,7 +205,8 @@ public class SistemaDeGestionDocumentaria {
 //        docService.updateDestinatario(2, 2, 1);
 //        docService.updateDestinatario(3, 2, 3);
 //        docService.updateDestinatario(4, 2, 5);
-        docService.deleteDestinatario(6, 3);
+        // docService.deleteDestinatario(6, 3);
+        // docService.deleteDetDestinatarios(3);
             
     }
 
