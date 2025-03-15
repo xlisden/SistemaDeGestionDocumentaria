@@ -25,13 +25,6 @@ public class DocumentoAtributos {
     public DocumentoAtributos() {
     }
 
-    public DocumentoAtributos(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios) {
-        this.fechaEmision = fechaEmision;
-        this.idDestinatarios = idDestinatarios;
-        this.idEmisor = idEmisor;
-        this.idTipoDoc = idTipoDoc;
-    }
-
     public DocumentoAtributos(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, int idExpediente) {
         this.fechaEmision = fechaEmision;
         this.idDestinatarios = idDestinatarios;

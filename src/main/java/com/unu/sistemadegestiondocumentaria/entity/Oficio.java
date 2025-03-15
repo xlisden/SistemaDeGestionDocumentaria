@@ -36,13 +36,6 @@ public class Oficio extends DocumentoAtributos{
     public Oficio() {
     }
 
-    public Oficio(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, String asunto, String referencia) {
-        super(fechaEmision, idTipoDoc, idEmisor, idDestinatarios);
-        this.asunto = asunto;
-        this.referencia = referencia;
-        this.documento = new Documento(fechaEmision, idTipoDoc, idEmisor, idDestinatarios);
-    }
-
     public Oficio(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, int idExpediente, String asunto, String referencia) {
         super(fechaEmision, idTipoDoc, idEmisor, idDestinatarios, idExpediente);
         this.asunto = asunto;
@@ -56,15 +49,6 @@ public class Oficio extends DocumentoAtributos{
         this.referencia = referencia;
         this.documento = documento;
     }
-
-    public Oficio(String asunto, String referencia, Documento documento) {
-        this.asunto = asunto;
-        this.referencia = referencia;
-        this.documento = documento;
-    }
-
-
-
 
     public int getId() {
         return id;

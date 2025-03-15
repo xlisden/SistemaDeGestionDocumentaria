@@ -39,10 +39,10 @@ public class DetalleDestinatario {
         this.destinatario = destinatario;
     }
 
-    public DetalleDestinatario(int idDoc, int idDest) {
-        this.idDoc = idDoc;
-        this.idDest = idDest;
-    }
+    // public DetalleDestinatario(int idDoc, int idDest) {
+    //     this.idDoc = idDoc;
+    //     this.idDest = idDest;
+    // }
 
     public DetalleDestinatario(int id, Documento documento, Administrativo destinatario) {
         this.id = id;

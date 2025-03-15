@@ -57,23 +57,7 @@ public class Documento {
         destinatarios = new ArrayList<>();
     }
 
-    //no creo estado porque se supone que es pendiente. A menos que el ing. ingrese los docs. una vez entregados
-    public Documento(Date fechaEmision, int idTipoDoc, int idEmisor) {
-        this.fechaEmision = fechaEmision;
-        this.idTipoDoc = idTipoDoc;
-        this.idEmisor = idEmisor;
-        idDestinatarios = new ArrayList<>();
-        destinatarios = new ArrayList<>();
-    }
-
-    public Documento(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios) {
-        this.fechaEmision = fechaEmision;
-        this.idTipoDoc = idTipoDoc;
-        this.idEmisor = idEmisor;
-        this.idDestinatarios = idDestinatarios;
-        destinatarios = new ArrayList<>();
-    }
-
+    //no estado porque se supone que es pendiente. A menos que el ing. ingrese los docs. una vez entregados
     public Documento(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, int idExpediente) {
         this.fechaEmision = fechaEmision;
         this.idTipoDoc = idTipoDoc;
@@ -81,34 +65,6 @@ public class Documento {
         this.idDestinatarios = idDestinatarios;
         destinatarios = new ArrayList<>();
         this.idExpediente = idExpediente;
-    }
-
-    public Documento(String correlativo, Date fechaEmision, int idTipoDoc, int idEmisor) {
-        this.correlativo = correlativo;
-        this.fechaEmision = fechaEmision;
-        this.idTipoDoc = idTipoDoc;
-        this.idEmisor = idEmisor;
-        idDestinatarios = new ArrayList<>();
-        destinatarios = new ArrayList<>();
-    }
-
-    public Documento(Date fechaEmision, TipoDocumento tipoDocumento, Estado estado, Administrativo emisor) {
-        this.fechaEmision = fechaEmision;
-        this.tipoDocumento = tipoDocumento;
-        this.estado = estado;
-        this.emisor = emisor;
-        idDestinatarios = new ArrayList<>();
-        destinatarios = new ArrayList<>();
-    }
-
-    public Documento(String correlativo, Date fechaEmision, TipoDocumento tipoDocumento, Estado estado, Administrativo emisor) {
-        this.correlativo = correlativo;
-        this.fechaEmision = fechaEmision;
-        this.tipoDocumento = tipoDocumento;
-        this.estado = estado;
-        this.emisor = emisor;
-        idDestinatarios = new ArrayList<>();
-        destinatarios = new ArrayList<>();
     }
 
     public Documento(int id, String correlativo, Date fechaEmision, TipoDocumento tipoDocumento, Estado estado, Administrativo emisor) {

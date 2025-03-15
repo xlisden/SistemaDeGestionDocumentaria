@@ -23,7 +23,7 @@ public class Persona {
     private String apellidoPaterno;
 
     private String apellidoMaterno;
-    
+
     @Transient
     private int idGradoInst;
 
@@ -37,15 +37,8 @@ public class Persona {
     public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, int idGradoInst) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;        
-        this.idGradoInst = idGradoInst;
-    }
-    
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, GradoInstruccion gradoInstruccion) {
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
-        this.gradoInstruccion = gradoInstruccion;
+        this.idGradoInst = idGradoInst;
     }
 
     public Persona(int id, String nombre, String apellidoPaterno, String apellidoMaterno, GradoInstruccion gradoInstruccion) {
@@ -108,7 +101,7 @@ public class Persona {
     public void setIdGradoInst(int idGradoInst) {
         this.idGradoInst = idGradoInst;
     }
-    
-    
+
+
 
 }
