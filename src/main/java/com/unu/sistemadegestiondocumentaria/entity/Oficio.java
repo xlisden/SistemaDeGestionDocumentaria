@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -38,10 +37,17 @@ public class Oficio extends DocumentoAtributos{
     }
 
     public Oficio(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, String asunto, String referencia) {
-        super(fechaEmision, idDestinatarios, idEmisor, idTipoDoc);
+        super(fechaEmision, idTipoDoc, idEmisor, idDestinatarios);
         this.asunto = asunto;
         this.referencia = referencia;
         this.documento = new Documento(fechaEmision, idTipoDoc, idEmisor, idDestinatarios);
+    }
+
+    public Oficio(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, int idExpediente, String asunto, String referencia) {
+        super(fechaEmision, idTipoDoc, idEmisor, idDestinatarios, idExpediente);
+        this.asunto = asunto;
+        this.referencia = referencia;
+        this.documento = new Documento(fechaEmision, idTipoDoc, idEmisor, idDestinatarios, idExpediente);
     }
 
     public Oficio(int id, String asunto, String referencia, Documento documento) {
@@ -56,6 +62,8 @@ public class Oficio extends DocumentoAtributos{
         this.referencia = referencia;
         this.documento = documento;
     }
+
+
 
 
     public int getId() {

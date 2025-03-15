@@ -47,6 +47,10 @@ public class Documento {
     private List<Integer> idDestinatarios;
     @Transient
     private List<Administrativo> destinatarios;
+    @Transient
+    private int idExpediente;
+    @Transient
+    private Expediente expediente;
 
     public Documento() {
         idDestinatarios = new ArrayList<>();
@@ -68,6 +72,15 @@ public class Documento {
         this.idEmisor = idEmisor;
         this.idDestinatarios = idDestinatarios;
         destinatarios = new ArrayList<>();
+    }
+
+    public Documento(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, int idExpediente) {
+        this.fechaEmision = fechaEmision;
+        this.idTipoDoc = idTipoDoc;
+        this.idEmisor = idEmisor;
+        this.idDestinatarios = idDestinatarios;
+        destinatarios = new ArrayList<>();
+        this.idExpediente = idExpediente;
     }
 
     public Documento(String correlativo, Date fechaEmision, int idTipoDoc, int idEmisor) {
@@ -200,6 +213,22 @@ public class Documento {
 
     public void setIdDestinatarios(List<Integer> idDestinatarios) {
         this.idDestinatarios = idDestinatarios;
+    }
+
+    public int getIdExpediente() {
+        return idExpediente;
+    }
+
+    public void setIdExpediente(int idExpediente) {
+        this.idExpediente = idExpediente;
+    }
+
+    public Expediente getExpediente() {
+        return expediente;
+    }
+
+    public void setExpediente(Expediente expediente) {
+        this.expediente = expediente;
     }
 
 }

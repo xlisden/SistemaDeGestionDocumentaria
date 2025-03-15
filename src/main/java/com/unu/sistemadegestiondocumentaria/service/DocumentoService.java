@@ -2,22 +2,26 @@ package com.unu.sistemadegestiondocumentaria.service;
 
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDestinatario;
+import com.unu.sistemadegestiondocumentaria.entity.DetalleDocumento;
+
 import java.time.LocalDate;
 import java.util.List;
 
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
+import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
-import java.util.Arrays;
 
 public class DocumentoService extends Repository<Documento> {
 
-    private final EstadoService estadoService = EstadoService.instanciar();
-    private final TipoDocumentoService tdService = TipoDocumentoService.instanciar();
     private final AdministrativoService administrativoService = AdministrativoService.instanciar();
     private final DetDestinatarioService detDestinatarioService = DetDestinatarioService.instanciar();
+    private final DetExpedienteService detExpedienteService = DetExpedienteService.instanciar();
+    private final EstadoService estadoService = EstadoService.instanciar();
+    private final ExpedienteService expedienteService = ExpedienteService.instanciar();
+    private final TipoDocumentoService tdService = TipoDocumentoService.instanciar();
 
     private static DocumentoService INSTANCIA;
 
@@ -34,8 +38,10 @@ public class DocumentoService extends Repository<Documento> {
 
     @Override
     public void add(Documento t) {
-        TipoDocumento td = null;
+        Administrativo dest = null;
         Administrativo emisor = null;
+        Expediente exp = null;
+        TipoDocumento td = null;
         try {
             td = tdService.getById(t.getIdTipoDoc());
             emisor = administrativoService.getById(t.getIdEmisor());
@@ -49,12 +55,19 @@ public class DocumentoService extends Repository<Documento> {
             super.add(t);
 
             if (!t.getIdDestinatarios().isEmpty()) {
-                Administrativo dest = null;
                 for (Integer i : t.getIdDestinatarios()) {
                     dest = administrativoService.getById(i);
-                    t.getDestinatarios().add(dest);
-                    detDestinatarioService.add(new DetalleDestinatario(t, dest));
+                    if (dest != null) {
+                        t.getDestinatarios().add(dest);
+                        detDestinatarioService.add(new DetalleDestinatario(t, dest));
+                    }
                 }
+            }
+
+            exp = expedienteService.getById(t.getIdExpediente());
+            if (exp != null) {
+                t.setExpediente(exp);
+                detExpedienteService.add(new DetalleDocumento(t, exp));
             }
 
         } catch (ValidationException e) {
@@ -143,26 +156,30 @@ public class DocumentoService extends Repository<Documento> {
             if (doc == null) {
                 throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
             }
-            
+
             dest = administrativoService.getById(idDest);
+            if (dest == null) {
+                throw new ValidationException(Validation.showWarning("El Destinatario no puede estar vacío."));
+            }
             detDestinatarioService.delete(idDoc, idDest);
         } catch (ValidationException e) {
             e.printMessage();
         }
     }
 
-    public void deleteDetDestinatarios(int idDoc){
+    public void deleteDocDependencias(int idDoc) {
         Documento doc = null;
         try {
             doc = getById(idDoc);
             if (doc == null) {
                 throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
-            }            
+            }
 
             detDestinatarioService.deleteByDoc(idDoc);
+            detExpedienteService.deleteByDoc(idDoc);
         } catch (ValidationException e) {
             e.printMessage();
-        }        
+        }
     }
 
     private String setCorrelativo() {

@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.unu.sistemadegestiondocumentaria.entity.Documento;
 
 public class DetDestinatarioService extends Repository<DetalleDestinatario> {
 
@@ -87,23 +86,24 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
 
         parametros.put("idDoc", idDoc);
         parametros.put("idDest", idDest);
+
         try {
             detDest = getByQuery( "SELECT x FROM DetalleDestinatario x WHERE x.documento.id = :idDoc AND x.destinatario.id = :idDest", parametros);
-            if (!(detDest == null)) {
+            if (detDest != null) {
                 id = detDest.getId();
-                return id;
             }
         } catch (ValidationException e) {
             e.printMessage();
         }
-        return 0;
+        return id;
     }
 
     public void deleteByDoc(int idDoc) {
         Map<String, Object> parametros = new HashMap<>();
+        
         try {
             parametros.put("idDoc", idDoc);
-            deleteOrUpdateByQuery("DELETE FROM DetalleDestinatario d WHERE d.documento.id = :idDoc", parametros);
+            deleteOrUpdateByQuery("DELETE FROM DetalleDestinatario x WHERE x.documento.id = :idDoc", parametros);
         } catch (ValidationException e) {
             e.printMessage();
         }

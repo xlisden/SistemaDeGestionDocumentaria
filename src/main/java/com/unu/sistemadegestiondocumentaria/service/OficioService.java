@@ -69,9 +69,9 @@ public class OficioService extends Repository<Oficio> {
         try {
             oficio = getById(id);
             if (oficio == null) {
-                return;
+                throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
             }
-            docService.deleteDetDestinatarios(oficio.getDocumento().getId());
+            docService.deleteDocDependencias(oficio.getDocumento().getId());
 
             super.delete(id);
         } catch (ValidationException e) {

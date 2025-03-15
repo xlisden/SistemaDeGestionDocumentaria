@@ -6,22 +6,37 @@ import java.util.List;
 import javax.persistence.Transient;
 
 public class DocumentoAtributos {
+
     @Transient
     private int idTipoDoc;
+
     @Transient
     private int idEmisor;
+
     @Transient
     private Date fechaEmision;
+
     @Transient
     private List<Integer> idDestinatarios;
+
+    @Transient
+    private int idExpediente;
 
     public DocumentoAtributos() {
     }
 
-    public DocumentoAtributos(Date fechaEmision, List<Integer> idDestinatarios, int idEmisor, int idTipoDoc) {
+    public DocumentoAtributos(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios) {
         this.fechaEmision = fechaEmision;
         this.idDestinatarios = idDestinatarios;
         this.idEmisor = idEmisor;
+        this.idTipoDoc = idTipoDoc;
+    }
+
+    public DocumentoAtributos(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, int idExpediente) {
+        this.fechaEmision = fechaEmision;
+        this.idDestinatarios = idDestinatarios;
+        this.idEmisor = idEmisor;
+        this.idExpediente = idExpediente;
         this.idTipoDoc = idTipoDoc;
     }
 
@@ -57,5 +72,12 @@ public class DocumentoAtributos {
         this.idDestinatarios = idDestinatarios;
     }
 
+    public int getIdExpediente() {
+        return idExpediente;
+    }
+
+    public void setIdExpediente(int idExpediente) {
+        this.idExpediente = idExpediente;
+    }
 
 }

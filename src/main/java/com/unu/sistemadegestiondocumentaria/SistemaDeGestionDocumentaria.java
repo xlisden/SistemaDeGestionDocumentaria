@@ -24,16 +24,19 @@ public class SistemaDeGestionDocumentaria {
         addTiposDocumento();
         addEstados();
         addAdministrativos();
-//        addPersonas();
-//        addEgresados();
-//        addExpedientes();
-//        addDocumentos();
+        addExpedientes();
         addOficios();
-//        testDetDestinatarios();
 
-        System.out.println(Validation.infoColor + "testDetDestinatarios()" + Validation.normalColor);
-        testDetDestinatarios();
-        System.out.println(Validation.infoColor + "finalizo()" + Validation.normalColor);
+        // addPersonas();
+        // addEgresados();
+        // addDocumentos();
+        // testDetDestinatarios();
+
+        // System.out.println(Validation.magentaColor + "testDetDestinatarios()" +
+        // Validation.normalColor);
+        // testDetDestinatarios();
+        // System.out.println(Validation.magentaColor + "finalizo()" +
+        // Validation.normalColor);
     }
 
     private static void addGradosInstruccion() {
@@ -56,7 +59,7 @@ public class SistemaDeGestionDocumentaria {
         // service.delete(11);
         // service.delete(20);
 
-//        imprimirElementos(service.getAll());
+        // imprimirElementos(service.getAll());
     }
 
     private static void addTiposDocumento() {
@@ -71,7 +74,7 @@ public class SistemaDeGestionDocumentaria {
         // service.delete(1);
         // service.delete(39);
 
-//        imprimirElementos(service.getAll());
+        // imprimirElementos(service.getAll());
     }
 
     private static void addEstados() {
@@ -89,7 +92,7 @@ public class SistemaDeGestionDocumentaria {
         // service.delete(23);
         // service.update(93, new Estado("updateed"));
 
-//        imprimirElementos(service.getAll());
+        // imprimirElementos(service.getAll());
     }
 
     private static void addPersonas() {
@@ -101,24 +104,29 @@ public class SistemaDeGestionDocumentaria {
         // service.delete(4);
         // service.delete(39);
         // //sin ap p
-        // service.update(3, new Persona("nombre", "", "apellidoMaterno", giService.getById(4)));
+        // service.update(3, new Persona("nombre", "", "apellidoMaterno",
+        // giService.getById(4)));
         // //sin gi
-        // service.update(1, new Persona("uunombre", "uuuuu", "uuuuuapellidoMaterno", giService.getById(3)));
+        // service.update(1, new Persona("uunombre", "uuuuu", "uuuuuapellidoMaterno",
+        // giService.getById(3)));
         // // sin persona
-        // service.update(32, new Persona("uunombre", "uuuuu", "uuuuuapellidoMaterno", giService.getById(3)));
+        // service.update(32, new Persona("uunombre", "uuuuu", "uuuuuapellidoMaterno",
+        // giService.getById(3)));
         // //gi vacio
-        // service.update(1, new Persona("uunombre", "uuuuu", "uuuuuapellidoMaterno", new GradoInstruccion()));
+        // service.update(1, new Persona("uunombre", "uuuuu", "uuuuuapellidoMaterno",
+        // new GradoInstruccion()));
 
         imprimirElementos(service.getAllPersonas());
     }
 
     private static void addEgresados() {
         EgresadoService service = EgresadoService.instanciar();
-        // GradoInstruccionService giService = new GradoInstruccionService(GradoInstruccion.class);
+        // GradoInstruccionService giService = new
+        // GradoInstruccionService(GradoInstruccion.class);
 
-//         for (int i = 1; i <= 4; i++) {
-//             service.add(new Persona("*nombre_"+i, "*apPat_"+i, "*apMat_"+i, i));
-//         }
+        // for (int i = 1; i <= 4; i++) {
+        // service.add(new Persona("*nombre_"+i, "*apPat_"+i, "*apMat_"+i, i));
+        // }
         service.delete(3);
         service.update(1, new Persona("hola", "soy", "nuevo", 2));
         imprimirElementos(service.getAll());
@@ -130,27 +138,31 @@ public class SistemaDeGestionDocumentaria {
         if (service.getAll().isEmpty()) {
             for (int i = 1; i <= 6; i++) {
                 int idGradoInst = (int) (Math.random() * 4) + 1;
-                service.add(new Persona("*name*" + i, "*appat*" + i, "*apmat*" + i, idGradoInst));
+                service.add(new Persona("*name*ad*" + i, "*appat*ad*" + i, "*apmat*ad*" + i, idGradoInst));
             }
         }
 
-//        service.update(3, new Persona("hola", "soy una", "nueva persona", 1));
-//        service.add(new Persona("we**", "are**", "banditos**", 9));
-//        service.update(1, new Persona("hola", "soy", "nuevo", 2));
-//        service.delete(5);
-//        imprimirElementos(service.getAll());
+        // service.update(3, new Persona("hola", "soy una", "nueva persona", 1));
+        // service.add(new Persona("we**", "are**", "banditos**", 9));
+        // service.update(1, new Persona("hola", "soy", "nuevo", 2));
+        // service.delete(5);
+        // imprimirElementos(service.getAll());
     }
 
     private static void addExpedientes() {
         ExpedienteService service = ExpedienteService.instanciar();
 
-//        for (int i = 1; i <= 4; i++) {
-//            service.add(new Persona("**nom"+i, "**apPat"+i, "**apMat"+i, i));
-//        }
-//        service.update(1, new Persona("hola", "soy", "nuevo", 2));
-//        service.delete(6);
-//        service.delete(7);
-//        service.add(new Persona("soy8", "el8", "nro8", 2));
+        if (service.getAll().isEmpty()) {
+            for (int i = 1; i <= 6; i++) {
+                int idGradoInst = (int) (Math.random() * 4) + 1;
+                service.add(new Persona("exp*nom" + i, "exp*apPat" + i, "exp*apMat" + i, idGradoInst));
+            }
+        }
+
+        // service.update(1, new Persona("hola", "soy", "nuevo", 2));
+        // service.delete(6);
+        // service.delete(7);
+        // service.add(new Persona("soy8", "el8", "nro8", 2));
         service.add(new Persona("hola, yo", "ser nueva", "persona", 9));
         imprimirElementos(service.getAll());
 
@@ -159,55 +171,60 @@ public class SistemaDeGestionDocumentaria {
     private static void addDocumentos() {
         DocumentoService service = DocumentoService.instanciar();
 
-//        service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2));
-//        service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
-//        service.update(4, new Documento(Date.valueOf("2024-04-10"), 3, 1));
-//        service.delete(7);
-//        service.delete(129);
-//        service.getById(42);
-//        service.updateEstadoDocumento(2);
+        // service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2));
+        // service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
+        // service.update(4, new Documento(Date.valueOf("2024-04-10"), 3, 1));
+        // service.delete(7);
+        // service.delete(129);
+        // service.getById(42);
+        // service.updateEstadoDocumento(2);
         imprimirElementos(service.getAll());
     }
 
     private static void addOficios() {
         OficioService service = OficioService.instanciar();
 
-//        service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2));
-//        service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
+        // service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2));
+        // service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
         if (service.getAll().isEmpty()) {
             for (int i = 1; i <= 6; i++) {
                 int idTipoDoc = (int) (Math.random() * 3) + 1;
                 int idEmisor = (int) (Math.random() * 6) + 1;
+                int idExp = (int) (Math.random() * 6) + 1;
                 List<Integer> dest = new ArrayList<>();
                 dest.add(4);
                 dest.add(2);
-                service.add(new Oficio(Date.valueOf(LocalDate.now()), idTipoDoc, idEmisor, dest, "asunto" + i, "referencia" + i));
+
+                service.add(new Oficio(Date.valueOf(LocalDate.now()), idTipoDoc, idEmisor, dest, idExp, "asunto" + i,
+                        "referencia" + i));
             }
         }
 
-//        service.update(4, new Oficio(Date.valueOf("2024-04-10"), 1, 1, "asunto**", "referencia4"));
-//        service.update(2, new Oficio(Date.valueOf("2022-02-12"), 2,2, "**asunto", "**referencia"));
-       service.delete(7);
-       service.delete(129);
-       service.delete(3);
-//        service.updateEstadoDocumento(2);
-//        imprimirElementos(service.getAll());
+        // service.update(4, new Oficio(Date.valueOf("2024-04-10"), 1, 1, "asunto**",
+        // "referencia4"));
+        // service.update(2, new Oficio(Date.valueOf("2022-02-12"), 2,2, "**asunto",
+        // "**referencia"));
+        // service.delete(7);
+        // service.delete(129);
+        // service.delete(3);
+        // service.updateEstadoDocumento(2);
+        // imprimirElementos(service.getAll());
     }
 
     private static void testDetDestinatarios() {
         DetDestinatarioService service = DetDestinatarioService.instanciar();
-//        AdministrativoService adService = AdministrativoService.instanciar();
+        // AdministrativoService adService = AdministrativoService.instanciar();
         DocumentoService docService = DocumentoService.instanciar();
 
-//        List<Integer> dest = new ArrayList<>();
-//        dest.add(4);
-//        int idDest = 1;
-//        docService.updateDestinatario(2, 2, 1);
-//        docService.updateDestinatario(3, 2, 3);
-//        docService.updateDestinatario(4, 2, 5);
+        // List<Integer> dest = new ArrayList<>();
+        // dest.add(4);
+        // int idDest = 1;
+        // docService.updateDestinatario(2, 2, 1);
+        // docService.updateDestinatario(3, 2, 3);
+        // docService.updateDestinatario(4, 2, 5);
         // docService.deleteDestinatario(6, 3);
-        // docService.deleteDetDestinatarios(3);
-            
+        // docService.deleteDocDependencias(3);
+
     }
 
     private static <T> void imprimirElementos(List<T> lista) {
