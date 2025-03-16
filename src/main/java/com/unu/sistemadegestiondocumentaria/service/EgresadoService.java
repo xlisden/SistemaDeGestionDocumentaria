@@ -1,11 +1,9 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import java.util.List;
-
 import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.*;
+import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 public class EgresadoService extends Repository<Egresado> {
 
@@ -25,17 +23,16 @@ public class EgresadoService extends Repository<Egresado> {
     }
 
     public void add(Persona t) {
-        int idPersona = 0;
-        Egresado eg = null;
         try {
             personaService.add(t);
-            idPersona = personaService.getLastId();
+
+            int idPersona = personaService.getLastId();
             if (!getAll().isEmpty() && idPersona == getLast().getPersona().getId()) {
                 return;
             }
             t.setId(idPersona);
 
-            eg = new Egresado(t);
+            Egresado eg = new Egresado(t);
             super.add(eg);
         } catch (ValidationException e) {
             e.printMessage();
@@ -46,10 +43,12 @@ public class EgresadoService extends Repository<Egresado> {
         try {
             Egresado eg = getById(id);
             if (eg == null) {
-                throw new ValidationException(Validation.showWarning("El Egresado no puede estar vacío."));
+                // throw new ValidationException(Validation.showWarning("El Egresado no puede estar vacío."));
+                return;
             }
 
             int idPersona = eg.getPersona().getId();
+
             personaService.update(idPersona, p);
         } catch (ValidationException e) {
             e.printMessage();
@@ -63,11 +62,6 @@ public class EgresadoService extends Repository<Egresado> {
         } catch (ValidationException e) {
             e.printMessage();
         }
-    }
-
-    @Override
-    public List<Egresado> getAll() {
-        return super.getAll();
     }
 
     @Override

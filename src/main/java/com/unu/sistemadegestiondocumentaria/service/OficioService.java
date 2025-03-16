@@ -1,7 +1,5 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import java.util.List;
-
 import com.unu.sistemadegestiondocumentaria.entity.Oficio;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
@@ -26,9 +24,11 @@ public class OficioService extends Repository<Oficio> {
 
     @Override
     public void add(Oficio t) {
-        Documento doc = null;
         try {
-            doc = t.getDocumento();
+            Documento doc = t.getDocumento();
+            if (doc == null) {
+                return;
+            }
             docService.add(doc);
 
             Validation.validateOficio(t);
@@ -40,20 +40,24 @@ public class OficioService extends Repository<Oficio> {
 
     @Override
     public void update(int id, Oficio t) {
-        Documento doc = null;
-        Oficio oficio = null;
         try {
-            oficio = getById(id);
+            Oficio oficio = getById(id);
             if (oficio == null) {
-                throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
+                // throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
+                return;
             }
 
-            doc = docService.getById(oficio.getDocumento().getId());
+            int idDoc = oficio.getDocumento().getId();
+            Documento doc = docService.getById(idDoc);
+            if (doc == null) {
+                return;
+            }
+
             doc = docService.setDocumento(doc, t.getDocumento());
             t.setDocumento(doc);
 
             Validation.validateOficio(t);
-            docService.update(oficio.getDocumento().getId(), doc);
+            docService.update(idDoc, doc);
             oficio.setAsunto(t.getAsunto());
             oficio.setReferencia(t.getReferencia());
 
@@ -65,11 +69,11 @@ public class OficioService extends Repository<Oficio> {
 
     @Override
     public void delete(int id) {
-        Oficio oficio = null;
         try {
-            oficio = getById(id);
+            Oficio oficio = getById(id);
             if (oficio == null) {
-                throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
+                // throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
+                return;
             }
             docService.deleteDocDependencias(oficio.getDocumento().getId());
 
@@ -77,11 +81,6 @@ public class OficioService extends Repository<Oficio> {
         } catch (ValidationException e) {
             e.printMessage();
         }
-    }
-
-    @Override
-    public List<Oficio> getAll() {
-        return super.getAll();
     }
 
     @Override
@@ -95,12 +94,14 @@ public class OficioService extends Repository<Oficio> {
     }
 
     public void updateEstadoDocumento(int id) {
-        int idDoc = 0;
-        Oficio oficio = null;
         try {
-            oficio = getById(id);
-            idDoc = oficio.getDocumento().getId();
+            Oficio oficio = getById(id);
+            if (oficio == null) {
+                // throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
+                return;
+            }
 
+            int idDoc = oficio.getDocumento().getId();
             docService.updateEstadoDocumento(idDoc);
         } catch (ValidationException e) {
             e.printMessage();

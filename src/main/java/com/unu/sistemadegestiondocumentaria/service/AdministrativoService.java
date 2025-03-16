@@ -1,11 +1,9 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import java.util.List;
-
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.*;
+import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 public class AdministrativoService extends Repository<Administrativo> {
 
@@ -25,17 +23,16 @@ public class AdministrativoService extends Repository<Administrativo> {
     }
 
     public void add(Persona t) {
-        int idPersona = 0;
-        Administrativo ad = null;
         try {
             personaService.add(t);
-            idPersona = personaService.getLastId();
+
+            int idPersona = personaService.getLastId();
             if (!getAll().isEmpty() && idPersona == getLast().getPersona().getId()) {
                 return;
             }
             t.setId(idPersona);
 
-            ad = new Administrativo(t);
+            Administrativo ad = new Administrativo(t);
             super.add(ad);
         } catch (ValidationException e) {
             e.printMessage();
@@ -46,7 +43,8 @@ public class AdministrativoService extends Repository<Administrativo> {
         try {
             Administrativo ad = getById(id);
             if (ad == null) {
-                throw new ValidationException(Validation.showWarning("El Administrativo no puede estar vacío."));
+                // throw new ValidationException(Validation.showWarning("El Administrativo no puede estar vacío."));
+                return;
             }
 
             int idPersona = ad.getPersona().getId();
@@ -63,11 +61,6 @@ public class AdministrativoService extends Repository<Administrativo> {
         } catch (ValidationException e) {
             e.printMessage();
         }
-    }
-
-    @Override
-    public List<Administrativo> getAll() {
-        return super.getAll();
     }
 
     @Override

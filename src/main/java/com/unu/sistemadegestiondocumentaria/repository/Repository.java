@@ -1,13 +1,14 @@
 package com.unu.sistemadegestiondocumentaria.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
-import com.unu.sistemadegestiondocumentaria.validations.*;
-import java.util.Map;
-import javax.persistence.Query;
+import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 public class Repository<T> {
 

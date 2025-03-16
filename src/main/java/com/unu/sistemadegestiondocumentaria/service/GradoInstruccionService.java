@@ -1,7 +1,5 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import java.util.List;
-
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
@@ -38,6 +36,10 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
             Validation.validateGradoInstruccion(t);
             
             GradoInstruccion gi = getById(id);
+            if (gi == null) {
+                return;
+            }
+
             gi.setNombre(t.getNombre());
             
             super.update(id, gi);
@@ -53,11 +55,6 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
         } catch (ValidationException e) {
             e.printMessage();
         }
-    }
-
-    @Override
-    public List<GradoInstruccion> getAll() {
-        return super.getAll();
     }
 
     @Override

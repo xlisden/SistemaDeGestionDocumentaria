@@ -6,7 +6,6 @@ import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -36,13 +35,13 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
     }
 
     public void update(DetalleDestinatario t, Administrativo nuevoDest) {
-        int id = 0;
-        DetalleDestinatario detDest = null;
         try {
-            id = getId(t.getDocumento().getId(), t.getDestinatario().getId());
-            detDest = getById(id);
+            int id = getId(t.getDocumento().getId(), t.getDestinatario().getId());
+
+            DetalleDestinatario detDest = getById(id);
             if (detDest == null) {
-                throw new ValidationException(Validation.showWarning("El Det. Destinatario no puede estar vacío."));
+                // throw new ValidationException(Validation.showWarning("El Det. Destinatario no puede estar vacío."));
+                return;
             }
 
             Validation.validateDetDestinatario(t);
@@ -54,19 +53,13 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
         }
     }
 
-    public void delete(int idDoc, int idDest) {
-        int id = 0;
+    public void delete(int idDoc, int idDest) {        
         try {
-            id = getId(idDoc, idDest);
+            int id = getId(idDoc, idDest);
             super.delete(id);
         } catch (ValidationException e) {
             e.printMessage();
         }
-    }
-
-    @Override
-    public List<DetalleDestinatario> getAll() {
-        return super.getAll();
     }
 
     @Override
@@ -81,17 +74,17 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
 
     public int getId(int idDoc, int idDest) {
         int id = 0;
-        DetalleDestinatario detDest = null;
-        Map<String, Object> parametros = new HashMap<>();
-
-        parametros.put("idDoc", idDoc);
-        parametros.put("idDest", idDest);
-
         try {
-            detDest = getByQuery( "SELECT x FROM DetalleDestinatario x WHERE x.documento.id = :idDoc AND x.destinatario.id = :idDest", parametros);
-            if (detDest != null) {
-                id = detDest.getId();
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("idDoc", idDoc);
+            parametros.put("idDest", idDest);
+
+            DetalleDestinatario detDest = getByQuery( "SELECT x FROM DetalleDestinatario x WHERE x.documento.id = :idDoc AND x.destinatario.id = :idDest", parametros);
+            if (detDest == null){
+                return 0;
             }
+
+            id = detDest.getId();
         } catch (ValidationException e) {
             e.printMessage();
         }
@@ -99,10 +92,10 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
     }
 
     public void deleteByDoc(int idDoc) {
-        Map<String, Object> parametros = new HashMap<>();
-        
         try {
+            Map<String, Object> parametros = new HashMap<>();
             parametros.put("idDoc", idDoc);
+            
             deleteOrUpdateByQuery("DELETE FROM DetalleDestinatario x WHERE x.documento.id = :idDoc", parametros);
         } catch (ValidationException e) {
             e.printMessage();

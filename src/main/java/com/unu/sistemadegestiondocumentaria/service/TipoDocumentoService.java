@@ -1,10 +1,9 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import java.util.List;
-
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.*;
+import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 public class TipoDocumentoService extends Repository<TipoDocumento> {
 
@@ -35,11 +34,13 @@ public class TipoDocumentoService extends Repository<TipoDocumento> {
     public void update(int id, TipoDocumento t) {
         try {
             Validation.validateTipoDocumento(t);
+            
             TipoDocumento td = getById(id);
             if (td == null) {
-                throw new ValidationException(Validation.showWarning("El Tipo de Documento " + id + " no existe en la base de datos."));
-            }
+                return;
+            }            
             td.setNombre(t.getNombre());
+
             super.update(id, td);
         } catch (ValidationException e) {
             e.printMessage();
@@ -53,10 +54,6 @@ public class TipoDocumentoService extends Repository<TipoDocumento> {
         } catch (ValidationException e) {
             e.printMessage();
         }
-    }
-
-    public List<TipoDocumento> getAll() {
-        return super.getAll();
     }
 
     @Override

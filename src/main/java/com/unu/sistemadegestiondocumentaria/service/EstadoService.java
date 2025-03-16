@@ -1,10 +1,9 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import java.util.List;
-
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.*;
+import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 public class EstadoService extends Repository<Estado> {
 
@@ -13,8 +12,8 @@ public class EstadoService extends Repository<Estado> {
     private EstadoService(Class<Estado> type) {
         super(type);
     }
-    
-    public static EstadoService instanciar(){
+
+    public static EstadoService instanciar() {
         if (INSTANCIA == null) {
             INSTANCIA = new EstadoService(Estado.class);
         }
@@ -35,11 +34,13 @@ public class EstadoService extends Repository<Estado> {
     public void update(int id, Estado t) {
         try {
             Validation.validateEstado(t);
+
             Estado est = getById(id);
             if (est == null) {
-                throw new ValidationException(Validation.showWarning("El Estado " + id + " no existe en la base de datos."));
+                return;
             }
             est.setNombre(t.getNombre());
+
             super.update(id, est);
         } catch (ValidationException e) {
             e.printMessage();
@@ -55,10 +56,6 @@ public class EstadoService extends Repository<Estado> {
         }
     }
 
-    public List<Estado> getAll() {
-        return super.getAll();
-    }
-
     @Override
     public Estado getById(int id) {
         try {
@@ -66,13 +63,13 @@ public class EstadoService extends Repository<Estado> {
         } catch (ValidationException e) {
             e.printMessage();
         }
-        return null; 
+        return null;
     }
-    
-    public Estado getByNombre(String nombre){
+
+    public Estado getByNombre(String nombre) {
         Estado est = null;
-        for(Estado e: getAll()){
-            if(e.getNombre().equals(nombre)){
+        for (Estado e : getAll()) {
+            if (e.getNombre().equals(nombre)) {
                 est = e;
             }
         }
