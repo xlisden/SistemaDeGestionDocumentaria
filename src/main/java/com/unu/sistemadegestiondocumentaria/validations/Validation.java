@@ -75,11 +75,11 @@ public class Validation {
         validatePersona(ad.getPersona());
     }
 
-    public static void validateExpediente(Expediente e) {
-        if (e.getEgresado() == null) {
+    public static void validateExpediente(Expediente exp) {
+        if (exp.getEgresado() == null) {
             throw new ValidationException(showWarning("El Egresado del Expediente no puede estar vacío"));
         }
-        validateEgresado(e.getEgresado());
+        validateEgresado(exp.getEgresado());
     }
 
     public static void validateDocumento(Documento doc) {
@@ -101,6 +101,15 @@ public class Validation {
             throw new ValidationException(showWarning("El emisor del Documento no puede estar vacío."));
         }
         validateAdministrativo(doc.getEmisor());
+
+        if (doc.getExpediente() == null) {
+            throw new ValidationException(showWarning("El expediente del Documento no puede estar vacío."));
+        }
+        validateExpediente(doc.getExpediente());
+
+        if (doc.getIdDestinatarios().isEmpty() && doc.getDestinatarios().isEmpty()) {
+            throw new ValidationException(showWarning("El documento no puede estar sin destinatarios."));
+        }
     }
 
     public static void validateOficio(Oficio oficio) {

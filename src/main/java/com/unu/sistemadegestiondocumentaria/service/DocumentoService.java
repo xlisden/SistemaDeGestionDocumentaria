@@ -12,6 +12,8 @@ import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import java.sql.Date;
+import java.util.List;
 
 public class DocumentoService extends Repository<Documento> {
 
@@ -41,8 +43,9 @@ public class DocumentoService extends Repository<Documento> {
             TipoDocumento td = tdService.getById(t.getIdTipoDoc());
             Administrativo emisor = administrativoService.getById(t.getIdEmisor());
             Expediente exp = expedienteService.getById(t.getIdExpediente());
-            Administrativo dest = administrativoService.getById(t.getIdDestinatarios().get(0));
-            if (td == null || emisor == null || exp == null || dest == null) {
+//            Administrativo dest = administrativoService.getById(t.getIdDestinatarios().get(0));
+//            || dest == null
+            if (td == null || emisor == null || exp == null) {
                 return;
             }
 
@@ -50,20 +53,23 @@ public class DocumentoService extends Repository<Documento> {
             t.setEmisor(emisor);
             t.setEstado(estadoService.getByNombre("PENDIENTE"));
             t.setCorrelativo(setCorrelativo());
-            Validation.validateDocumento(t);
+            t.setExpediente(exp);
 
+            Validation.validateDocumento(t);
             super.add(t);
 
-            t.setExpediente(exp);
+            System.out.println("exp = " + exp);
             detExpedienteService.add(new DetalleDocumento(t, exp));
 
+            Administrativo dest = null;
             for (Integer i : t.getIdDestinatarios()) {
                 dest = administrativoService.getById(i);
-                if (dest == null) {
-                    return;
+
+                // aqui es != porque no queremos que termine el proceso si un dest es incorrecto, queremos que siga
+                if (dest != null) {
+                    t.getDestinatarios().add(dest);
+                    detDestinatarioService.add(new DetalleDestinatario(t, dest));
                 }
-                t.getDestinatarios().add(dest);
-                detDestinatarioService.add(new DetalleDestinatario(t, dest));
             }
 
         } catch (ValidationException e) {
@@ -79,7 +85,27 @@ public class DocumentoService extends Repository<Documento> {
                 throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
             }
 
-            setDocumento(doc, t);
+            TipoDocumento td = tdService.getById(t.getIdTipoDoc());
+            Administrativo emisor = administrativoService.getById(t.getIdEmisor());
+            Expediente exp = expedienteService.getById(t.getIdExpediente());
+            String correlativo = t.getCorrelativo() != null ? t.getCorrelativo() : doc.getCorrelativo();
+            Estado estado = t.getEstado() != null ? t.getEstado() : doc.getEstado();
+            Date fechaEmision = t.getFechaEmision() != null ? t.getFechaEmision() : doc.getFechaEmision();
+            List<Administrativo> destinatarios = t.getDestinatarios() != null ? t.getDestinatarios() : doc.getDestinatarios();
+            if (emisor == null || td == null || exp == null || correlativo.isEmpty() || estado == null || fechaEmision == null) {
+                // throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
+                return;
+            }
+
+            doc.setCorrelativo(correlativo);
+            doc.setFechaEmision(fechaEmision);
+            doc.setTipoDocumento(td);
+            doc.setEstado(estado);
+            doc.setEmisor(emisor);
+            doc.setExpediente(exp);
+            doc.setDestinatarios(destinatarios);
+
+//            setDocumento(doc, t);
             Validation.validateDocumento(doc);
 
             super.update(id, doc);
@@ -96,7 +122,7 @@ public class DocumentoService extends Repository<Documento> {
             e.printMessage();
         }
     }
-    
+
     @Override
     public Documento getById(int id) {
         try {
@@ -140,7 +166,7 @@ public class DocumentoService extends Repository<Documento> {
 
     public void deleteDestinatario(int idDoc, int idDest) {
         try {
-            Documento doc  = getById(idDoc);
+            Documento doc = getById(idDoc);
             Administrativo dest = administrativoService.getById(idDest);
             if (doc == null || dest == null) {
                 // throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
@@ -184,14 +210,13 @@ public class DocumentoService extends Repository<Documento> {
             // if (nuevoExp == null) {
             //     throw new ValidationException(Validation.showWarning("El nuevo Expediente no puede estar vacío."));
             // }
-
             detExpedienteService.update(new DetalleDocumento(doc, antExp), nuevoExp);
         } catch (ValidationException e) {
             e.printMessage();
         }
     }
 
-    private String setCorrelativo() {        
+    private String setCorrelativo() {
         if (getAll().isEmpty()) {
             return "001";
         } else {
@@ -209,20 +234,29 @@ public class DocumentoService extends Repository<Documento> {
 
     public Documento setDocumento(Documento documento, Documento doc) {
         Administrativo emisor = (doc.getIdEmisor() == 0)
-                                ? (doc.getEmisor() != null ? doc.getEmisor() : documento.getEmisor())
-                                : administrativoService.getById(doc.getIdEmisor());
+                ? (doc.getEmisor() != null ? doc.getEmisor() : documento.getEmisor())
+                : administrativoService.getById(doc.getIdEmisor());
         TipoDocumento td = (doc.getIdTipoDoc() == 0)
-                            ? ((doc.getTipoDocumento() != null) ? doc.getTipoDocumento() : documento.getTipoDocumento())
-                            : tdService.getById(doc.getIdTipoDoc());
+                ? ((doc.getTipoDocumento() != null) ? doc.getTipoDocumento() : documento.getTipoDocumento())
+                : tdService.getById(doc.getIdTipoDoc());
+        Expediente exp = (doc.getIdExpediente() == 0)
+                ? ((doc.getExpediente() != null) ? doc.getExpediente() : documento.getExpediente())
+                : expedienteService.getById(doc.getIdExpediente());
 
         String correlativo = doc.getCorrelativo() != null ? doc.getCorrelativo() : documento.getCorrelativo();
         Estado estado = doc.getEstado() != null ? doc.getEstado() : documento.getEstado();
+
+        if (emisor == null || td == null || exp == null || correlativo.isEmpty() || estado == null) {
+            // throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
+            return null;
+        }
 
         documento.setCorrelativo(correlativo);
         documento.setFechaEmision(doc.getFechaEmision());
         documento.setTipoDocumento(td);
         documento.setEstado(estado);
         documento.setEmisor(emisor);
+        documento.setExpediente(exp);
 
         return documento;
     }
