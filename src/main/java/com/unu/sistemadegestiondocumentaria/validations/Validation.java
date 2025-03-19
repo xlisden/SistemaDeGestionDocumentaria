@@ -102,7 +102,7 @@ public class Validation {
         }
         validateAdministrativo(doc.getEmisor());
 
-        if (doc.getExpediente() == null) {
+        if (doc.getIdExpediente() == 0) {
             throw new ValidationException(showWarning("El expediente del Documento no puede estar vacío."));
         }
         validateExpediente(doc.getExpediente());

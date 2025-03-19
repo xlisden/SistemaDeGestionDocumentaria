@@ -29,10 +29,11 @@ public class OficioService extends Repository<Oficio> {
             if (doc == null) {
                 return;
             }
-            docService.add(doc);
-
-            Validation.validateOficio(t);
-            super.add(t);
+            boolean isCorrect = docService.addDoc(doc);
+            if (isCorrect) {
+                Validation.validateOficio(t);
+                super.add(t);
+            }
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }

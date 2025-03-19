@@ -41,11 +41,11 @@ public class SistemaDeGestionDocumentaria {
 //        addAdministrativos();
 //        addExpedientes();
         
-//         addOficios();
+         addOficios();
          
         // addPersonas();
         // addEgresados();
-         addDocumentos();
+//         addDocumentos();
         // testDetalles();
 
         // System.out.println(Validation.magentaColor + "testDetDestinatarios()" + Validation.normalColor);
@@ -190,7 +190,7 @@ public class SistemaDeGestionDocumentaria {
          dest1.add(6);
         //un emisor correcto, uno no
 
-         service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest2, 2));
+//         service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest2, 2));
 //         service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest1, 2));
 //         service.update(4, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest1, 9));
 //          service.update(4, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest1, 3));
@@ -198,6 +198,7 @@ public class SistemaDeGestionDocumentaria {
 //         service.update(1, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest2, 9));
 //         service.update(1, new Documento(Date.valueOf("2024-02-20"), 1, 2, dest2, 1)); // si es nulo, no hay necesidad de actualizar, por eso no hay advertencia
 //         service.update(1, new Documento(Date.valueOf("2024-02-20"), 1, 2, dest1, 1));
+//         service.update(3, new Documento(Date.valueOf("2023-03-03"), 1, 2, dest2, 9));
 //         service.delete(7);
 //         service.delete(129);
 //         service.getById(2);
@@ -208,33 +209,50 @@ public class SistemaDeGestionDocumentaria {
 
     private static void addOficios() {
         OficioService service = OficioService.instanciar();
+
+        List<Integer> vacio = new ArrayList<>();
          List<Integer> dest1 = new ArrayList<>();
          dest1.add(4);
+         dest1.add(6);
 
-         service.add(new Oficio(Date.valueOf(LocalDate.now()), 1, 2, dest1, 0, "asunto", "referencia"));
-        // service.add(new Documento(Date.valueOf(LocalDate.now()), 3, 2));
-//        if (service.getAll().isEmpty()) {
-//            for (int i = 1; i <= 6; i++) {
-//                int idTipoDoc = (int) (Math.random() * 3) + 1;
-//                int idEmisor = (int) (Math.random() * 6) + 1;
-//                int idExp = (int) (Math.random() * 6) + 1;
-//                List<Integer> dest = new ArrayList<>();
-//                dest.add(4);
-//                dest.add(2);
-//
-//                service.add(new Oficio(Date.valueOf(LocalDate.now()), idTipoDoc, idEmisor, dest, idExp, "asunto" + i, "referencia" + i));
-//            }
-//        }
+         // sin exp
+//         service.add(new Oficio(Date.valueOf(LocalDate.now()), 1, 1, dest1, 0, "asunto", "referencia"));
+         // error
 
-        // service.update(4, new Oficio(Date.valueOf("2024-04-10"), 1, 1, "asunto**",
-        // "referencia4"));
-        // service.update(2, new Oficio(Date.valueOf("2022-02-12"), 2,2, "**asunto",
-        // "**referencia"));
-        // service.delete(7);
-        // service.delete(129);
-//        service.delete(3);
-        // service.updateEstadoDocumento(2);
-        // imprimirElementos(service.getAll());
+         // todo correcto
+        if (service.getAll().isEmpty()) {
+            for (int i = 1; i <= 6; i++) {
+                int idTipoDoc = (int) (Math.random() * 3) + 1;
+                int idEmisor = (int) (Math.random() * 6) + 1;
+                int idExp = (int) (Math.random() * 6) + 1;
+                List<Integer> dest = new ArrayList<>();
+                dest.add(4);
+                dest.add(2);
+
+                service.add(new Oficio(Date.valueOf(LocalDate.now()), idTipoDoc, idEmisor, dest, idExp, "asunto" + i, "referencia" + i));
+            }
+        }
+
+        // todo bien
+//         service.update(4, new Oficio(Date.valueOf("2024-04-10"), 1, 1, dest1, 3, "asunto**", "referencia4"));
+
+        // sin referencia
+//         service.update(4, new Oficio(Date.valueOf("2022-02-12"), 2,2,dest1, 2, "**asunto", ""));
+//         service.delete(7);
+//         service.delete(129);
+        service.delete(5);
+//         service.updateEstadoDocumento(2);
+        service.updateEstadoDocumento(4);
+//         service.updateEstadoDocumento(9);
+         // sin dest
+//         service.add(new Oficio(Date.valueOf(LocalDate.now()), 1, 1, vacio, 1, "asunto", "referencia"));
+         // sin tipodoc ()
+//         service.add(new Oficio(Date.valueOf(LocalDate.now()), 8, 1, dest1, 1, "asunto", "referencia"));
+         // sin fecha
+//         service.add(new Oficio(null, 3, 1, dest1, 1, "asunto", "referencia"));
+
+         
+         imprimirElementos(service.getAll());
     }
 
     private static void testDetalles() {

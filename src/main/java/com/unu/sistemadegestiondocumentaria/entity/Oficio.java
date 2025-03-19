@@ -81,10 +81,17 @@ public class Oficio extends DocumentoAtributos{
     public void setDocumento(Documento documento) {
         this.documento = documento;
     }
-
+    
     @Override
     public String toString() {
         return "Oficio{" + "id=" + id + ", asunto=" + asunto + ", referencia=" + referencia + ", documento=" + documento + '}';
     }
+    
+	public String toString2() {
+		return "Oficio [id=" + id + ", asunto=" + asunto + ", referencia=" + referencia
+				+ ", getIdTipoDoc()=" + getIdTipoDoc() + ", getIdEmisor()=" + getIdEmisor() + ", getFechaEmision()="
+				+ getFechaEmision() + ", getIdDestinatarios()=" + getIdDestinatarios() + ", getIdExpediente()="
+				+ getIdExpediente() + "]";
+	}
 
 }

@@ -79,6 +79,44 @@ public class DocumentoService extends Repository<Documento> {
             e.printConsoleMessage();
         }
     }
+    
+    public boolean addDoc(Documento t ) {
+        try {
+            TipoDocumento td = tdService.getById(t.getIdTipoDoc());
+            Administrativo emisor = administrativoService.getById(t.getIdEmisor());
+            Expediente exp = expedienteService.getById(t.getIdExpediente());
+            if (td == null || emisor == null || exp == null) {
+                return false;
+            }
+
+            t.setTipoDocumento(td);
+            t.setEmisor(emisor);
+            t.setEstado(estadoService.getByNombre("PENDIENTE"));
+            t.setCorrelativo(setCorrelativo());
+            t.setExpediente(exp);
+
+            Validation.validateDocumento(t);
+            super.add(t);
+
+            detExpedienteService.add(new DetalleDocumento(t, exp));
+
+            Administrativo dest = null;
+            for (Integer i : t.getIdDestinatarios()) {
+                dest = administrativoService.getById(i);
+
+                // aqui es != porque no queremos que termine el proceso si un dest es incorrecto, queremos que siga
+                if (dest != null) {
+                    t.getDestinatarios().add(dest);
+                    detDestinatarioService.add(new DetalleDestinatario(t, dest));
+                }
+            }
+
+        } catch (ValidationException e) {
+            e.printConsoleMessage();
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public void update(int id, Documento t) {
@@ -323,6 +361,7 @@ public class DocumentoService extends Repository<Documento> {
     }
 
     // usado en oficio para
+    /* puede usarse restos del codigo para cuando en los update, se quiere poner los mismos datos y solo se cambia algo? */
 //    public Documento setDocumento(Documento documento, Documento doc) {
 //        Administrativo emisor = (doc.getIdEmisor() == 0)
 //                ? (doc.getEmisor() != null ? doc.getEmisor() : documento.getEmisor())
