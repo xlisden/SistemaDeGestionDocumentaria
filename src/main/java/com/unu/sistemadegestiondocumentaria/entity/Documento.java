@@ -128,7 +128,7 @@ public class Documento {
 
     @Override
     public String toString() {
-        return "Documento{" + "id=" + id + ", correlativo=" + correlativo + ", fechaEmision=" + fechaEmision + ", tipoDocumento=" + tipoDocumento + ", estado=" + estado + ", emisor=" + emisor + '}';
+        return "Documento{" + "id=" + id + ", correlativo=" + correlativo + ", fechaEmision=" + fechaEmision + ", tipoDocumento=" + tipoDocumento + ", estado=" + estado + ", emisor=" + emisor + ", exp=" + expediente + '}';
     }
 
     public int getIdTipoDoc() {

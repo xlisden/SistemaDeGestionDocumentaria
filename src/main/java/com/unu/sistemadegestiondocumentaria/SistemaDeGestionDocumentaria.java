@@ -33,12 +33,13 @@ public class SistemaDeGestionDocumentaria {
 
     public static void main(String[] args) {
         Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
+        System.out.println(Validation.showInMagenta("\nhola"));
 
-        addGradosInstruccion();
-        addTiposDocumento();
-        addEstados();
-        addAdministrativos();
-        addExpedientes();
+//        addGradosInstruccion();
+//        addTiposDocumento();
+//        addEstados();
+//        addAdministrativos();
+//        addExpedientes();
         
 //         addOficios();
          
@@ -49,7 +50,7 @@ public class SistemaDeGestionDocumentaria {
 
         // System.out.println(Validation.magentaColor + "testDetDestinatarios()" + Validation.normalColor);
         // testDetalles();
-        // System.out.println(Validation.magentaColor + "finalizo()" +Validation.normalColor);
+         System.out.println(Validation.showInMagenta("\nfinalizo()"));
     }
 
     private static void addGradosInstruccion() {
@@ -184,18 +185,18 @@ public class SistemaDeGestionDocumentaria {
         
          List<Integer> dest1 = new ArrayList<>();
          List<Integer> dest2 = new ArrayList<>();
-         dest1.add(1);
-         dest1.add(2);
          dest1.add(3);
          dest1.add(49);
+         dest1.add(6);
         //un emisor correcto, uno no
 
 //         service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest2, 2));
 //         service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest1, 2));
 //         service.update(4, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest1, 9));
 //          service.update(4, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest1, 3));
-         service.update(1, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest2, 9));
-         service.update(1, new Documento(Date.valueOf("2024-02-20"), 1, 2, dest2, 1));
+         // expediente no existente
+//         service.update(1, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest2, 9));
+         service.update(1, new Documento(Date.valueOf("2024-02-20"), 1, 2, dest2, 1)); // si es nulo, no hay necesidad de actualizar, por eso no hay advertencia
          service.update(1, new Documento(Date.valueOf("2024-02-20"), 1, 2, dest1, 1));
 //         service.delete(7);
 //         service.delete(129);

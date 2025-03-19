@@ -85,7 +85,6 @@ public class Repository<T> {
         return t;
     }
 
-    @SuppressWarnings("unchecked")
     public T getByQuery(String query, Map<String, Object> parameters) {
         T t = null;
         Query q = null;
@@ -134,5 +133,5 @@ public class Repository<T> {
         hc.closeConnection();
         return filas;
     }
-
+    
 }

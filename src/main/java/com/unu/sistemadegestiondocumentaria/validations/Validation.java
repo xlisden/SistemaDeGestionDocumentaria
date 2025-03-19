@@ -116,7 +116,8 @@ public class Validation {
         if (oficio.getDocumento() == null) {
             throw new ValidationException(showWarning("El documento del Oficio no puede estar vacío."));
         }
-        validateDocumento(oficio.getDocumento());
+//        validateDocumento(oficio.getDocumento());
+        // no necesitamos validar el documento anticipadamente. Add y Update del DocService ya validan todo lo de doc
 
         if (oficio.getAsunto() == null || oficio.getAsunto().isBlank()) {
             throw new ValidationException(showWarning("El asunto del Ofcio no puede estar vacío."));
@@ -131,7 +132,7 @@ public class Validation {
         if (detDest.getDocumento() == null) {
             throw new ValidationException(showWarning("El documento del Det. Destinatario no puede estar vacío."));
         }
-        validateDocumento(detDest.getDocumento());
+//        validateDocumento(detDest.getDocumento());
 
         if (detDest.getDestinatario() == null) {
             throw new ValidationException(showWarning("El destinatario del Det. Destinatario no puede estar vacío."));
@@ -143,7 +144,7 @@ public class Validation {
         if (detExp.getDocumento() == null) {
             throw new ValidationException(showWarning("El documento del Det. Documento no puede estar vacío."));
         }
-        validateDocumento(detExp.getDocumento());
+//        validateDocumento(detExp.getDocumento());
 
         if (detExp.getExpediente() == null) {
             throw new ValidationException(showWarning("El exoediente del Det. Documento no puede estar vacío."));

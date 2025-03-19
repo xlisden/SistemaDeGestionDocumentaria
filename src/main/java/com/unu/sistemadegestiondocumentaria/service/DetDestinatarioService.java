@@ -2,12 +2,14 @@ package com.unu.sistemadegestiondocumentaria.service;
 
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDestinatario;
+import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
+import java.util.ArrayList;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
 
 public class DetDestinatarioService extends Repository<DetalleDestinatario> {
 
@@ -98,6 +100,56 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
             
             deleteOrUpdateByQuery("DELETE FROM DetalleDestinatario x WHERE x.documento.id = :idDoc", parametros);
         } catch (ValidationException e) {
+            e.printMessage();
+        }
+    }
+    
+    public List<Administrativo> getDestinatariosByDoc(int idDoc) {
+        List<Administrativo> destinatarios = new ArrayList<>();
+        try {
+            for(DetalleDestinatario detDest: getAll()){
+                if (detDest.getDocumento().getId() == idDoc) {
+                    destinatarios.add(detDest.getDestinatario());
+                }
+            }
+        } catch (ValidationException e) {
+            e.printMessage();
+        }
+        return destinatarios;
+    }
+    
+    public void updateDestinatariosByDoc(Documento doc, List<Administrativo> nuevosDest) {
+    	try {
+//    		System.out.println(Validation.showInMagenta(doc.toString()));
+    		List<Administrativo> antiguosDest = getDestinatariosByDoc(doc.getId());
+            int antSize = antiguosDest.size();
+            int nuevoSize = nuevosDest.size();
+            
+            if (nuevoSize < antSize) {
+                System.out.println(Validation.showInMagenta("hay menos destinatarios nuevos"));
+            } else if (nuevoSize > antSize) {
+                System.out.println(Validation.showInMagenta("hay mas destinatarios nuevos"));
+            } else {
+                System.out.println(Validation.showInMagenta("solo actualizando"));
+            }
+
+			for (int i = 0; i < Math.max(antSize, nuevoSize); i++) {
+				if (i < nuevoSize && i < antSize) {
+					update(new DetalleDestinatario(doc, antiguosDest.get(i)), nuevosDest.get(i));
+				}
+				
+				if (i >= nuevoSize) {
+					// si los nuevos son menos
+					delete(doc.getId(), antiguosDest.get(i).getId());
+				}
+				
+				if (i >= antSize) {
+					// si hay mas nuevos
+					add(new DetalleDestinatario(doc, nuevosDest.get(i)));
+				}
+			}
+			
+    	} catch (ValidationException e) {
             e.printMessage();
         }
     }

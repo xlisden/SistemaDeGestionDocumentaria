@@ -6,7 +6,8 @@ import java.util.Map;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDocumento;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.*;
+import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 public class DetExpedienteService extends Repository<DetalleDocumento> {
 
@@ -35,15 +36,16 @@ public class DetExpedienteService extends Repository<DetalleDocumento> {
 
     public void update(DetalleDocumento t, Expediente exp) {
         try {
-            int id = getId(t.getDocumento().getId(), exp.getId());
+            int id = getId(t.getDocumento().getId(), t.getExpediente().getId());
             DetalleDocumento detExp = getById(id);
             if (detExp == null) {
                 // throw new ValidationException(Validation.showWarning("El Det. Expediente no puede estar vacío."));
                 return;
             }
+//            System.out.println("detexp en su service " + detExp.toString());
             
             Validation.validateDetExpediente(t);
-            detExp.setExpediente(exp);
+            detExp.setExpediente(exp); // se supone que docService valido que exp existe
             
             super.update(id, detExp);
         } catch (ValidationException e) {
@@ -98,6 +100,30 @@ public class DetExpedienteService extends Repository<DetalleDocumento> {
         } catch (ValidationException e) {
             e.printMessage();
         }
+    }
+    
+    public Expediente getExpedienteByDoc(int idDoc) {
+        Expediente exp = null;
+        try {
+//            for(DetalleDocumento detExp: getAll()){
+//                if (detExp.getDocumento().getId() == idDoc) {
+//                    exp = detExp.getExpediente();
+//                }
+//            }
+
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("idDoc", idDoc);
+            
+            DetalleDocumento detExp = getByQuery("SELECT x FROM DetalleDocumento x WHERE x.documento.id = :idDoc", parametros);
+            if (detExp == null) {
+                return null;
+            }
+            
+            exp = detExp.getExpediente();
+        } catch (ValidationException e) {
+            e.printMessage();
+        }
+        return exp;
     }
 
 }

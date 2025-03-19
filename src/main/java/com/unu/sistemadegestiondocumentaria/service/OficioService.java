@@ -53,7 +53,8 @@ public class OficioService extends Repository<Oficio> {
                 return;
             }
 
-            doc = docService.setDocumento(doc, t.getDocumento());
+//            doc = docService.setDocumento(doc, t.getDocumento());
+//          no se porque validar, si ya documento validara en update
             t.setDocumento(doc);
 
             Validation.validateOficio(t);
