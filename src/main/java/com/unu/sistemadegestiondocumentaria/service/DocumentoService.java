@@ -128,8 +128,6 @@ public class DocumentoService extends Repository<Documento> {
             }            
             doc.setDestinatarios(setDestinatarios(doc.getId()));
 
-
-            
             
 //            setDocumento(doc, t);
             Validation.validateDocumento(doc);
