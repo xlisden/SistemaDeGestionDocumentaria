@@ -26,7 +26,7 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
             Validation.validateGradoInstruccion(t);
             super.add(t);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -44,7 +44,7 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
             
             super.update(id, gi);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -53,7 +53,7 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
         try {
             super.delete(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -62,7 +62,7 @@ public class GradoInstruccionService extends Repository<GradoInstruccion> {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return null;
     }

@@ -37,7 +37,7 @@ public class PersonaService extends Repository<Persona> {
             Validation.validatePersona(t);
             super.add(t);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -61,7 +61,7 @@ public class PersonaService extends Repository<Persona> {
 
             super.update(id, p);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -70,7 +70,7 @@ public class PersonaService extends Repository<Persona> {
         try {
             super.delete(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -79,7 +79,7 @@ public class PersonaService extends Repository<Persona> {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return null;
     }

@@ -26,7 +26,7 @@ public class TipoDocumentoService extends Repository<TipoDocumento> {
             Validation.validateTipoDocumento(t);
             super.add(t);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -43,7 +43,7 @@ public class TipoDocumentoService extends Repository<TipoDocumento> {
 
             super.update(id, td);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -52,7 +52,7 @@ public class TipoDocumentoService extends Repository<TipoDocumento> {
         try {
             super.delete(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -61,7 +61,7 @@ public class TipoDocumentoService extends Repository<TipoDocumento> {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return null; 
     }

@@ -35,7 +35,7 @@ public class AdministrativoService extends Repository<Administrativo> {
             Administrativo ad = new Administrativo(t);
             super.add(ad);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -50,7 +50,7 @@ public class AdministrativoService extends Repository<Administrativo> {
             int idPersona = ad.getPersona().getId();
             personaService.update(idPersona, p);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -59,7 +59,7 @@ public class AdministrativoService extends Repository<Administrativo> {
         try {
             super.delete(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -68,7 +68,7 @@ public class AdministrativoService extends Repository<Administrativo> {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return null;
     }

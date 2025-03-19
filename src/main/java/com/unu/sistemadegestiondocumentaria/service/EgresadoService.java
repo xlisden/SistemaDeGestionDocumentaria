@@ -35,7 +35,7 @@ public class EgresadoService extends Repository<Egresado> {
             Egresado eg = new Egresado(t);
             super.add(eg);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -51,7 +51,7 @@ public class EgresadoService extends Repository<Egresado> {
 
             personaService.update(idPersona, p);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -60,7 +60,7 @@ public class EgresadoService extends Repository<Egresado> {
         try {
             super.delete(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -69,7 +69,7 @@ public class EgresadoService extends Repository<Egresado> {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return null;
     }

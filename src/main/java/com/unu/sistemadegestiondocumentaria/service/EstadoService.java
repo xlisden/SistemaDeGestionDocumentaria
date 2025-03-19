@@ -26,7 +26,7 @@ public class EstadoService extends Repository<Estado> {
             Validation.validateEstado(t);
             super.add(t);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -43,7 +43,7 @@ public class EstadoService extends Repository<Estado> {
 
             super.update(id, est);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -52,7 +52,7 @@ public class EstadoService extends Repository<Estado> {
         try {
             super.delete(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -61,7 +61,7 @@ public class EstadoService extends Repository<Estado> {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return null;
     }

@@ -34,7 +34,7 @@ public class OficioService extends Repository<Oficio> {
             Validation.validateOficio(t);
             super.add(t);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -64,7 +64,7 @@ public class OficioService extends Repository<Oficio> {
 
             super.update(id, oficio);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -80,7 +80,7 @@ public class OficioService extends Repository<Oficio> {
 
             super.delete(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -89,7 +89,7 @@ public class OficioService extends Repository<Oficio> {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return null;
     }
@@ -105,7 +105,7 @@ public class OficioService extends Repository<Oficio> {
             int idDoc = oficio.getDocumento().getId();
             docService.updateEstadoDocumento(idDoc);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 

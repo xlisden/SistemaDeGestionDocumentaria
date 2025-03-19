@@ -49,7 +49,7 @@ public class DetExpedienteService extends Repository<DetalleDocumento> {
             
             super.update(id, detExp);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -58,7 +58,7 @@ public class DetExpedienteService extends Repository<DetalleDocumento> {
             int id = getId(idDoc, idExp);
             super.delete(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -67,7 +67,7 @@ public class DetExpedienteService extends Repository<DetalleDocumento> {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return null;
     }
@@ -86,7 +86,7 @@ public class DetExpedienteService extends Repository<DetalleDocumento> {
             
             id = detDest.getId();
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return id;
     }
@@ -98,7 +98,7 @@ public class DetExpedienteService extends Repository<DetalleDocumento> {
 
             deleteOrUpdateByQuery("DELETE FROM DetalleDocumento x WHERE x.documento.id = :idDoc", parametros);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
     
@@ -121,7 +121,7 @@ public class DetExpedienteService extends Repository<DetalleDocumento> {
             
             exp = detExp.getExpediente();
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return exp;
     }

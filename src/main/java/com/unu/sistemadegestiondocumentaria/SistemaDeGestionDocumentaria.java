@@ -190,14 +190,14 @@ public class SistemaDeGestionDocumentaria {
          dest1.add(6);
         //un emisor correcto, uno no
 
-//         service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest2, 2));
+         service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest2, 2));
 //         service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest1, 2));
 //         service.update(4, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest1, 9));
 //          service.update(4, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest1, 3));
          // expediente no existente
 //         service.update(1, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest2, 9));
-         service.update(1, new Documento(Date.valueOf("2024-02-20"), 1, 2, dest2, 1)); // si es nulo, no hay necesidad de actualizar, por eso no hay advertencia
-         service.update(1, new Documento(Date.valueOf("2024-02-20"), 1, 2, dest1, 1));
+//         service.update(1, new Documento(Date.valueOf("2024-02-20"), 1, 2, dest2, 1)); // si es nulo, no hay necesidad de actualizar, por eso no hay advertencia
+//         service.update(1, new Documento(Date.valueOf("2024-02-20"), 1, 2, dest1, 1));
 //         service.delete(7);
 //         service.delete(129);
 //         service.getById(2);

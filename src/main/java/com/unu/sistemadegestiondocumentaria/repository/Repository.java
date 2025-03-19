@@ -52,7 +52,11 @@ public class Repository<T> {
         hc.closeConnection();
     }
 
-    public List<T> getAll() {
+    public List<T> getAllDocs() {
+		return getAll();
+	}
+
+	public List<T> getAll() {
         em = hc.getEntityManager();
         List<T> tList = em.createQuery("SELECT x FROM " + className + " x", typeClass).getResultList();
         hc.closeConnection();

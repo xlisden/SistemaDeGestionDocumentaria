@@ -35,10 +35,10 @@ public class ExpedienteService extends Repository<Expediente> {
             }
 
             Expediente ex = new Expediente(eg);
-            ex.setNroExpediente(eg.getId());
+            ex.setNroExpediente(getLastId()+1);
             super.add(ex);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -54,7 +54,7 @@ public class ExpedienteService extends Repository<Expediente> {
             //no hacemos update del nroExp porque se supone que va de acuerdo al egresado. Se supone que es unico, al igual que el egresado.
             //si eliminamos al egresado 3, esta bien que el sgte exp sea el 4, asi ya no haya un exp 3
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -63,7 +63,7 @@ public class ExpedienteService extends Repository<Expediente> {
         try {
             super.delete(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -72,7 +72,7 @@ public class ExpedienteService extends Repository<Expediente> {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return null;
     }

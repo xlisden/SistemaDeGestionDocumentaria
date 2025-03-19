@@ -76,7 +76,7 @@ public class DocumentoService extends Repository<Documento> {
             }
 
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -135,16 +135,32 @@ public class DocumentoService extends Repository<Documento> {
             super.update(id, doc);
             
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
+    @Override
+	public List<Documento> getAllDocs() {
+		return getAll();
+	}
+
+	@Override
+    public List<Documento> getAll() {
+    	List<Documento> documentos = new ArrayList<Documento>();
+    	documentos = super.getAll();
+    	for(Documento doc: documentos) {
+    		doc.setExpediente(setExpediente(doc.getId()));
+    		doc.setDestinatarios(setDestinatarios(doc.getId()));
+    	}
+    	return documentos;
+    }
+    
     @Override
     public void delete(int id) {
         try {
             super.delete(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -153,7 +169,7 @@ public class DocumentoService extends Repository<Documento> {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return null;
     }
@@ -170,7 +186,7 @@ public class DocumentoService extends Repository<Documento> {
             doc.setEstado(est);
             super.update(id, doc);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -185,7 +201,7 @@ public class DocumentoService extends Repository<Documento> {
 
             detDestinatarioService.update(new DetalleDestinatario(doc, antDest), nuevoDest);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
     
@@ -201,7 +217,7 @@ public class DocumentoService extends Repository<Documento> {
 
     		detDestinatarioService.updateDestinatariosByDoc(doc, nuevosDest);
     	} catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -216,7 +232,7 @@ public class DocumentoService extends Repository<Documento> {
 
             detDestinatarioService.delete(idDoc, idDest);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -231,7 +247,7 @@ public class DocumentoService extends Repository<Documento> {
             detDestinatarioService.deleteByDoc(idDoc);
             detExpedienteService.deleteByDoc(idDoc);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -253,7 +269,7 @@ public class DocumentoService extends Repository<Documento> {
             // }
             detExpedienteService.update(new DetalleDocumento(doc, antExp), nuevoExp);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
     
@@ -266,7 +282,7 @@ public class DocumentoService extends Repository<Documento> {
 
             detExpedienteService.update(new DetalleDocumento(doc, antExp), nuevoExp);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }    
 
@@ -291,7 +307,7 @@ public class DocumentoService extends Repository<Documento> {
         try {
             destinatarios = detDestinatarioService.getDestinatariosByDoc(idDoc);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return destinatarios;
     }
@@ -301,7 +317,7 @@ public class DocumentoService extends Repository<Documento> {
         try {
             exp = detExpedienteService.getExpedienteByDoc(idDoc);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return exp;
     }

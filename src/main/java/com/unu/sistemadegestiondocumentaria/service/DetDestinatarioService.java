@@ -51,7 +51,7 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
 
             super.update(id, detDest);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -60,7 +60,7 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
             int id = getId(idDoc, idDest);
             super.delete(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
@@ -69,7 +69,7 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return null;
     }
@@ -88,7 +88,7 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
 
             id = detDest.getId();
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return id;
     }
@@ -100,7 +100,7 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
             
             deleteOrUpdateByQuery("DELETE FROM DetalleDestinatario x WHERE x.documento.id = :idDoc", parametros);
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
     
@@ -113,7 +113,7 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
                 }
             }
         } catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
         return destinatarios;
     }
@@ -150,7 +150,7 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
 			}
 			
     	} catch (ValidationException e) {
-            e.printMessage();
+            e.printConsoleMessage();
         }
     }
 
