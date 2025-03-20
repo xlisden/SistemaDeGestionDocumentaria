@@ -238,19 +238,23 @@ public class SistemaDeGestionDocumentaria {
 
         // sin referencia
 //         service.update(4, new Oficio(Date.valueOf("2022-02-12"), 2,2,dest1, 2, "**asunto", ""));
+         // no existe 7
 //         service.delete(7);
+         // no existe 9
 //         service.delete(129);
-        service.delete(5);
-//         service.updateEstadoDocumento(2);
-        service.updateEstadoDocumento(4);
+        // existe 5
+//         service.delete(5);
+         // existe
+//        service.updateEstadoDocumento(4);
+         // no existe
 //         service.updateEstadoDocumento(9);
-         // sin dest
+//         // sin dest
 //         service.add(new Oficio(Date.valueOf(LocalDate.now()), 1, 1, vacio, 1, "asunto", "referencia"));
-         // sin tipodoc ()
+//         // sin tipodoc ()
 //         service.add(new Oficio(Date.valueOf(LocalDate.now()), 8, 1, dest1, 1, "asunto", "referencia"));
-         // sin fecha
+//         // sin fecha
 //         service.add(new Oficio(null, 3, 1, dest1, 1, "asunto", "referencia"));
-
+         
          
          imprimirElementos(service.getAll());
     }

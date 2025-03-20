@@ -8,7 +8,7 @@
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
       <property name="javax.persistence.jdbc.password" value="1234"/>
       <property name="javax.persistence.schema-generation.database.action" value="update"/>
-      <!--<property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2016Dialect"/>-->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2016Dialect"/>
     </properties>
   </persistence-unit>
 </persistence>
