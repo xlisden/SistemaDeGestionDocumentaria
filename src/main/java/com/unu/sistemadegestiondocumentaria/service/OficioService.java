@@ -1,6 +1,11 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
 import com.unu.sistemadegestiondocumentaria.entity.Oficio;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
@@ -110,4 +115,23 @@ public class OficioService extends Repository<Oficio> {
         }
     }
 
+    public List<Administrativo> getDestinatarios(int id) {
+        List<Administrativo> destinatarios = new ArrayList<>();
+        try {
+            Oficio oficio = getById(id);
+            if (oficio == null) {
+                return null;
+            }
+
+            int idDoc = oficio.getDocumento().getId();
+            if (docService.getById(idDoc) == null) {
+            	return null;
+            }
+            destinatarios = docService.getDestinatarios(idDoc);
+        } catch (ValidationException e) {
+            e.printConsoleMessage();
+        }
+        return destinatarios;    	
+    }
+    
 }

@@ -164,7 +164,7 @@ public class DocumentoService extends Repository<Documento> {
             if (t.getDestinatarios() != null && !t.getDestinatarios().isEmpty()) { // si es nulo, no hay necesidad de actualizar
             	updateDestinatarios(doc, t.getDestinatarios());
             }            
-            doc.setDestinatarios(setDestinatarios(doc.getId()));
+            doc.setDestinatarios(getDestinatarios(doc.getId()));
 
             
 //            setDocumento(doc, t);
@@ -188,7 +188,7 @@ public class DocumentoService extends Repository<Documento> {
     	documentos = super.getAll();
     	for(Documento doc: documentos) {
     		doc.setExpediente(setExpediente(doc.getId()));
-    		doc.setDestinatarios(setDestinatarios(doc.getId()));
+    		doc.setDestinatarios(getDestinatarios(doc.getId()));
     	}
     	return documentos;
     }
@@ -340,7 +340,7 @@ public class DocumentoService extends Repository<Documento> {
         }
     }
 
-    public List<Administrativo> setDestinatarios(int idDoc) {
+    public List<Administrativo> getDestinatarios(int idDoc) {
         List<Administrativo> destinatarios = new ArrayList<>();
         try {
             destinatarios = detDestinatarioService.getDestinatariosByDoc(idDoc);
