@@ -24,7 +24,7 @@ public class Repository<T> {
     public void add(T t) {
         em = hc.getEntityManager();
         em.getTransaction().begin();
-        em.merge(t);
+        em.persist(t);
         em.getTransaction().commit();
         hc.closeConnection();
     }

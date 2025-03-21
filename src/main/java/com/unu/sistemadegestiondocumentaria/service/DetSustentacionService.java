@@ -1,6 +1,5 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import com.unu.sistemadegestiondocumentaria.entity.DetalleDocumento;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleSustentacion;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.Sustentacion;
@@ -39,6 +38,31 @@ public class DetSustentacionService extends Repository<DetalleSustentacion> {
 			Validation.validateDetSustentacion(t);
 
 			super.add(t);
+		} catch (ValidationException e) {
+			e.printConsoleMessage();
+		}
+	}
+	
+	public void addDet(int idExp, Sustentacion s) {
+		try {
+			Expediente exp = expService.getById(idExp);
+			if (exp == null) {
+				return;
+			}
+			
+			sustService.add(s);
+			
+			Sustentacion sust = sustService.getLast();
+			if(sust.getId() == getLast().getSustentacion().getId()) {
+				return;
+			}
+			
+			DetalleSustentacion detSust = new DetalleSustentacion();
+			detSust.setExpediente(exp);
+			detSust.setSustentacion(sust);
+			Validation.validateDetSustentacion(detSust);
+
+			super.add(detSust);
 		} catch (ValidationException e) {
 			e.printConsoleMessage();
 		}

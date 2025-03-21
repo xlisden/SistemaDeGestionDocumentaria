@@ -1,2 +1,0 @@
-> [!NOTE]
-> **Database name:** SistemaDeGestionDocumentaria
