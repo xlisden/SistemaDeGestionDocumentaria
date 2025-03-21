@@ -12,6 +12,7 @@ import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.entity.Oficio;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
+import com.unu.sistemadegestiondocumentaria.entity.Sustentacion;
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 import com.unu.sistemadegestiondocumentaria.service.AdministrativoService;
 import com.unu.sistemadegestiondocumentaria.service.DetDestinatarioService;
@@ -22,6 +23,7 @@ import com.unu.sistemadegestiondocumentaria.service.ExpedienteService;
 import com.unu.sistemadegestiondocumentaria.service.GradoInstruccionService;
 import com.unu.sistemadegestiondocumentaria.service.OficioService;
 import com.unu.sistemadegestiondocumentaria.service.PersonaService;
+import com.unu.sistemadegestiondocumentaria.service.SustentacionService;
 import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 
@@ -41,12 +43,13 @@ public class SistemaDeGestionDocumentaria {
 //        addAdministrativos();
 //        addExpedientes();
         
-         addOficios();
+//         addOficios();
          
         // addPersonas();
         // addEgresados();
 //         addDocumentos();
         // testDetalles();
+        addSust();
 
         // System.out.println(Validation.magentaColor + "testDetDestinatarios()" + Validation.normalColor);
         // testDetalles();
@@ -109,9 +112,9 @@ public class SistemaDeGestionDocumentaria {
     private static void addPersonas() {
         PersonaService service = PersonaService.instanciar();
 
-        for (int i = 1; i <= 5; i++) {
-            service.add(new Persona("nombre" + i, "apPaterno" + i, "apMaterno" + i, i));
-        }
+//        for (int i = 1; i <= 5; i++) {
+//            service.add(new Persona("nombre" + i, "apPaterno" + i, "apMaterno" + i, i));
+//        }
         //  service.delete(4);
         //  service.delete(39);
         //  //sin ap p
@@ -276,6 +279,52 @@ public class SistemaDeGestionDocumentaria {
         docService.updateExpediente(1, 6, 9);
     }
 
+    private static void addSust() {
+    	SustentacionService service = SustentacionService.instanciar();
+    	Sustentacion sust = new Sustentacion();
+    	
+//    	// solo asesor, no falla
+//    	sust.setIdAsesor(3);
+//    	service.add(sust);
+    	
+//    	// no falla
+//    	service.add(new Sustentacion());
+    	
+//    	// no jurado1
+//    	sust.setIdAsesor(2);
+//    	sust.setIdJurado1(99);
+//    	sust.setIdJurado2(5);
+//    	sust.setIdJurado3(3);
+//    	service.add(sust);
+    	
+//    	for (int i = 0; i < 3; i++) {
+//    		sust.setIdAsesor(3);
+//        	sust.setIdJurado1(3);
+//        	sust.setIdJurado2(3);
+//        	sust.setIdJurado3(3);
+//        	service.add(sust);
+//		}
+    	
+//    	service.delete(2);
+//    	service.delete(23);
+
+    	// correcto
+		sust.setIdAsesor(1);
+    	sust.setIdJurado1(2);
+    	sust.setIdJurado2(3);
+    	sust.setIdJurado3(4);
+    	service.update(17, sust);
+    	
+    	// no jurado 2
+    	sust.setIdAsesor(2);
+    	sust.setIdJurado1(1);
+    	sust.setIdJurado2(77);
+    	sust.setIdJurado3(3);
+    	service.update(15, sust);
+    	
+    	imprimirElementos(service.getAll());
+    }
+    
     private static <T> void imprimirElementos(List<T> lista) {
         for (T x : lista) {
             System.out.println(Validation.infoColor + x.toString() + Validation.normalColor);

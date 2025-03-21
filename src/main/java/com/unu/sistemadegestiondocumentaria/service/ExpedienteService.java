@@ -35,7 +35,7 @@ public class ExpedienteService extends Repository<Expediente> {
             }
 
             Expediente ex = new Expediente(eg);
-            ex.setNroExpediente(getLastId()+1);
+            ex.setNroExpediente(getNroExp());
             super.add(ex);
         } catch (ValidationException e) {
             e.printConsoleMessage();
@@ -75,6 +75,10 @@ public class ExpedienteService extends Repository<Expediente> {
             e.printConsoleMessage();
         }
         return null;
+    }
+    
+    private int getNroExp() {
+    	return (getAll().isEmpty()) ? 1 : getLastId()+1;
     }
 
 }

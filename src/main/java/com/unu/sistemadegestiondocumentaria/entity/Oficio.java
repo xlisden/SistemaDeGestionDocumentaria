@@ -18,7 +18,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "oficios")
-public class Oficio extends DocumentoAtributos{
+public class Oficio extends DocumentoAtributos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

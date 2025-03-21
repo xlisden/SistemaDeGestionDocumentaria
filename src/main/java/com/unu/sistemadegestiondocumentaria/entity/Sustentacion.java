@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "sustentaciones")
@@ -32,6 +33,15 @@ public class Sustentacion {
     @ManyToOne()
     @JoinColumn(name = "id_asesor", foreignKey = @ForeignKey(name = "fk_asesor_sustentacion"))
     private Administrativo asesor;
+    
+    @Transient
+    private int idAsesor;
+    @Transient
+    private int idJurado1;
+    @Transient
+    private int idJurado2;
+    @Transient
+    private int idJurado3;
 
     public Sustentacion() {
     }
@@ -91,9 +101,46 @@ public class Sustentacion {
         this.asesor = asesor;
     }
 
-    @Override
-    public String toString() {
-        return "Sustentacion{" + "id=" + id + ", jurado1=" + jurado1 + ", jurado2=" + jurado2 + ", jurado3=" + jurado3 + ", asesor=" + asesor + '}';
-    }
+	@Override
+	public String toString() {
+		return "Sustentacion [id=" + id + ", " + (jurado1 != null ? "jurado1=" + jurado1 + ", " : "")
+				+ (jurado2 != null ? "jurado2=" + jurado2 + ", " : "")
+				+ (jurado3 != null ? "jurado3=" + jurado3 + ", " : "") + (asesor != null ? "asesor=" + asesor : "")
+				+ "]";
+	}
+
+	public int getIdAsesor() {
+		return idAsesor;
+	}
+
+	public void setIdAsesor(int idAsesor) {
+		this.idAsesor = idAsesor;
+	}
+
+	public int getIdJurado1() {
+		return idJurado1;
+	}
+
+	public void setIdJurado1(int idJurado1) {
+		this.idJurado1 = idJurado1;
+	}
+
+	public int getIdJurado2() {
+		return idJurado2;
+	}
+
+	public void setIdJurado2(int idJurado2) {
+		this.idJurado2 = idJurado2;
+	}
+
+	public int getIdJurado3() {
+		return idJurado3;
+	}
+
+	public void setIdJurado3(int idJurado3) {
+		this.idJurado3 = idJurado3;
+	}
+    
+    
 
 }

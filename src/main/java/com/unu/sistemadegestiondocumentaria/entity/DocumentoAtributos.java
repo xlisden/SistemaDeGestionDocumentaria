@@ -5,22 +5,22 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
-public class DocumentoAtributos {
+public abstract class DocumentoAtributos {
 
     @Transient
-    private int idTipoDoc;
+    protected int idTipoDoc;
 
     @Transient
-    private int idEmisor;
+    protected int idEmisor;
 
     @Transient
-    private Date fechaEmision;
+    protected Date fechaEmision;
 
     @Transient
-    private List<Integer> idDestinatarios;
+    protected List<Integer> idDestinatarios;
 
     @Transient
-    private int idExpediente;
+    protected int idExpediente;
 
     public DocumentoAtributos() {
     }

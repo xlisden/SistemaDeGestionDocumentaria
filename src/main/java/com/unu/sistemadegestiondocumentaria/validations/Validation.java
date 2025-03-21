@@ -3,6 +3,7 @@ package com.unu.sistemadegestiondocumentaria.validations;
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDestinatario;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDocumento;
+import com.unu.sistemadegestiondocumentaria.entity.DetalleSustentacion;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
@@ -147,10 +148,22 @@ public class Validation {
 //        validateDocumento(detExp.getDocumento());
 
         if (detExp.getExpediente() == null) {
-            throw new ValidationException(showWarning("El exoediente del Det. Documento no puede estar vacío."));
+            throw new ValidationException(showWarning("El expediente del Det. Documento no puede estar vacío."));
         }
         validateExpediente(detExp.getExpediente());
     }
+    
+    public static void validateDetSustentacion(DetalleSustentacion detSust) {
+    	if (detSust.getExpediente() == null) {
+    		throw new ValidationException(showWarning("El exoediente del Det. Sustentacion no puede estar vacío."));
+    	}
+    	validateExpediente(detSust.getExpediente());
+    	
+    	if (detSust.getSustentacion() == null) {
+    		throw new ValidationException(showWarning("La sustentacion del Det. Sustentacion no puede estar vacía."));
+    	}
+    }
+    
 
     public static String showWarning(String w) {
         return warningColor + w + normalColor;

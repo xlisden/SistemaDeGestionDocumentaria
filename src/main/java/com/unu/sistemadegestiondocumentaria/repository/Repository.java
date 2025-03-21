@@ -7,8 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class Repository<T> {
 
@@ -25,7 +24,7 @@ public class Repository<T> {
     public void add(T t) {
         em = hc.getEntityManager();
         em.getTransaction().begin();
-        em.persist(t);
+        em.merge(t);
         em.getTransaction().commit();
         hc.closeConnection();
     }
