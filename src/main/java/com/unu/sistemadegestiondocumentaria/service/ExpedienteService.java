@@ -28,6 +28,7 @@ public class ExpedienteService extends Repository<Expediente> {
             egresadoService.add(t);
             
             Egresado eg = egresadoService.getLast();
+            System.out.println(eg.toString());
             if (!getAll().isEmpty()) {
                 if (eg.getId() == getLast().getEgresado().getId()) {
                     return;
@@ -36,6 +37,7 @@ public class ExpedienteService extends Repository<Expediente> {
 
             Expediente ex = new Expediente(eg);
             ex.setNroExpediente(getNroExp());
+            System.out.println(ex.toString());
             super.add(ex);
         } catch (ValidationException e) {
             e.printConsoleMessage();

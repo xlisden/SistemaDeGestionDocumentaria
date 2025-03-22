@@ -79,8 +79,8 @@ public class SistemaDeGestionDocumentaria {
 		// addEgresados();
 //         addDocumentos();
 		// testDetalles();
-        addSust();
-//		addDetSust();
+//        addSust();
+		addDetSust();
 
 		// System.out.println(Validation.magentaColor + "testDetDestinatarios()" +
 		// Validation.normalColor);
@@ -90,7 +90,7 @@ public class SistemaDeGestionDocumentaria {
 
 	private static void addDetSust() {
 		DetSustentacionService service = DetSustentacionService.instanciar();
-		SustentacionService sustService = SustentacionService.instanciar();
+//		SustentacionService sustService = SustentacionService.instanciar();
 		Sustentacion sust = new Sustentacion();
 		
 		// no existe el exp
@@ -282,19 +282,20 @@ public class SistemaDeGestionDocumentaria {
 	private static void addExpedientes() {
 		ExpedienteService service = ExpedienteService.instanciar();
 
-		if (service.getAll().isEmpty()) {
-			for (int i = 1; i <= 6; i++) {
-				int idGradoInst = (int) (Math.random() * 5) + 1;
-				service.add(new Persona("exp*nom" + i, "exp*apPat" + i, "exp*apMat" + i, idGradoInst));
-			}
-		}
+//		if (service.getAll().isEmpty()) {
+//			for (int i = 1; i <= 6; i++) {
+//				int idGradoInst = (int) (Math.random() * 5) + 1;
+//				service.add(new Persona("exp*nom" + i, "exp*apPat" + i, "exp*apMat" + i, 1));
+//			}
+//		}
 //
 //        service.update(1, new Persona("hola", "soy", "nuevo", 2));
 //        service.delete(6);
 //        service.delete(7); 
 //        service.delete(38); 
 //        service.add(new Persona("soy8", "el8", "nro8", 2));
-//       service.add(new Persona("hola, yo", "ser nueva", "persona", 9));
+       service.add(new Persona("hola, yo", "ser nueva", "persona", 9));
+       service.add(new Persona("hola, yo", "", "persona", 3));
 //       service.update(39, new Persona());
 
 //       imprimirElementos(service.getAll());

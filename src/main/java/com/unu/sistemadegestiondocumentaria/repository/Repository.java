@@ -51,10 +51,6 @@ public class Repository<T> {
         hc.closeConnection();
     }
 
-    public List<T> getAllDocs() {
-		return getAll();
-	}
-
 	public List<T> getAll() {
         em = hc.getEntityManager();
         List<T> tList = em.createQuery("SELECT x FROM " + className + " x", typeClass).getResultList();
@@ -82,9 +78,13 @@ public class Repository<T> {
 
     public T getLast() {
         T t = null;
-        em = hc.getEntityManager();
-        t = em.createQuery("SELECT x FROM " + className + " x ORDER BY x.id DESC", typeClass).setMaxResults(1).getSingleResult();
-        hc.closeConnection();
+//        em = hc.getEntityManager();
+//        t = em.createQuery("SELECT x FROM " + className + " x ORDER BY x.id DESC", typeClass).setMaxResults(1).getSingleResult();
+//        hc.closeConnection();
+        List<T> list = getAll();
+        if (!list.isEmpty()) { 
+        	t = list.getLast();
+        }
         return t;
     }
 

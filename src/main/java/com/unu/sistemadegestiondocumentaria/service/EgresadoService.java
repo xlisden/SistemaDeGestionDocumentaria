@@ -27,9 +27,12 @@ public class EgresadoService extends Repository<Egresado> {
             personaService.add(t);
 
             int idPersona = personaService.getLastId();
-            if (!getAll().isEmpty() && idPersona == getLast().getPersona().getId()) {
+            System.out.println("IdGradoInst" + t.getIdGradoInst());
+            if ((!getAll().isEmpty() && idPersona == getLast().getPersona().getId()) || t.getIdGradoInst() != 1) {
+                System.out.println("IdGradoInst" + t.getIdGradoInst());
                 return;
             }
+            System.out.println("IdGradoInst" + t.getIdGradoInst());
             t.setId(idPersona);
 
             Egresado eg = new Egresado(t);

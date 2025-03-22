@@ -53,8 +53,10 @@ public class DetSustentacionService extends Repository<DetalleSustentacion> {
 			sustService.add(s);
 			
 			Sustentacion sust = sustService.getLast();
-			if(sust.getId() == getLast().getSustentacion().getId()) {
-				return;
+			if (!getAll().isEmpty()) {
+				if(sust.getId() == getLast().getSustentacion().getId()) {
+					return;
+				}
 			}
 			
 			DetalleSustentacion detSust = new DetalleSustentacion();

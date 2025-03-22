@@ -16,7 +16,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.print.Doc;
 
 public class DocumentoService extends Repository<Documento> {
 
@@ -176,11 +175,6 @@ public class DocumentoService extends Repository<Documento> {
             e.printConsoleMessage();
         }
     }
-
-    @Override
-	public List<Documento> getAllDocs() {
-		return getAll();
-	}
 
 	@Override
     public List<Documento> getAll() {
