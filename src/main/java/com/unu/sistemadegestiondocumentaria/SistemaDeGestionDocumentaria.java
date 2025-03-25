@@ -8,6 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
+import javax.swing.JOptionPane;
+import javax.xml.bind.Validator;
 
 import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleSustentacion;
@@ -67,11 +69,11 @@ public class SistemaDeGestionDocumentaria {
 
 		System.out.println(Validation.showInMagenta("\nhola"));
 
-        addGradosInstruccion();
-        addTiposDocumento();
-        addEstados();
-        addAdministrativos();
-        addExpedientes();
+//        addGradosInstruccion();
+//        addTiposDocumento();
+//        addEstados();
+//        addAdministrativos();
+//        addExpedientes();
 
 //         addOficios();
 
@@ -81,6 +83,7 @@ public class SistemaDeGestionDocumentaria {
 		// testDetalles();
 //        addSust();
 		addDetSust();
+//		pruebaConValidate();
 
 		// System.out.println(Validation.magentaColor + "testDetDestinatarios()" +
 		// Validation.normalColor);
@@ -88,88 +91,115 @@ public class SistemaDeGestionDocumentaria {
 		System.out.println(Validation.showInMagenta("\nfinalizo()"));
 	}
 
+	private static void pruebaConValidate() {
+		try {
+
+			EgresadoService service = EgresadoService.instanciar();
+			
+			Persona persona = new Persona("nom1", "appat1", "appmat", 2);
+			Validation.validatePersona(persona);
+			
+			service.add(persona);
+			imprimirElementos(service.getAll());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta" ,JOptionPane.WARNING_MESSAGE);
+		}
+
+	}
+
 	private static void addDetSust() {
-		DetSustentacionService service = DetSustentacionService.instanciar();
-//		SustentacionService sustService = SustentacionService.instanciar();
-		Sustentacion sust = new Sustentacion();
-		
-		// no existe el exp
-		sust.setIdAsesor(1);
-		sust.setIdJurado1(2);
-		sust.setIdJurado2(3);
-		sust.setIdJurado3(4);
-		service.addDet(22, sust);
-		
-		// no existe el sust	
-		sust.setIdAsesor(1);
-		sust.setIdJurado1(2);
-		sust.setIdJurado2(3);
-		sust.setIdJurado3(4);
-		service.add(new DetalleSustentacion(2, 88));	
-		
-		// sin jurados el sust - no falla
-		sust = new Sustentacion();
-		sust.setIdAsesor(3);
-		service.addDet(3, sust);
-		
-		// sust vacio - no falla
-		sust = new Sustentacion();
-		service.addDet(4, sust);
-		
-		// todo correcto
-		sust.setIdAsesor(5);
-		sust.setIdJurado1(4);
-		sust.setIdJurado2(3);
-		sust.setIdJurado3(2);
-		service.addDet(5, sust);
-		
-		imprimirElementos(service.getAll());
+		try {
+			DetSustentacionService service = DetSustentacionService.instanciar();
+//			SustentacionService sustService = SustentacionService.instanciar();
+			Sustentacion sust = new Sustentacion();
+
+			// no existe el exp
+			sust = new Sustentacion();
+			sust.setIdAsesor(1);
+			sust.setIdJurado1(2);
+			sust.setIdJurado2(3);
+			sust.setIdJurado3(4);
+			service.addDet(22, sust);
+
+			// no existe el sust
+			sust = new Sustentacion();
+			sust.setIdAsesor(1);
+			sust.setIdJurado1(2);
+			sust.setIdJurado2(3);
+			sust.setIdJurado3(4);
+			service.add(new DetalleSustentacion(2, 88));
+
+			// sin jurados el sust - no falla
+			sust = new Sustentacion();
+			sust.setIdAsesor(3);
+			service.addDet(3, sust);
+
+			// sust vacio - no falla
+			sust = new Sustentacion();
+			service.addDet(4, sust);
+
+			// todo correcto
+			sust = new Sustentacion();
+			sust.setIdAsesor(5);
+			sust.setIdJurado1(4);
+			sust.setIdJurado2(3);
+			sust.setIdJurado3(2);
+			service.addDet(5, sust);
+
+			imprimirElementos(service.getAll());
+		} catch (Exception e) {
+			 JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta" ,JOptionPane.WARNING_MESSAGE);
+		}
 	}
-	
+
 	private static void addSust() {
-		SustentacionService service = SustentacionService.instanciar();
-		Sustentacion sust = new Sustentacion();
+		try {
+			SustentacionService service = SustentacionService.instanciar();
+			Sustentacion sust = new Sustentacion();
 
-    	// solo asesor, no falla
-		sust = new Sustentacion();
-		sust.setIdAsesor(3);
-    	service.add(sust);
-    	
-    	// no falla
-    	service.add(new Sustentacion());
+//			// solo asesor, no falla
+//			sust = new Sustentacion();
+//			sust.setIdAsesor(3);
+//			service.add(sust);
 
-    	// no jurado1 (no existe)
-		sust = new Sustentacion();
-    	sust.setIdAsesor(6);
-    	sust.setIdJurado1(99);
-    	sust.setIdJurado2(5);
-    	sust.setIdJurado3(4);
-    	service.add(sust);
+//			// no falla
+//			service.add(new Sustentacion());
 
-    	// correcto
-    	service.delete(1);
-    	// no falla
-    	service.delete(4);
+//			// no jurado1 (no existe)
+//			sust = new Sustentacion();
+//			sust.setIdAsesor(6);
+//			sust.setIdJurado1(99);
+//			sust.setIdJurado2(5);
+//			sust.setIdJurado3(4);
+//			service.add(sust);
 
-		// correcto
-		sust = new Sustentacion();
-		sust.setIdAsesor(1);
-		sust.setIdJurado1(2);
-		sust.setIdJurado2(3);
-		sust.setIdJurado3(4);
-		service.update(7, sust);
+//			// correcto
+//			service.delete(1);
+//			// no falla
+//			service.delete(4);
 
-    	// no jurado 2 && no existe
-		sust = new Sustentacion();
-    	sust.setIdAsesor(2);
-    	sust.setIdJurado1(1);
-    	sust.setIdJurado2(77);
-    	sust.setIdJurado3(3);
-    	service.update(44, sust);
+//			// correcto
+//			sust = new Sustentacion();
+//			sust.setIdAsesor(1);
+//			sust.setIdJurado1(2);
+//			sust.setIdJurado2(3);
+//			sust.setIdJurado3(4);
+//			service.update(7, sust);
 
-		imprimirElementos(service.getAll());
+//			// no jurado 2 && no existe
+//			sust = new Sustentacion();
+//			sust.setIdAsesor(2);
+//			sust.setIdJurado1(1);
+//			sust.setIdJurado2(77);
+//			sust.setIdJurado3(3);
+//			service.update(44, sust);
+
+			imprimirElementos(service.getAll());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta" ,JOptionPane.WARNING_MESSAGE);
+		}
 	}
-	
+
 	private static void addGradosInstruccion() {
 		GradoInstruccionService service = GradoInstruccionService.instanciar();
 
@@ -282,20 +312,20 @@ public class SistemaDeGestionDocumentaria {
 	private static void addExpedientes() {
 		ExpedienteService service = ExpedienteService.instanciar();
 
-//		if (service.getAll().isEmpty()) {
-//			for (int i = 1; i <= 6; i++) {
-//				int idGradoInst = (int) (Math.random() * 5) + 1;
-//				service.add(new Persona("exp*nom" + i, "exp*apPat" + i, "exp*apMat" + i, 1));
-//			}
-//		}
+		if (service.getAll().isEmpty()) {
+			for (int i = 1; i <= 6; i++) {
+				int idGradoInst = (int) (Math.random() * 5) + 1;
+				service.add(new Persona("exp*nom" + i, "exp*apPat" + i, "exp*apMat" + i, 1));
+			}
+		}
 //
 //        service.update(1, new Persona("hola", "soy", "nuevo", 2));
 //        service.delete(6);
 //        service.delete(7); 
 //        service.delete(38); 
 //        service.add(new Persona("soy8", "el8", "nro8", 2));
-       service.add(new Persona("hola, yo", "ser nueva", "persona", 9));
-       service.add(new Persona("hola, yo", "", "persona", 3));
+		service.add(new Persona("hola, yo", "ser nueva", "persona", 9));
+		service.add(new Persona("hola, yo", "", "persona", 3));
 //       service.update(39, new Persona());
 
 //       imprimirElementos(service.getAll());
@@ -396,8 +426,6 @@ public class SistemaDeGestionDocumentaria {
 		docService.updateExpediente(5, 5, 1);
 		docService.updateExpediente(1, 6, 9);
 	}
-
-
 
 	private static <T> void imprimirElementos(List<T> lista) {
 		for (T x : lista) {

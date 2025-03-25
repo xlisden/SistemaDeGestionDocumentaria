@@ -1,5 +1,7 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
+import javax.swing.JOptionPane;
+
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
@@ -29,8 +31,8 @@ public class PersonaService extends Repository<Persona> {
         try {
             gi = giService.getById(t.getIdGradoInst());
             if (gi == null) {
-                // throw new ValidationException(showWarning("El Persona de Instrucción de la Persona no puede estar vacío."));
-                return;
+                 throw new ValidationException("El Grado de Instrucción de la Persona no puede estar vacío.");
+//                return;
             }
             t.setGradoInstruccion(gi);
 
@@ -38,6 +40,7 @@ public class PersonaService extends Repository<Persona> {
             super.add(t);
         } catch (ValidationException e) {
             e.printConsoleMessage();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta" ,JOptionPane.WARNING_MESSAGE);
         }
     }
 
