@@ -29,44 +29,62 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
     @Override
     public SimpleMenuOption getSimpleMenuOption() {
         String menus[][] = {
-            {"~MAIN~"},
-            {"Dashboard"},
-            {"~WEB APP~"},
-            {"Email", "Inbox", "Read", "Compost"},
-            {"Chat"},
-            {"Calendar"},
-            {"~COMPONENT~"},
-            {"Advanced UI", "Cropper", "Owl Carousel", "Sweet Alert"},
-            {"Forms", "Basic Elements", "Advanced Elements", "SEditors", "Wizard"},
-            {"~OTHER~"},
-            {"Charts", "Apex", "Flot", "Sparkline"},
-            {"Icons", "Feather Icons", "Flag Icons", "Mdi Icons"},
-            {"Special Pages", "Blank page", "Faq", "Invoice", "Profile", "Pricing", "Timeline"},
-            {"Logout"}};
+//            {"~MAIN~"},
+//            {"Dashboard"},
+//            {"~WEB APP~"},
+//            {"Email", "Inbox", "Read", "Compost"},
+//            {"Chat"},
+//            {"Calendar"},
+//            {"~COMPONENT~"},
+//            {"Advanced UI", "Cropper", "Owl Carousel", "Sweet Alert"},
+//            {"Forms", "Basic Elements", "Advanced Elements", "SEditors", "Wizard"},
+//            {"~OTHER~"},
+//            {"Charts", "Apex", "Flot", "Sparkline"},
+//            {"Icons", "Feather Icons", "Flag Icons", "Mdi Icons"},
+//            {"Special Pages", "Blank page", "Faq", "Invoice", "Profile", "Pricing", "Timeline"},
+//            {"Logout"}            
+            {"~DOCUMENTOS~"},
+            {"Documentos"},
+            {"Crear Documento", "Oficio", "Memorándum", "Acta de Sust."},
+            {"~ESTUDIANTES~"},
+            {"Sustentaciones"},
+            {"Estudiantes"},
+            {"~ADMINISTRATIVOS~"},
+            {"Administrativos"},
+            {"~OTROS~"},
+            {"Cerrar Sesión"}
+        };
 
         String icons[] = {
-            "dashboard.svg",
+//            "dashboard.svg",
+//            "email.svg",
+//            "chat.svg",
+//            "calendar.svg",
+//            "ui.svg",
+//            "forms.svg",
+//            "chart.svg",
+//            "icon.svg",
+//            "page.svg",
+//            "logout.svg"
+            "documentos.svg",
             "email.svg",
-            "chat.svg",
             "calendar.svg",
-            "ui.svg",
-            "forms.svg",
-            "chart.svg",
-            "icon.svg",
-            "page.svg",
-            "logout.svg"};
+            "estudiantes.svg",
+            "administrativos.svg",
+            "cerrar-sesion.svg"           
+        };
 
         return new SimpleMenuOption()
                 .setMenus(menus)
                 .setIcons(icons)
-                .setBaseIconPath("Icons/icon.svg")
+                .setBaseIconPath("Icons")
                 .setIconScale(0.45f)
                 .addMenuEvent(new MenuEvent() {
                     @Override
                     public void selected(MenuAction action, int index, int subIndex) {
                         if (index == 0) {
                             WindowsTabbed.getInstance().addTab("Test Form", new TestForm());
-                        } else if (index == 9) {
+                        } else if (index == 5) {
                             Main.main.login();
                         }
                         System.out.println("Menu selected " + index + " " + subIndex);
@@ -90,8 +108,8 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
     @Override
     public SimpleFooterData getSimpleFooterData() {
         return new SimpleFooterData()
-                .setTitle("Java Swing Drawer")
-                .setDescription("Version 1.1.0");
+                .setTitle("Universidad Nacional de Ucayali")
+                .setDescription("Pucallpa - 2025");
     }
 
     @Override

@@ -46,7 +46,7 @@ public class TabbedItem extends JToggleButton {
                 + "background:null;"
                 + "arc:10;"
                 + "margin:2,8,2,5");
-        JButton cmd = new JButton(new FlatSVGIcon("raven/svg/close.svg", 0.8f));
+        JButton cmd = new JButton(new FlatSVGIcon("Icons/close.svg", 0.8f));
         cmd.addActionListener((ae) -> {
             WindowsTabbed.getInstance().removeTab(this);
         });

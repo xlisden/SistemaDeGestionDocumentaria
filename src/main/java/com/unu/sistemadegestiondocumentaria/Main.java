@@ -3,6 +3,7 @@ package com.unu.sistemadegestiondocumentaria;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.unu.sistemadegestiondocumentaria.ui.raven.drawer.MyDrawerBuilder;
 import com.unu.sistemadegestiondocumentaria.ui.raven.login.Login;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.WindowsTabbed;
@@ -85,9 +86,10 @@ public class Main extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         FlatRobotoFont.install();
-        FlatLaf.registerCustomDefaultsSource("raven.themes");
+        FlatLaf.registerCustomDefaultsSource("Tema");
+        FlatMacLightLaf.registerCustomDefaultsSource("Tema");
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 15));
-        FlatMacDarkLaf.setup();
+        FlatMacLightLaf.setup();
         java.awt.EventQueue.invokeLater(() -> {
             main = new Main();
             main.setVisible(true);

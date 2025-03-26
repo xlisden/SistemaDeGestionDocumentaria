@@ -3,7 +3,7 @@ package com.unu.sistemadegestiondocumentaria.ui.raven.login;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.unu.sistemadegestiondocumentaria.Main;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+//import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -49,7 +49,7 @@ public class Login extends JPanel {
             if (txtUsername.getText().equals(usuario) && txtPassword.getText().equals(contrasenia)) {
                 Main.main.showMainForm();
             } else {
-                MessageAlerts.getInstance().showMessage("Error al iniciar sesión", "Por favor, ingresa las credenciales correctas.", MessageAlerts.MessageType.ERROR, MessageAlerts.OK_OPTION, new PopupCallbackAction() {
+                MessageAlerts.getInstance().showMessage("Error al iniciar sesión", "Por favor, ingresa las credenciales correctas.", MessageAlerts.MessageType.ERROR, MessageAlerts.DEFAULT_OPTION, new PopupCallbackAction() {
                     @Override
                     public void action(PopupController pc, int i) {
                     }
@@ -62,7 +62,7 @@ public class Login extends JPanel {
         JLabel lbTitle = new JLabel("Sist. de Gestión Documentaria");
         JLabel description = new JLabel("Oficina de Grados y Títulos");
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
-                + "font:bold +10");
+                + "font:bold +8");
         description.putClientProperty(FlatClientProperties.STYLE, ""
                 + "[light]foreground:lighten(@foreground,30%);"
                 + "[dark]foreground:darken(@foreground,30%)");

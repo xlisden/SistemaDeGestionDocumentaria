@@ -66,7 +66,7 @@ public class WindowsTabbed {
     }
 
     private JButton createDrawerButton() {
-        JButton cmd = new JButton(new FlatSVGIcon("raven/svg/menu.svg", 0.9f));
+        JButton cmd = new JButton(new FlatSVGIcon("Icons/menu.svg", 0.9f));
         cmd.addActionListener((ae) -> {
             Drawer.getInstance().showDrawer();
         });
