@@ -122,11 +122,6 @@
             <scope>runtime</scope>
         </dependency>        
         <!-- RaVen libs -->
-<!--        <dependency>
-            <groupId>raven.popup</groupId>
-            <artifactId>swing-glasspane-popup</artifactId>
-            <version>1.5.1</version>
-        </dependency>        -->
         <dependency>
             <groupId>raven.popup</groupId>
             <artifactId>swing-glasspane-popup</artifactId>
@@ -136,6 +131,16 @@
             <groupId>raven.toast</groupId>
             <artifactId>swing-toast-notifications</artifactId>
             <version>1.0.1</version>
-        </dependency>        
+        </dependency>
+        <dependency>
+            <groupId>raven.panel</groupId>
+            <artifactId>swing-crazy-panel</artifactId>
+            <version>1.0.0</version>
+        </dependency>  
+        <dependency>
+            <groupId>raven.pack</groupId>
+            <artifactId>raven-bean-pack</artifactId>
+            <version>2.0.0</version>
+        </dependency>                          
     </dependencies>
 </project>
