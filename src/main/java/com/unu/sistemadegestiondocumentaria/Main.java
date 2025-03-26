@@ -86,7 +86,7 @@ public class Main extends javax.swing.JFrame {
     public static void main(String args[]) {
         FlatRobotoFont.install();
         FlatLaf.registerCustomDefaultsSource("raven.themes");
-        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 15));
         FlatMacDarkLaf.setup();
         java.awt.EventQueue.invokeLater(() -> {
             main = new Main();

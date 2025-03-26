@@ -1,4 +1,4 @@
-package com.unu.sistemadegestiondocumentaria.ui.raven.drawer.form;
+package com.unu.sistemadegestiondocumentaria.ui.raven.form;
 
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.TabbedForm;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.WindowsTabbed;

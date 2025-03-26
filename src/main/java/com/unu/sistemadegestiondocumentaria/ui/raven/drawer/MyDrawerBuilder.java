@@ -1,6 +1,6 @@
 package com.unu.sistemadegestiondocumentaria.ui.raven.drawer;
 
-import com.unu.sistemadegestiondocumentaria.ui.raven.drawer.form.TestForm;
+import com.unu.sistemadegestiondocumentaria.ui.raven.form.TestForm;
 import com.unu.sistemadegestiondocumentaria.Main;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.WindowsTabbed;
 import raven.drawer.component.SimpleDrawerBuilder;
@@ -21,9 +21,9 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
     @Override
     public SimpleHeaderData getSimpleHeaderData() {
         return new SimpleHeaderData()
-                .setIcon(new AvatarIcon(getClass().getResource("/raven/image/profile.png"), 60, 60, 999))
-                .setTitle("Ra Ven")
-                .setDescription("raven@gmail.com");
+                .setIcon(new AvatarIcon(getClass().getResource("Imagenes/profile.png"), 60, 60, 999))
+                .setTitle("Sistema de Gestión Documentaria")
+                .setDescription("Oficina de Grados y Títulos");
     }
 
     @Override
@@ -59,7 +59,7 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
         return new SimpleMenuOption()
                 .setMenus(menus)
                 .setIcons(icons)
-                .setBaseIconPath("raven/drawer/icon")
+                .setBaseIconPath("Icons/icon.svg")
                 .setIconScale(0.45f)
                 .addMenuEvent(new MenuEvent() {
                     @Override
