@@ -2,6 +2,8 @@ package com.unu.sistemadegestiondocumentaria.ui.raven.drawer;
 
 import com.unu.sistemadegestiondocumentaria.ui.raven.form.TestForm;
 import com.unu.sistemadegestiondocumentaria.Main;
+import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormDocumentos;
+import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormDocumentos;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.WindowsTabbed;
 import raven.drawer.component.SimpleDrawerBuilder;
 import raven.drawer.component.footer.SimpleFooterData;
@@ -47,7 +49,7 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
             "sustentaciones.svg",
             "estudiantes.svg",
             "administrativos.svg",
-            "cerrar-sesion.svg"           
+            "cerrar-sesion.svg"
         };
 
         return new SimpleMenuOption()
@@ -59,11 +61,23 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
                     @Override
                     public void selected(MenuAction action, int index, int subIndex) {
                         if (index == 0) {
-                            WindowsTabbed.getInstance().addTab("Test Form", new TestForm());
+                            WindowsTabbed.getInstance().addTab("Documentos", new FormDocumentos());
+                        } else if (index == 1 && subIndex == 1) {
+                            WindowsTabbed.getInstance().addTab("Oficio", new FormDocumentos());
+                        } else if (index == 1 && subIndex == 2) {
+                            WindowsTabbed.getInstance().addTab("Memorándum", new FormDocumentos());
+                        } else if (index == 1 && subIndex == 3) {
+                            WindowsTabbed.getInstance().addTab("Acta de Sust.", new FormDocumentos());
+                        } else if (index == 2) {
+                            WindowsTabbed.getInstance().addTab("Sustentaciones", new FormDocumentos());
+                        } else if (index == 3) {
+                            WindowsTabbed.getInstance().addTab("Estudiantes", new FormDocumentos());
+                        } else if (index == 4) {
+                            WindowsTabbed.getInstance().addTab("Administrativos", new FormDocumentos());
                         } else if (index == 5) {
                             Main.main.login();
                         }
-                        System.out.println("Menu selected " + index + " " + subIndex);
+//                        System.out.println("Menu selected " + index + " " + subIndex);
                     }
 
                 })
@@ -92,4 +106,5 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
     public int getDrawerWidth() {
         return 275;
     }
+
 }
