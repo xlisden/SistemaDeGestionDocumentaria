@@ -4,6 +4,8 @@ import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import java.util.Collections;
+import java.util.List;
 
 public class AdministrativoService extends Repository<Administrativo> {
 
@@ -71,6 +73,22 @@ public class AdministrativoService extends Repository<Administrativo> {
             e.printConsoleMessage();
         }
         return null;
+    }
+
+    public List<Administrativo> getAllAdminiOrdenAlfNombre() {
+        List<Administrativo> lista = super.getAll();
+        if (lista != null) {
+            Collections.sort(lista, (x, y) -> x.getPersona().getNombre().compareToIgnoreCase(y.getPersona().getNombre()));
+        }
+        return lista;
+    }
+    
+    public List<Administrativo> getAllAdminiOrdenAlfApPaterno() {
+        List<Administrativo> lista = super.getAll();
+        if (lista != null) {
+            Collections.sort(lista, (x, y) -> x.getPersona().getApellidoPaterno().compareToIgnoreCase(y.getPersona().getApellidoPaterno()));
+        }
+        return lista;
     }
 
 }

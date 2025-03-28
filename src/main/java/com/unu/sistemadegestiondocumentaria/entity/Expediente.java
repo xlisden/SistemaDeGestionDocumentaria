@@ -66,7 +66,9 @@ public class Expediente {
 
     @Override
     public String toString() {
-        return "Expediente{" + "id=" + id + ", nroExpediente=" + nroExpediente + ", egresado=" + egresado + '}';
+//        return "Expediente{" + "id=" + id + ", nroExpediente=" + nroExpediente + ", egresado=" + egresado + '}';
+        String s = (egresado != null) ? egresado.getPersona().getNombre() + " " + egresado.getPersona().getApellidoPaterno() + " " + egresado.getPersona().getApellidoMaterno() : "";
+        return s;
     }
 
 }

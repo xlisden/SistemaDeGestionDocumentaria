@@ -55,7 +55,9 @@ public class Administrativo {
 
     @Override
     public String toString() {
-        return "Administrativo{" + "id=" + id + ", persona=" + persona + '}';
+//        return "Administrativo{" + "id=" + id + ", persona=" + persona + '}';
+        String s = (persona != null) ? persona.getGradoInstruccion().getNombre() + " " + persona.getNombre() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno() : "";
+        return s;
     }
 
 }

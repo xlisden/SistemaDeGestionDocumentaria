@@ -55,7 +55,7 @@ public class FormDocumentos extends TabbedForm {
         });
         crazyPanel2.add(jComboBox1);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "BACHILLERES" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ESTUDIANTES" }));
         crazyPanel2.add(jComboBox2);
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TIPO DOC." }));
