@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDocumento;
+import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DetExpedienteService extends Repository<DetalleDocumento> {
 
@@ -124,6 +127,18 @@ public class DetExpedienteService extends Repository<DetalleDocumento> {
             e.printConsoleMessage();
         }
         return exp;
+    }
+    
+    public List<Documento> getDocsByExp(int idExp){
+        List<Documento> documentos = new ArrayList<>();
+        List<DetalleDocumento> lista = getAll();
+        for(DetalleDocumento dt: lista){
+            int exp = dt.getExpediente().getId();
+            if (exp == idExp){
+                documentos.add(dt.getDocumento());
+            }
+        }
+        return documentos;
     }
 
 }
