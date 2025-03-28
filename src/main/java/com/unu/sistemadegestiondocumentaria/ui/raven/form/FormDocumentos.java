@@ -1,7 +1,15 @@
 package com.unu.sistemadegestiondocumentaria.ui.raven.form;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.TabbedForm;
-import javax.swing.JOptionPane;
+import java.awt.Component;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -11,6 +19,35 @@ public class FormDocumentos extends TabbedForm {
 
     public FormDocumentos() {
         initComponents();
+        aplicarDisenioTabla(tblDocumentos);
+    }
+
+    private void aplicarDisenioTabla(JTable tabla) {
+        JScrollPane scroll = (JScrollPane) tabla.getParent().getParent();
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+        scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
+                + "background:$Table.background;"
+                + "track:$Table.background;"
+                + "trackArc:999");
+
+        tabla.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        tabla.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        tabla.getTableHeader().setDefaultRenderer(getAligmentCellRenderer(tblDocumentos.getTableHeader().getDefaultRenderer(), true));
+    }
+
+    private TableCellRenderer getAligmentCellRenderer(TableCellRenderer antiguo, boolean header) {
+        return new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component com = antiguo.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (com instanceof JLabel) {
+                    JLabel label = (JLabel) com;
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                }
+                return com;
+            }
+
+        };
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -18,15 +55,15 @@ public class FormDocumentos extends TabbedForm {
 
         crazyPanel1 = new raven.crazypanel.CrazyPanel();
         crazyPanel2 = new raven.crazypanel.CrazyPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        cboExpedientes = new javax.swing.JComboBox<>();
+        cboEgresados = new javax.swing.JComboBox<>();
+        cboTipoDoc = new javax.swing.JComboBox<>();
+        txtFecha = new javax.swing.JTextField();
+        btnTodos = new javax.swing.JButton();
+        btnCambiarEstado = new javax.swing.JButton();
+        btnEditarDoc = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblDocumentos = new javax.swing.JTable();
 
         crazyPanel1.setMigLayoutConstraints(new raven.crazypanel.MigLayoutConstraints(
             "wrap,fill,insets 15",
@@ -47,35 +84,30 @@ public class FormDocumentos extends TabbedForm {
             }
         ));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EXP." }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-        crazyPanel2.add(jComboBox1);
+        cboExpedientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EXP." }));
+        crazyPanel2.add(cboExpedientes);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EGRESADOS" }));
-        crazyPanel2.add(jComboBox2);
+        cboEgresados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EGRESADOS" }));
+        crazyPanel2.add(cboEgresados);
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TIPO DOC." }));
-        crazyPanel2.add(jComboBox3);
+        cboTipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TIPO DOC." }));
+        crazyPanel2.add(cboTipoDoc);
 
-        jTextField1.setText("DD-MM-AAAA");
-        crazyPanel2.add(jTextField1);
+        txtFecha.setText("DD-MM-AAAA");
+        crazyPanel2.add(txtFecha);
 
-        jButton1.setText("Todos");
-        crazyPanel2.add(jButton1);
+        btnTodos.setText("Todos");
+        crazyPanel2.add(btnTodos);
 
-        jButton2.setText("Cambiar Estado");
-        crazyPanel2.add(jButton2);
+        btnCambiarEstado.setText("Cambiar Estado");
+        crazyPanel2.add(btnCambiarEstado);
 
-        jButton3.setText("Editar Doc.");
-        crazyPanel2.add(jButton3);
+        btnEditarDoc.setText("Editar Doc.");
+        crazyPanel2.add(btnEditarDoc);
 
         crazyPanel1.add(crazyPanel2);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblDocumentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -87,7 +119,7 @@ public class FormDocumentos extends TabbedForm {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -98,27 +130,29 @@ public class FormDocumentos extends TabbedForm {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(50);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(50);
-            jTable1.getColumnModel().getColumn(1).setMinWidth(100);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(1).setMaxWidth(100);
-            jTable1.getColumnModel().getColumn(2).setMinWidth(150);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(200);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(250);
-            jTable1.getColumnModel().getColumn(3).setMinWidth(100);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(200);
-            jTable1.getColumnModel().getColumn(3).setMaxWidth(250);
-            jTable1.getColumnModel().getColumn(4).setMinWidth(100);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(4).setMaxWidth(100);
-            jTable1.getColumnModel().getColumn(5).setMinWidth(50);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
+        tblDocumentos.setColumnSelectionAllowed(true);
+        tblDocumentos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tblDocumentos);
+        tblDocumentos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (tblDocumentos.getColumnModel().getColumnCount() > 0) {
+            tblDocumentos.getColumnModel().getColumn(0).setMinWidth(60);
+            tblDocumentos.getColumnModel().getColumn(0).setPreferredWidth(60);
+            tblDocumentos.getColumnModel().getColumn(0).setMaxWidth(60);
+            tblDocumentos.getColumnModel().getColumn(1).setMinWidth(150);
+            tblDocumentos.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tblDocumentos.getColumnModel().getColumn(1).setMaxWidth(200);
+            tblDocumentos.getColumnModel().getColumn(2).setMinWidth(200);
+            tblDocumentos.getColumnModel().getColumn(2).setPreferredWidth(250);
+            tblDocumentos.getColumnModel().getColumn(2).setMaxWidth(300);
+            tblDocumentos.getColumnModel().getColumn(3).setMinWidth(250);
+            tblDocumentos.getColumnModel().getColumn(3).setPreferredWidth(250);
+            tblDocumentos.getColumnModel().getColumn(3).setMaxWidth(300);
+            tblDocumentos.getColumnModel().getColumn(4).setMinWidth(100);
+            tblDocumentos.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tblDocumentos.getColumnModel().getColumn(4).setMaxWidth(100);
+            tblDocumentos.getColumnModel().getColumn(5).setMinWidth(50);
+            tblDocumentos.getColumnModel().getColumn(5).setPreferredWidth(50);
+            tblDocumentos.getColumnModel().getColumn(5).setMaxWidth(50);
         }
 
         crazyPanel1.add(jScrollPane1);
@@ -141,17 +175,14 @@ public class FormDocumentos extends TabbedForm {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
     @Override
     public boolean formClose() {
 //        if (txt.getText().trim().equals("")) {
 //            return true;
 //        }
-        int opt = JOptionPane.showConfirmDialog(this, "¿Estás seguro de salir sin guardar correctamente los datos?", "Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        return opt == JOptionPane.YES_OPTION;
+//        int opt = JOptionPane.showConfirmDialog(this, "¿Estás seguro de salir sin guardar correctamente los datos?", "Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+//        return opt == JOptionPane.YES_OPTION;
+        return true;
     }
 
     @Override
@@ -160,16 +191,16 @@ public class FormDocumentos extends TabbedForm {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCambiarEstado;
+    private javax.swing.JButton btnEditarDoc;
+    private javax.swing.JButton btnTodos;
+    private javax.swing.JComboBox<String> cboEgresados;
+    private javax.swing.JComboBox<String> cboExpedientes;
+    private javax.swing.JComboBox<String> cboTipoDoc;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tblDocumentos;
+    private javax.swing.JTextField txtFecha;
     // End of variables declaration//GEN-END:variables
 }
