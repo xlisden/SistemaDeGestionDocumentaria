@@ -60,4 +60,8 @@ public class Administrativo {
         return s;
     }
 
+    public String toStringPorAp() {
+        String s = (persona != null) ? persona.getGradoInstruccion().getNombre() + " " + persona.getApellidoPaterno().toUpperCase() + " " + persona.getApellidoMaterno().toUpperCase() + ", "+ persona.getNombre() : "";
+        return s;
+    }
 }

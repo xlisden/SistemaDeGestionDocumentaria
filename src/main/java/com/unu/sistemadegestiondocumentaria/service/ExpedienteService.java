@@ -81,16 +81,21 @@ public class ExpedienteService extends Repository<Expediente> {
         return null;
     }
 
-//    public List<Persona> getAll(boolean ordenAlfabetico) {
-//        List<Expediente> lista = super.getAll();
-//        List<Persona> personas = new ArrayList<>();
-//        try {
-//            return personas;
-//        } catch (ValidationException e) {
-//            e.printConsoleMessage();
-//        }
-//        return null;
-//    }
+    public List<Expediente> getAllExpOrdenAlfNombre() {
+        List<Expediente> lista = super.getAll();
+        if (lista != null) {
+            Collections.sort(lista, (x, y) -> x.getEgresado().getPersona().getNombre().compareToIgnoreCase(y.getEgresado().getPersona().getNombre()));
+        }
+        return lista;
+    }
+    
+    public List<Expediente> getAllExpOrdenAlfApPaterno() {
+        List<Expediente> lista = super.getAll();
+        if (lista != null) {
+            Collections.sort(lista, (x, y) -> x.getEgresado().getPersona().getApellidoPaterno().compareToIgnoreCase(y.getEgresado().getPersona().getApellidoPaterno()));
+        }
+        return lista;
+    }
 
     private int getNroExp() {
         return (getAll().isEmpty()) ? 1 : getLastId() + 1;

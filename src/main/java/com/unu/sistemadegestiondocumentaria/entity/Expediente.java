@@ -71,4 +71,8 @@ public class Expediente {
         return s;
     }
 
+    public String toStringPorAp() {
+        String s = (egresado != null) ? egresado.getPersona().getApellidoPaterno().toUpperCase() + " " + egresado.getPersona().getApellidoMaterno().toUpperCase() + ", " + egresado.getPersona().getNombre() : "";
+        return s;
+    }
 }
