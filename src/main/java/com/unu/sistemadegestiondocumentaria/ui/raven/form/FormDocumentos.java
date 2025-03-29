@@ -1,15 +1,30 @@
 package com.unu.sistemadegestiondocumentaria.ui.raven.form;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
+import com.unu.sistemadegestiondocumentaria.entity.Documento;
+import com.unu.sistemadegestiondocumentaria.entity.Expediente;
+import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
+import com.unu.sistemadegestiondocumentaria.service.DocumentoService;
+import com.unu.sistemadegestiondocumentaria.service.ExpedienteService;
+import com.unu.sistemadegestiondocumentaria.service.INoSeElTipoDoc;
+import com.unu.sistemadegestiondocumentaria.service.OficioService;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.TabbedForm;
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import com.unu.sistemadegestiondocumentaria.entity.IDocumento;
+import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,37 +32,113 @@ import javax.swing.table.TableCellRenderer;
  */
 public class FormDocumentos extends TabbedForm {
 
+    private final DocumentoService docService = DocumentoService.instanciar();
+    private final ExpedienteService expService = ExpedienteService.instanciar();
+    private List<Documento> documentos;
+    private List<TipoDocumento> tiposDoc;
+    private List<Expediente> expedientes;
+    private List<Object[]> dataTabla = new ArrayList<>();
+    private DefaultTableModel modTabla = null;
+    private int[] idexps;
+
     public FormDocumentos() {
+        CompletableFuture<Void> unHilo = CompletableFuture.runAsync(() -> getData());
         initComponents();
         aplicarDisenioTabla(tblDocumentos);
+        modTabla = (DefaultTableModel) tblDocumentos.getModel();
+        unHilo.join();
+
+//        CompletableFuture<Void> otroHilo = CompletableFuture.runAsync(() -> setDocumentos(documentos, dataTabla));
+        setDocumentos(documentos, dataTabla);
+        setTipoDocs(cboTipoDoc, "TIPO DOC.", tiposDoc);
+        setEstudiantes(cboEgresados, "ESTUDIANTES", expedientes);
+        setExpedientes(cboExpedientes, "EXP.", idexps);
+//        otroHilo.join();
+        System.out.println(documentos.size());
+        imprimirElementos(documentos);
     }
 
-    private void aplicarDisenioTabla(JTable tabla) {
-        JScrollPane scroll = (JScrollPane) tabla.getParent().getParent();
-        scroll.setBorder(BorderFactory.createEmptyBorder());
-        scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
-                + "background:$Table.background;"
-                + "track:$Table.background;"
-                + "trackArc:999");
-
-        tabla.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
-        tabla.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
-        tabla.getTableHeader().setDefaultRenderer(getAligmentCellRenderer(tblDocumentos.getTableHeader().getDefaultRenderer(), true));
+    private void getDocumentos(List<Documento> documentos) {
+        Object[] row = new Object[5];
+        for (Documento doc : documentos) {
+            row[0] = doc.getExpediente().getId();
+            row[1] = doc.getNombre();
+//            row[2] = docService.getAsunto(doc.getId());
+            row[2] = "";
+            row[3] = nose(doc.getDestinatarios());
+            row[4] = doc.getFechaEmision().toString();
+            dataTabla.add(row);
+        }
     }
 
-    private TableCellRenderer getAligmentCellRenderer(TableCellRenderer antiguo, boolean header) {
-        return new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                Component com = antiguo.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (com instanceof JLabel) {
-                    JLabel label = (JLabel) com;
-                    label.setHorizontalAlignment(SwingConstants.CENTER);
-                }
-                return com;
-            }
+    private void setDocumentos(List<Documento> documentos, List<Object[]> dataTabla) {
+        modTabla.setRowCount(0);
+        getDocumentos(documentos);
+        for (Object[] o : dataTabla) {
+            modTabla.addRow(o);
+        }
+        tblDocumentos.setModel(modTabla);
+    }
 
-        };
+    private String nose(List<Administrativo> destinatarios) {
+        String s = "";
+        int cantComas = destinatarios.size() - 1;
+        for (int i = 0; i < cantComas; i++) {
+            s += destinatarios.get(i) + ", ";
+        }
+        s += destinatarios.get(cantComas + 1);
+        return s;
+    }
+
+    private <T> void setTipoDocs(JComboBox comboBox, String selected, List<T> lista) {
+        comboBox.removeAllItems();
+        comboBox.addItem(selected);
+        for (T t : lista) {
+            comboBox.addItem(t.toString());
+        }
+    }
+
+    private void setEstudiantes(JComboBox comboBox, String selected, List<Expediente> lista) {
+        comboBox.removeAllItems();
+        comboBox.addItem(selected);
+        int i = 0;
+        for (Expediente t : lista) {
+            comboBox.addItem(t.toStringPorAp());
+            idexps[i] = t.getId();
+            i++;
+        }
+//        for (int i = 0; i < lista.size(); i++) {
+//            comboBox.addItem(lista.get(i).toStringPorAp());
+//            idexps[i] = lista.get(i).getId();
+//        }
+    }
+
+    private void setExpedientes(JComboBox comboBox, String selected, int[] lista) {
+        comboBox.removeAllItems();
+        comboBox.addItem(selected);
+        for (int i = 0; i < lista.length; i++) {
+            comboBox.addItem(lista[i]);
+        }
+    }
+
+    private void getData() {
+        CompletableFuture<Void> unHilo = CompletableFuture.runAsync(() -> documentos = docService.getAll());
+        CompletableFuture<Void> otroHilo = CompletableFuture.runAsync(() -> expedientes = expService.getAllExpOrdenAlfApPaterno());
+        CompletableFuture<Void> unoMas = CompletableFuture.runAsync(() -> tiposDoc = docService.getAllTiposDocumento());
+//        new Thread(() -> documentos = docService.getAll()).start();
+//        new Thread(() -> expedientes = expService.getAllExpOrdenAlfApPaterno()).start();
+//        new Thread(() -> tiposDoc = docService.getAllTiposDocumento()).start();
+//        documentos = docService.getAll();
+//        expedientes = expService.getAllExpOrdenAlfApPaterno();
+//        tiposDoc = docService.getAllTiposDocumento();
+        otroHilo.join();
+        idexps = new int[expedientes.size()];
+    }
+
+    private static <T> void imprimirElementos(List<T> lista) {
+        for (T x : lista) {
+            System.out.println(x.toString());
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -79,7 +170,7 @@ public class FormDocumentos extends TabbedForm {
             new String[]{
                 "width 30",
                 "width 250",
-                "width 150",
+                "width 150!",
                 "width 200"
             }
         ));
@@ -144,7 +235,7 @@ public class FormDocumentos extends TabbedForm {
             tblDocumentos.getColumnModel().getColumn(2).setMinWidth(200);
             tblDocumentos.getColumnModel().getColumn(2).setPreferredWidth(250);
             tblDocumentos.getColumnModel().getColumn(2).setMaxWidth(300);
-            tblDocumentos.getColumnModel().getColumn(3).setMinWidth(250);
+            tblDocumentos.getColumnModel().getColumn(3).setMinWidth(200);
             tblDocumentos.getColumnModel().getColumn(3).setPreferredWidth(250);
             tblDocumentos.getColumnModel().getColumn(3).setMaxWidth(300);
             tblDocumentos.getColumnModel().getColumn(4).setMinWidth(100);
@@ -203,4 +294,33 @@ public class FormDocumentos extends TabbedForm {
     private javax.swing.JTable tblDocumentos;
     private javax.swing.JTextField txtFecha;
     // End of variables declaration//GEN-END:variables
+
+    private void aplicarDisenioTabla(JTable tabla) {
+        JScrollPane scroll = (JScrollPane) tabla.getParent().getParent();
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+        scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
+                + "background:$Table.background;"
+                + "track:$Table.background;"
+                + "trackArc:999");
+
+        tabla.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        tabla.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
+        tabla.getTableHeader().setDefaultRenderer(getAligmentCellRenderer(tblDocumentos.getTableHeader().getDefaultRenderer(), true));
+    }
+
+    private TableCellRenderer getAligmentCellRenderer(TableCellRenderer antiguo, boolean header) {
+        return new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component com = antiguo.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (com instanceof JLabel) {
+                    JLabel label = (JLabel) com;
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                }
+                return com;
+            }
+
+        };
+    }
+
 }

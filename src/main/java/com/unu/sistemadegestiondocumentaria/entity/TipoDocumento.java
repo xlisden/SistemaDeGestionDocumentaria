@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tipos_documento")
-public class TipoDocumento {
+public class TipoDocumento{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +46,7 @@ public class TipoDocumento {
 
     @Override
     public String toString() {
-        return "TipoDocumento{" + "id=" + id + ", nombre=" + nombre + '}';
+        return nombre.toUpperCase();
     }
 
 }

@@ -2,6 +2,10 @@ package com.unu.sistemadegestiondocumentaria.ui.raven.drawer;
 
 import com.unu.sistemadegestiondocumentaria.ui.raven.form.TestForm;
 import com.unu.sistemadegestiondocumentaria.Main;
+import com.unu.sistemadegestiondocumentaria.service.AdministrativoService;
+import com.unu.sistemadegestiondocumentaria.service.DocumentoService;
+import com.unu.sistemadegestiondocumentaria.service.ExpedienteService;
+import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
 import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormDocumentos;
 import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormDocumentos;
 import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormOficios;
@@ -67,15 +71,15 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
                             // si es Esditar title = "Editar Oficio"
                             WindowsTabbed.getInstance().addTab("Oficio", new FormOficios(true));
                         } else if (index == 1 && subIndex == 2) {
-                            WindowsTabbed.getInstance().addTab("Memorándum", new FormDocumentos());
+//                            WindowsTabbed.getInstance().addTab("Memorándum", new FormDocumentos());
                         } else if (index == 1 && subIndex == 3) {
-                            WindowsTabbed.getInstance().addTab("Acta de Sust.", new FormDocumentos());
+//                            WindowsTabbed.getInstance().addTab("Acta de Sust.", new FormDocumentos());
                         } else if (index == 2) {
-                            WindowsTabbed.getInstance().addTab("Sustentaciones", new FormDocumentos());
+//                            WindowsTabbed.getInstance().addTab("Sustentaciones", new FormDocumentos());
                         } else if (index == 3) {
-                            WindowsTabbed.getInstance().addTab("Estudiantes", new FormDocumentos());
+//                            WindowsTabbed.getInstance().addTab("Estudiantes", new FormDocumentos());
                         } else if (index == 4) {
-                            WindowsTabbed.getInstance().addTab("Administrativos", new FormDocumentos());
+//                            WindowsTabbed.getInstance().addTab("Administrativos", new FormDocumentos());
                         } else if (index == 5) {
                             Main.main.login();
                         }
@@ -108,5 +112,6 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
     public int getDrawerWidth() {
         return 275;
     }
+
 
 }

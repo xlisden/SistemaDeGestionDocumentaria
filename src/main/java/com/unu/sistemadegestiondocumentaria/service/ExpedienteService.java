@@ -2,6 +2,7 @@ package com.unu.sistemadegestiondocumentaria.service;
 
 import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
+import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
@@ -88,7 +89,7 @@ public class ExpedienteService extends Repository<Expediente> {
         }
         return lista;
     }
-    
+
     public List<Expediente> getAllExpOrdenAlfApPaterno() {
         List<Expediente> lista = super.getAll();
         if (lista != null) {
@@ -101,4 +102,7 @@ public class ExpedienteService extends Repository<Expediente> {
         return (getAll().isEmpty()) ? 1 : getLastId() + 1;
     }
 
+    public List<GradoInstruccion> getAllGradosInstruccion() {
+        return egresadoService.getAllGradosInstruccion();
+    }
 }

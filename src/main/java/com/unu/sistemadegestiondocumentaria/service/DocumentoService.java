@@ -8,13 +8,17 @@ import com.unu.sistemadegestiondocumentaria.entity.DetalleDocumento;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
+import com.unu.sistemadegestiondocumentaria.entity.Oficio;
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import com.unu.sistemadegestiondocumentaria.entity.IDocumento;
 
 public class DocumentoService extends Repository<Documento> {
 
@@ -24,6 +28,7 @@ public class DocumentoService extends Repository<Documento> {
     private final EstadoService estadoService = EstadoService.instanciar();
     private final ExpedienteService expedienteService = ExpedienteService.instanciar();
     private final TipoDocumentoService tdService = TipoDocumentoService.instanciar();
+//    private final OficioService oficioService = OficioService.instanciar();
 
     private static DocumentoService INSTANCIA;
 
@@ -181,6 +186,7 @@ public class DocumentoService extends Repository<Documento> {
         for (Documento doc : documentos) {
             doc.setExpediente(getExpediente(doc.getId()));
             doc.setDestinatarios(getDestinatarios(doc.getId()));
+            doc.getAsunto();
         }
         return documentos;
     }
@@ -359,34 +365,17 @@ public class DocumentoService extends Repository<Documento> {
         return exp;
     }
 
-    // usado en oficio para
-    /* puede usarse restos del codigo para cuando en los update, se quiere poner los mismos datos y solo se cambia algo? */
-//    public Documento setDocumento(Documento documento, Documento doc) {
-//        Administrativo emisor = (doc.getIdEmisor() == 0)
-//                ? (doc.getEmisor() != null ? doc.getEmisor() : documento.getEmisor())
-//                : administrativoService.getById(doc.getIdEmisor());
-//        TipoDocumento td = (doc.getIdTipoDoc() == 0)
-//                ? ((doc.getTipoDocumento() != null) ? doc.getTipoDocumento() : documento.getTipoDocumento())
-//                : tdService.getById(doc.getIdTipoDoc());
-//        Expediente exp = (doc.getIdExpediente() == 0)
-//                ? ((doc.getExpediente() != null) ? doc.getExpediente() : documento.getExpediente())
-//                : expedienteService.getById(doc.getIdExpediente());
-//
-//        String correlativo = doc.getCorrelativo() != null ? doc.getCorrelativo() : documento.getCorrelativo();
-//        Estado estado = doc.getEstado() != null ? doc.getEstado() : documento.getEstado();
-//
-//        if (emisor == null || td == null || exp == null || correlativo.isEmpty() || estado == null) {
-//            // throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
-//            return null;
-//        }
-//
-//        documento.setCorrelativo(correlativo);
-//        documento.setFechaEmision(doc.getFechaEmision());
-//        documento.setTipoDocumento(td);
-//        documento.setEstado(estado);
-//        documento.setEmisor(emisor);
-//        documento.setExpediente(exp);
-//
-//        return documento;
-//    }
+    public List<TipoDocumento> getAllTiposDocumento() {
+        return tdService.getAll();
+    }
+
+    public String getAsunto(int idDoc) {
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("idDoc", idDoc);
+
+        IDocumento doc = getByQuery("SELECT x FROM Oficio x WHERE x.documento.id = :idDoc", parametros);
+        doc.getAsunto();
+        return doc.getAsunto();
+    }
+
 }

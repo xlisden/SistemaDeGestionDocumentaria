@@ -1,6 +1,7 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
+import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
@@ -89,6 +90,10 @@ public class AdministrativoService extends Repository<Administrativo> {
             Collections.sort(lista, (x, y) -> x.getPersona().getApellidoPaterno().compareToIgnoreCase(y.getPersona().getApellidoPaterno()));
         }
         return lista;
+    }
+    
+    public List<GradoInstruccion> getAllGradosInstruccion(){
+        return personaService.getAllGradosInstruccion();
     }
 
 }

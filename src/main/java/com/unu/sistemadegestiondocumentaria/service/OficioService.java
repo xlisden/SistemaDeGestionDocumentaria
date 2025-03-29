@@ -9,8 +9,11 @@ import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
+import java.util.HashMap;
+import java.util.Map;
+import com.unu.sistemadegestiondocumentaria.entity.IDocumento;
 
-public class OficioService extends Repository<Oficio> {
+public class OficioService extends Repository<Oficio> implements INoSeElTipoDoc {
 
     private final DocumentoService docService = DocumentoService.instanciar();
 
@@ -125,13 +128,22 @@ public class OficioService extends Repository<Oficio> {
 
             int idDoc = oficio.getDocumento().getId();
             if (docService.getById(idDoc) == null) {
-            	return null;
+                return null;
             }
             destinatarios = docService.getDestinatarios(idDoc);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
-        return destinatarios;    	
+        return destinatarios;
     }
-    
+
+    @Override
+    public IDocumento getTipoDoc(int idDoc) {
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("idDoc", idDoc);
+
+        Oficio oficio = getByQuery("SELECT x FROM Oficio x WHERE x.documento.id = :idDoc", parametros);
+        return oficio;
+    }
+
 }

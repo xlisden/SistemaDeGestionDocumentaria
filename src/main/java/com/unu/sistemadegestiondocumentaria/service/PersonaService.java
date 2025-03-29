@@ -7,6 +7,7 @@ import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import java.util.List;
 
 public class PersonaService extends Repository<Persona> {
 
@@ -85,6 +86,10 @@ public class PersonaService extends Repository<Persona> {
             e.printConsoleMessage();
         }
         return null;
+    }
+    
+    public List<GradoInstruccion> getAllGradosInstruccion(){
+        return giService.getAll();
     }
 
 }

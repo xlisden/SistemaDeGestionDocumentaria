@@ -57,15 +57,15 @@ public class SistemaDeGestionDocumentaria {
         Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 
 //  Install with jframe
-        FlatRobotoFont.install();
-        FlatLaf.registerCustomDefaultsSource("raven.themes");
-        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
-        FlatMacDarkLaf.setup();
-        JFrame frame = new JFrame("Sistema de Gestión Documentaria");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-        frame.setVisible(true);
-        GlassPanePopup.install(frame);
+//        FlatRobotoFont.install();
+//        FlatLaf.registerCustomDefaultsSource("raven.themes");
+//        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+//        FlatMacDarkLaf.setup();
+//        JFrame frame = new JFrame("Sistema de Gestión Documentaria");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setSize(800, 600);
+//        frame.setVisible(true);
+//        GlassPanePopup.install(frame);
 
 //  Show glasspane popup
 //        String action[] = {"Cancel", "OK"};
@@ -84,14 +84,14 @@ public class SistemaDeGestionDocumentaria {
 //            }
 //        }));
 
-        MessageAlerts.getInstance().showMessage("Data Saving Failure", "Oops! We encountered an issue while attempting to save your data. Please try again later or contact support for assistance. Apologies for any inconvenience caused.", MessageAlerts.MessageType.ERROR, MessageAlerts.OK_OPTION, new PopupCallbackAction() {
-            @Override
-            public void action(PopupController pc, int i) {
-                if (i == MessageAlerts.OK_OPTION) {
-                    System.out.println("Click ok");
-                }
-            }
-        });
+//        MessageAlerts.getInstance().showMessage("Data Saving Failure", "Oops! We encountered an issue while attempting to save your data. Please try again later or contact support for assistance. Apologies for any inconvenience caused.", MessageAlerts.MessageType.ERROR, MessageAlerts.OK_OPTION, new PopupCallbackAction() {
+//            @Override
+//            public void action(PopupController pc, int i) {
+//                if (i == MessageAlerts.OK_OPTION) {
+//                    System.out.println("Click ok");
+//                }
+//            }
+//        });
 //        /* 
 //         * sin elementos
 //         * sin asesor
@@ -120,7 +120,7 @@ public class SistemaDeGestionDocumentaria {
 //        addEstados();
 //        addAdministrativos();
 //        addExpedientes();
-//         addOficios();
+         addOficios();
         // addPersonas();
         // addEgresados();
 //         addDocumentos();

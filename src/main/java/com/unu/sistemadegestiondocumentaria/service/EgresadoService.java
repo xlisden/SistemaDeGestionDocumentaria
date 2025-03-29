@@ -1,9 +1,11 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
 import com.unu.sistemadegestiondocumentaria.entity.Egresado;
+import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import java.util.List;
 
 public class EgresadoService extends Repository<Egresado> {
 
@@ -26,7 +28,7 @@ public class EgresadoService extends Repository<Egresado> {
         try {
             personaService.add(t);
             int idPersona = personaService.getLastId();
-            
+
             if (!getAll().isEmpty() && idPersona == getLast().getPersona().getId() || t.getIdGradoInst() != 1) {
                 return;
             }
@@ -74,4 +76,7 @@ public class EgresadoService extends Repository<Egresado> {
         return null;
     }
 
+    public List<GradoInstruccion> getAllGradosInstruccion() {
+        return personaService.getAllGradosInstruccion();
+    }
 }

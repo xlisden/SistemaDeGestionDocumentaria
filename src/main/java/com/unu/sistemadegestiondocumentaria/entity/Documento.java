@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "documentos")
-public class Documento {
+public class Documento implements IDocumento{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +51,8 @@ public class Documento {
     private int idExpediente;
     @Transient
     private Expediente expediente;
+    @Transient
+    private IDocumento tipoDoc;
 
     public Documento() {
         idDestinatarios = new ArrayList<>();
@@ -185,6 +187,23 @@ public class Documento {
 
     public void setExpediente(Expediente expediente) {
         this.expediente = expediente;
+    }
+
+    public String getNombre() {
+        return tipoDocumento.getNombre() + " " + correlativo;
+    }
+
+    public IDocumento getTipoDoc() {
+        return tipoDoc;
+    }
+
+    public void setTipoDoc(IDocumento tipoDoc) {
+        this.tipoDoc = tipoDoc;
+    }
+
+    @Override
+    public String getAsunto() {
+        return "";
     }
 
 }

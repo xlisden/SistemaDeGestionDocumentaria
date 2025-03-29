@@ -17,6 +17,7 @@ public class Repository<T> {
     private String className = "";
 
     public Repository(Class<T> type) {
+        System.out.println("en repo " +className);
         this.typeClass = type;
         className = typeClass.getName().substring(44, typeClass.getName().length());
     }
