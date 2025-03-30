@@ -1,6 +1,6 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import com.unu.sistemadegestiondocumentaria.entity.Oficio;
+import com.unu.sistemadegestiondocumentaria.entity.Memorandum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,25 +12,25 @@ import com.unu.sistemadegestiondocumentaria.validations.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OficioService extends Repository<Oficio> {
+public class MemorandumService extends Repository<Memorandum> {
 
     private final DocumentoService docService = DocumentoService.instanciar();
 
-    private static OficioService INSTANCIA;
+    private static MemorandumService INSTANCIA;
 
-    private OficioService(Class<Oficio> type) {
+    private MemorandumService(Class<Memorandum> type) {
         super(type);
     }
 
-    public static OficioService instanciar() {
+    public static MemorandumService instanciar() {
         if (INSTANCIA == null) {
-            INSTANCIA = new OficioService(Oficio.class);
+            INSTANCIA = new MemorandumService(Memorandum.class);
         }
         return INSTANCIA;
     }
 
     @Override
-    public void add(Oficio t) {
+    public void add(Memorandum t) {
         try {
             Documento doc = t.getDocumento();
             if (doc == null) {
@@ -38,7 +38,7 @@ public class OficioService extends Repository<Oficio> {
             }
             boolean isCorrect = docService.addDoc(doc);
             if (isCorrect) {
-                Validation.validateOficio(t);
+                Validation.validateMemorandum(t);
                 super.add(t);
             }
         } catch (ValidationException e) {
@@ -47,15 +47,15 @@ public class OficioService extends Repository<Oficio> {
     }
 
     @Override
-    public void update(int id, Oficio t) {
+    public void update(int id, Memorandum t) {
         try {
-            Oficio oficio = getById(id);
-            if (oficio == null) {
-                // throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
+            Memorandum memorandum = getById(id);
+            if (memorandum == null) {
+                // throw new ValidationException(Validation.showWarning("El Memorandum no puede estar vacío."));
                 return;
             }
 
-            int idDoc = oficio.getDocumento().getId();
+            int idDoc = memorandum.getDocumento().getId();
             Documento doc = docService.getById(idDoc);
             if (doc == null) {
                 return;
@@ -65,27 +65,27 @@ public class OficioService extends Repository<Oficio> {
 //          no se porque validar, si ya documento validara en update
             t.setDocumento(doc);
 
-            Validation.validateOficio(t);
+            Validation.validateMemorandum(t);
             docService.update(idDoc, doc);
-            oficio.setAsunto(t.getAsunto());
-            oficio.setReferencia(t.getReferencia());
+            memorandum.setAsunto(t.getAsunto());
+            memorandum.setReferencia(t.getReferencia());
 
-            super.update(id, oficio);
+            super.update(id, memorandum);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
     }
 
-    // borrar desde aqui porque en docservice se tendria que instaciar oficioService creando un bucle
+    // borrar desde aqui porque en docservice se tendria que instaciar memorandumService creando un bucle
     @Override
     public void delete(int id) {
         try {
-            Oficio oficio = getById(id);
-            if (oficio == null) {
-                // throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
+            Memorandum memorandum = getById(id);
+            if (memorandum == null) {
+                // throw new ValidationException(Validation.showWarning("El Memorandum no puede estar vacío."));
                 return;
             }
-            docService.deleteDocDependencias(oficio.getDocumento().getId());
+            docService.deleteDocDependencias(memorandum.getDocumento().getId());
 
             super.delete(id);
         } catch (ValidationException e) {
@@ -94,7 +94,7 @@ public class OficioService extends Repository<Oficio> {
     }
 
     @Override
-    public Oficio getById(int id) {
+    public Memorandum getById(int id) {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
@@ -106,13 +106,13 @@ public class OficioService extends Repository<Oficio> {
     // ¿
     public void updateEstadoDocumento(int id) {
         try {
-            Oficio oficio = getById(id);
-            if (oficio == null) {
-                // throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
+            Memorandum memorandum = getById(id);
+            if (memorandum == null) {
+                // throw new ValidationException(Validation.showWarning("El Memorandum no puede estar vacío."));
                 return;
             }
 
-            int idDoc = oficio.getDocumento().getId();
+            int idDoc = memorandum.getDocumento().getId();
             docService.updateEstadoDocumento(idDoc);
         } catch (ValidationException e) {
             e.printConsoleMessage();
@@ -123,12 +123,12 @@ public class OficioService extends Repository<Oficio> {
     public List<Administrativo> getDestinatarios(int id) {
         List<Administrativo> destinatarios = new ArrayList<>();
         try {
-            Oficio oficio = getById(id);
-            if (oficio == null) {
+            Memorandum memorandum = getById(id);
+            if (memorandum == null) {
                 return null;
             }
 
-            int idDoc = oficio.getDocumento().getId();
+            int idDoc = memorandum.getDocumento().getId();
             if (docService.getById(idDoc) == null) {
                 return null;
             }
@@ -143,8 +143,8 @@ public class OficioService extends Repository<Oficio> {
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("idDoc", idDoc);
 
-        Oficio oficio = getByQuery("SELECT x FROM Oficio x WHERE x.documento.id = :idDoc", parametros);
-        return oficio.getAsunto();
+        Memorandum memorandum = getByQuery("SELECT x FROM Memorandum x WHERE x.documento.id = :idDoc", parametros);
+        return memorandum.getAsunto();
     }
 
 }

@@ -23,7 +23,11 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import com.unu.sistemadegestiondocumentaria.entity.IDocumento;
+import com.unu.sistemadegestiondocumentaria.entity.Memorandum;
+import com.unu.sistemadegestiondocumentaria.service.ActaSustService;
+import com.unu.sistemadegestiondocumentaria.service.MemorandumService;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import java.util.Objects;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,6 +38,9 @@ public class FormDocumentos extends TabbedForm {
 
     private final DocumentoService docService = DocumentoService.instanciar();
     private final ExpedienteService expService = ExpedienteService.instanciar();
+    private final OficioService ofService = OficioService.instanciar();
+    private final MemorandumService memoService = MemorandumService.instanciar();
+    private final ActaSustService actaService = ActaSustService.instanciar();
     private List<Documento> documentos;
     private List<TipoDocumento> tiposDoc;
     private List<Expediente> expedientes;
@@ -48,24 +55,26 @@ public class FormDocumentos extends TabbedForm {
         modTabla = (DefaultTableModel) tblDocumentos.getModel();
         unHilo.join();
 
-//        CompletableFuture<Void> otroHilo = CompletableFuture.runAsync(() -> setDocumentos(documentos, dataTabla));
         setDocumentos(documentos, dataTabla);
         setTipoDocs(cboTipoDoc, "TIPO DOC.", tiposDoc);
         setEstudiantes(cboEgresados, "ESTUDIANTES", expedientes);
         setExpedientes(cboExpedientes, "EXP.", idexps);
-//        otroHilo.join();
-        System.out.println(documentos.size());
-        imprimirElementos(documentos);
     }
 
     private void getDocumentos(List<Documento> documentos) {
-        Object[] row = new Object[5];
         for (Documento doc : documentos) {
+            Object[] row = new Object[5];
             row[0] = doc.getExpediente().getId();
             row[1] = doc.getNombre();
-//            row[2] = docService.getAsunto(doc.getId());
-            row[2] = "";
-            row[3] = nose(doc.getDestinatarios());
+            String asunto = "";
+            switch (doc.getTipoDocumento().getId()) {
+                case 1 -> asunto = ofService.getAsuntoByDoc(doc.getId());
+                case 2 -> asunto = memoService.getAsuntoByDoc(doc.getId());
+                case 3 -> asunto = actaService.getTemaByDoc(doc.getId());
+//                    row[2] = Objects.requireNonNullElse(ofService.getAsuntoByDoc(doc.getId()), "");
+            }
+            row[2] = (asunto != null) ? asunto : "";
+            row[3] = getDestinatarios(doc.getDestinatarios());
             row[4] = doc.getFechaEmision().toString();
             dataTabla.add(row);
         }
@@ -80,13 +89,13 @@ public class FormDocumentos extends TabbedForm {
         tblDocumentos.setModel(modTabla);
     }
 
-    private String nose(List<Administrativo> destinatarios) {
+    private String getDestinatarios(List<Administrativo> destinatarios) {
         String s = "";
         int cantComas = destinatarios.size() - 1;
         for (int i = 0; i < cantComas; i++) {
             s += destinatarios.get(i) + ", ";
         }
-        s += destinatarios.get(cantComas + 1);
+        s += destinatarios.get(cantComas);
         return s;
     }
 
@@ -122,17 +131,18 @@ public class FormDocumentos extends TabbedForm {
     }
 
     private void getData() {
-        CompletableFuture<Void> unHilo = CompletableFuture.runAsync(() -> documentos = docService.getAll());
-        CompletableFuture<Void> otroHilo = CompletableFuture.runAsync(() -> expedientes = expService.getAllExpOrdenAlfApPaterno());
-        CompletableFuture<Void> unoMas = CompletableFuture.runAsync(() -> tiposDoc = docService.getAllTiposDocumento());
+//        CompletableFuture<Void> docHilo = CompletableFuture.runAsync(() -> documentos = docService.getAll());
+//        CompletableFuture<Void> expHilo = CompletableFuture.runAsync(() -> expedientes = expService.getAllExpOrdenAlfApPaterno());
+//        CompletableFuture<Void> unoMas = CompletableFuture.runAsync(() -> tiposDoc = docService.getAllTiposDocumento());
 //        new Thread(() -> documentos = docService.getAll()).start();
 //        new Thread(() -> expedientes = expService.getAllExpOrdenAlfApPaterno()).start();
 //        new Thread(() -> tiposDoc = docService.getAllTiposDocumento()).start();
-//        documentos = docService.getAll();
-//        expedientes = expService.getAllExpOrdenAlfApPaterno();
-//        tiposDoc = docService.getAllTiposDocumento();
-        otroHilo.join();
+        documentos = docService.getAll();
+        expedientes = expService.getAllExpOrdenAlfApPaterno();
+        tiposDoc = docService.getAllTiposDocumento();
+//        expHilo.join();
         idexps = new int[expedientes.size()];
+//        docHilo.join();
     }
 
     private static <T> void imprimirElementos(List<T> lista) {
@@ -176,9 +186,19 @@ public class FormDocumentos extends TabbedForm {
         ));
 
         cboExpedientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EXP." }));
+        cboExpedientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboExpedientesActionPerformed(evt);
+            }
+        });
         crazyPanel2.add(cboExpedientes);
 
         cboEgresados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EGRESADOS" }));
+        cboEgresados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboEgresadosActionPerformed(evt);
+            }
+        });
         crazyPanel2.add(cboEgresados);
 
         cboTipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TIPO DOC." }));
@@ -265,6 +285,17 @@ public class FormDocumentos extends TabbedForm {
                 .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cboEgresadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboEgresadosActionPerformed
+        if(cboEgresados.getSelectedIndex() != 0 && cboEgresados.getSelectedIndex() != -1){
+            int idxEgresados = cboEgresados.getSelectedIndex();
+            cboExpedientes.setSelectedIndex(idxEgresados);
+        }
+    }//GEN-LAST:event_cboEgresadosActionPerformed
+
+    private void cboExpedientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboExpedientesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboExpedientesActionPerformed
 
     @Override
     public boolean formClose() {

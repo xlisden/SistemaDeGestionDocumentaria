@@ -90,7 +90,7 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String args[]) {
-        new Thread(() -> HibernateConfig.instanciarServicios()).start();
+//        HibernateConfig.instanciarServicios();
         FlatRobotoFont.install();
         FlatLaf.registerCustomDefaultsSource("Tema");
         FlatMacLightLaf.registerCustomDefaultsSource("Tema");

@@ -289,6 +289,7 @@ public class DocumentoService extends Repository<Documento> {
 
             detDestinatarioService.deleteByDoc(idDoc);
             detExpedienteService.deleteByDoc(idDoc);
+            // aqui tambien se puede borrar segun tipo de doc, pero se tendria que instanciar a oficioservice y no es posible
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }

@@ -1,5 +1,6 @@
 package com.unu.sistemadegestiondocumentaria.validations;
 
+import com.unu.sistemadegestiondocumentaria.entity.ActaSustentacionTesis;
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDestinatario;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDocumento;
@@ -9,6 +10,7 @@ import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
+import com.unu.sistemadegestiondocumentaria.entity.Memorandum;
 import com.unu.sistemadegestiondocumentaria.entity.Oficio;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
@@ -124,10 +126,42 @@ public class Validation {
         }
 
         if (oficio.getReferencia() == null || oficio.getReferencia().isBlank()) {
-            throw new ValidationException("La referencia del Documento no puede estar vacía.");
+            throw new ValidationException("La referencia del Ofcio no puede estar vacía.");
         }
     }
+    // 
+    public static void validateMemorandum(Memorandum memorandum) {
+        if (memorandum.getDocumento() == null) {
+            throw new ValidationException("El documento del Memorandum no puede estar vacío.");
+        }
+//        validateDocumento(oficio.getDocumento());
+        // no necesitamos validar el documento anticipadamente. Add y Update del DocService ya validan todo lo de doc
 
+        if (memorandum.getAsunto() == null || memorandum.getAsunto().isBlank()) {
+            throw new ValidationException("El asunto del Memorandum no puede estar vacío.");
+        }
+
+        if (memorandum.getReferencia() == null || memorandum.getReferencia().isBlank()) {
+            throw new ValidationException("La referencia del Memorandum no puede estar vacía.");
+        }
+    }
+    // ActaSustentacionTesis
+    public static void validateActaSust(ActaSustentacionTesis acta) {
+        if (acta.getDocumento() == null) {
+            throw new ValidationException("El documento del Acta de Sustentación no puede estar vacío.");
+        }
+//        validateDocumento(oficio.getDocumento());
+        // no necesitamos validar el documento anticipadamente. Add y Update del DocService ya validan todo lo de doc
+
+        if (acta.getTema()== null || acta.getTema().isBlank()) {
+            throw new ValidationException("El asunto del Acta de Sustentación no puede estar vacío.");
+        }
+
+        if (acta.getCalificacion() <= 0 || acta.getCalificacion() > 30) {
+            throw new ValidationException("La calificación del Acta de Sustentación no puede ser mayor a 30 o menor a 0.");
+        }
+    }
+    
     public static void validateDetDestinatario(DetalleDestinatario detDest) {
         if (detDest.getDocumento() == null) {
             throw new ValidationException("El documento del Det. Destinatario no puede estar vacío.");

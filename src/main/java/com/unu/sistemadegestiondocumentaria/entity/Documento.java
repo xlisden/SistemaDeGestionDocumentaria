@@ -12,8 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+//import org.hibernate.annotations.Cache;
+//import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 
 @Entity
+//@Cache(usage = CacheConcurrencyStrategy.READ_ONLY) 
 @Table(name = "documentos")
 public class Documento implements IDocumento{
 

@@ -1,6 +1,6 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import com.unu.sistemadegestiondocumentaria.entity.Oficio;
+import com.unu.sistemadegestiondocumentaria.entity.ActaSustentacionTesis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,25 +12,25 @@ import com.unu.sistemadegestiondocumentaria.validations.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OficioService extends Repository<Oficio> {
+public class ActaSustService extends Repository<ActaSustentacionTesis> {
 
     private final DocumentoService docService = DocumentoService.instanciar();
 
-    private static OficioService INSTANCIA;
+    private static ActaSustService INSTANCIA;
 
-    private OficioService(Class<Oficio> type) {
+    private ActaSustService(Class<ActaSustentacionTesis> type) {
         super(type);
     }
 
-    public static OficioService instanciar() {
+    public static ActaSustService instanciar() {
         if (INSTANCIA == null) {
-            INSTANCIA = new OficioService(Oficio.class);
+            INSTANCIA = new ActaSustService(ActaSustentacionTesis.class);
         }
         return INSTANCIA;
     }
 
     @Override
-    public void add(Oficio t) {
+    public void add(ActaSustentacionTesis t) {
         try {
             Documento doc = t.getDocumento();
             if (doc == null) {
@@ -38,7 +38,7 @@ public class OficioService extends Repository<Oficio> {
             }
             boolean isCorrect = docService.addDoc(doc);
             if (isCorrect) {
-                Validation.validateOficio(t);
+                Validation.validateActaSust(t);
                 super.add(t);
             }
         } catch (ValidationException e) {
@@ -47,15 +47,15 @@ public class OficioService extends Repository<Oficio> {
     }
 
     @Override
-    public void update(int id, Oficio t) {
+    public void update(int id, ActaSustentacionTesis t) {
         try {
-            Oficio oficio = getById(id);
-            if (oficio == null) {
-                // throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
+            ActaSustentacionTesis acta = getById(id);
+            if (acta == null) {
+                // throw new ValidationException(Validation.showWarning("El ActaSustentacionTesis no puede estar vacío."));
                 return;
             }
 
-            int idDoc = oficio.getDocumento().getId();
+            int idDoc = acta.getDocumento().getId();
             Documento doc = docService.getById(idDoc);
             if (doc == null) {
                 return;
@@ -65,27 +65,27 @@ public class OficioService extends Repository<Oficio> {
 //          no se porque validar, si ya documento validara en update
             t.setDocumento(doc);
 
-            Validation.validateOficio(t);
+            Validation.validateActaSust(t);
             docService.update(idDoc, doc);
-            oficio.setAsunto(t.getAsunto());
-            oficio.setReferencia(t.getReferencia());
+            acta.setTema(t.getTema());
+            acta.setCalificacion(t.getCalificacion());
 
-            super.update(id, oficio);
+            super.update(id, acta);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
     }
 
-    // borrar desde aqui porque en docservice se tendria que instaciar oficioService creando un bucle
+    // borrar desde aqui porque en docservice se tendria que instaciar actaService creando un bucle
     @Override
     public void delete(int id) {
         try {
-            Oficio oficio = getById(id);
-            if (oficio == null) {
-                // throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
+            ActaSustentacionTesis acta = getById(id);
+            if (acta == null) {
+                // throw new ValidationException(Validation.showWarning("El ActaSustentacionTesis no puede estar vacío."));
                 return;
             }
-            docService.deleteDocDependencias(oficio.getDocumento().getId());
+            docService.deleteDocDependencias(acta.getDocumento().getId());
 
             super.delete(id);
         } catch (ValidationException e) {
@@ -94,7 +94,7 @@ public class OficioService extends Repository<Oficio> {
     }
 
     @Override
-    public Oficio getById(int id) {
+    public ActaSustentacionTesis getById(int id) {
         try {
             return super.getById(id);
         } catch (ValidationException e) {
@@ -106,13 +106,13 @@ public class OficioService extends Repository<Oficio> {
     // ¿
     public void updateEstadoDocumento(int id) {
         try {
-            Oficio oficio = getById(id);
-            if (oficio == null) {
-                // throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
+            ActaSustentacionTesis acta = getById(id);
+            if (acta == null) {
+                // throw new ValidationException(Validation.showWarning("El ActaSustentacionTesis no puede estar vacío."));
                 return;
             }
 
-            int idDoc = oficio.getDocumento().getId();
+            int idDoc = acta.getDocumento().getId();
             docService.updateEstadoDocumento(idDoc);
         } catch (ValidationException e) {
             e.printConsoleMessage();
@@ -123,12 +123,12 @@ public class OficioService extends Repository<Oficio> {
     public List<Administrativo> getDestinatarios(int id) {
         List<Administrativo> destinatarios = new ArrayList<>();
         try {
-            Oficio oficio = getById(id);
-            if (oficio == null) {
+            ActaSustentacionTesis acta = getById(id);
+            if (acta == null) {
                 return null;
             }
 
-            int idDoc = oficio.getDocumento().getId();
+            int idDoc = acta.getDocumento().getId();
             if (docService.getById(idDoc) == null) {
                 return null;
             }
@@ -139,12 +139,12 @@ public class OficioService extends Repository<Oficio> {
         return destinatarios;
     }
 
-    public String getAsuntoByDoc(int idDoc) {
+    public String getTemaByDoc(int idDoc) {
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("idDoc", idDoc);
 
-        Oficio oficio = getByQuery("SELECT x FROM Oficio x WHERE x.documento.id = :idDoc", parametros);
-        return oficio.getAsunto();
+        ActaSustentacionTesis acta = getByQuery("SELECT x FROM ActaSustentacionTesis x WHERE x.documento.id = :idDoc", parametros);
+        return acta.getTema();
     }
 
 }
