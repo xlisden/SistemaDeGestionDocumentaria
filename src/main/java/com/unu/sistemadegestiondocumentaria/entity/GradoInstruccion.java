@@ -46,7 +46,7 @@ public class GradoInstruccion {
 
     @Override
     public String toString() {
-        return "GradoInstruccion{" + "id=" + id + ", nombre=" + nombre + '}';
+        return this.nombre;
     }
 
 }

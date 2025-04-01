@@ -1,70 +1,48 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
+import java.util.List;
+
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
-import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import com.unu.sistemadegestiondocumentaria.repository.GradoInstRepository;
 
-public class GradoInstruccionService extends Repository<GradoInstruccion> {
+public class GradoInstruccionService {
 
-    private static GradoInstruccionService INSTANCIA;
+	private static GradoInstruccionService INSTANCIA;
 
-    private GradoInstruccionService(Class<GradoInstruccion> type) {
-        super(type);
-    }
-    
-    public static GradoInstruccionService instanciar(){
-        if (INSTANCIA == null) {
-            INSTANCIA = new GradoInstruccionService(GradoInstruccion.class);
-        }
-        return INSTANCIA;
-    }
+	private GradoInstRepository giRepository;
 
-    @Override
-    public void add(GradoInstruccion t) {
-        try {
-            Validation.validateGradoInstruccion(t);
-            super.add(t);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+	private GradoInstruccionService() {
+		giRepository = GradoInstRepository.instanciar();
+		addData();
+	}
 
-    @Override
-    public void update(int id, GradoInstruccion t) {
-        try {
-            Validation.validateGradoInstruccion(t);
-            
-            GradoInstruccion gi = getById(id);
-            if (gi == null) {
-                return;
-            }
+	public static GradoInstruccionService instanciar() {
+		if (INSTANCIA == null) {
+			INSTANCIA = new GradoInstruccionService();
+		}
+		return INSTANCIA;
+	}
 
-            gi.setNombre(t.getNombre());
-            
-            super.update(id, gi);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+	public void add(GradoInstruccion gi) {
+		giRepository.add(gi);
+	}
 
-    @Override
-    public void delete(int id) {
-        try {
-            super.delete(id);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
-
-    @Override
-    public GradoInstruccion getById(int id) {
-        try {
-            return super.getById(id);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-        return null;
-    }
+	public GradoInstruccion getById(int id) {
+		return giRepository.getById(id);
+	}
+	
+	public List<GradoInstruccion> getAll(){
+		return giRepository.getAll();
+	}
+	
+	private void addData() {
+		if(getAll().isEmpty()) {
+			add(new GradoInstruccion("Bach."));
+			add(new GradoInstruccion("Ing."));
+			add(new GradoInstruccion("Mg."));
+			add(new GradoInstruccion("MSc."));
+			add(new GradoInstruccion("Dr."));
+		}
+	}
 
 }

@@ -11,13 +11,12 @@ import com.unu.sistemadegestiondocumentaria.validations.*;
 
 public class Repository<T> {
 
-    private Class<T> typeClass;
-    private final HibernateConfig hc = HibernateConfig.instanciar();
-    private EntityManager em;
+	private Class<T> typeClass;
+    protected final HibernateConfig hc = HibernateConfig.instanciar();
+    protected EntityManager em;
     private String className = "";
 
     public Repository(Class<T> type) {
-        System.out.println("en repo " +className);
         this.typeClass = type;
         className = typeClass.getName().substring(44, typeClass.getName().length());
     }
@@ -79,13 +78,13 @@ public class Repository<T> {
 
     public T getLast() {
         T t = null;
-//        em = hc.getEntityManager();
-//        t = em.createQuery("SELECT x FROM " + className + " x ORDER BY x.id DESC", typeClass).setMaxResults(1).getSingleResult();
-//        hc.closeConnection();
-        List<T> list = getAll();
-        if (!list.isEmpty()) {
-            t = list.getLast();
-        }
+        em = hc.getEntityManager();
+        t = em.createQuery("SELECT x FROM " + className + " x ORDER BY x.id DESC", typeClass).setMaxResults(1).getSingleResult();
+        hc.closeConnection();
+//        List<T> list = getAll();
+//        if (!list.isEmpty()) {
+//            t = list.getLast();
+//        }
         return t;
     }
 
