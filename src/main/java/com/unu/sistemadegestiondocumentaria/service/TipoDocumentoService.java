@@ -3,10 +3,7 @@ package com.unu.sistemadegestiondocumentaria.service;
 import java.util.List;
 
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
-import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.repository.TipoDocRepository;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 public class TipoDocumentoService {
 
@@ -26,8 +23,8 @@ public class TipoDocumentoService {
 		return INSTANCIA;
 	}
 
-	public void add(TipoDocumento t) {
-		tdRepository.add(t);
+	public void add(TipoDocumento td) {
+		tdRepository.add(td);
 	}
 
 	public List<TipoDocumento> getAll() {

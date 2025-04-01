@@ -36,6 +36,8 @@ import com.unu.sistemadegestiondocumentaria.service.PersonaService;
 import com.unu.sistemadegestiondocumentaria.service.SustentacionService;
 import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+
 import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
@@ -54,23 +56,27 @@ public class SistemaDeGestionDocumentaria {
 	public static void main(String[] args) {
 		Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 		
-		System.out.println("Hibernate");
 		long start = System.currentTimeMillis();
 
-		addEstados();
+		addPersonas();
 
 		long end = System.currentTimeMillis();
-		System.out.println("Tiempo de inserción: " + (end - start) + " ms");
+		System.out.println("\ntiempo = " + (end - start) + " ms");
 		
 //		System.out.println(Validation.showInMagenta("\nhola"));
 //		System.out.println(Validation.showInMagenta("\nfinalizo()"));
 	}
 	
 
+
+	private static void addPersonas() {
+		PersonaService service = PersonaService.instanciar();
+	}
+	
 	private static void addEstados() {
 		EstadoService service = EstadoService.instanciar();
 		try {
-			System.out.println("est = " + service.getByNombre("GATO"));
+			System.out.println("est = " + service.getByNombre("PENDIENTE"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -187,28 +193,6 @@ public class SistemaDeGestionDocumentaria {
 		}
 	}
 
-
-
-	private static void addPersonas() {
-		PersonaService service = PersonaService.instanciar();
-
-//        for (int i = 1; i <= 5; i++) {
-//            service.add(new Persona("nombre" + i, "apPaterno" + i, "apMaterno" + i, i));
-//        }
-		// service.delete(4);
-		// service.delete(39);
-		// //sin ap p
-		// service.update(3, new Persona("nombre", "", "apellidoMaterno",4));
-		// service.update(1, new Persona("uunombre", "uuuuu",
-		// "uuuuuapellidoMaterno",3));
-		// // // sin persona
-		// service.update(32, new Persona("uunombre", "uuuuu", "uuuuuapellidoMaterno",
-		// 3));
-		// // //gi vacio
-		// service.update(1, new Persona("uunombre", "uuuuu", "uuuuuapellidoMaterno",
-		// 0));
-//        imprimirElementos(service.getAll());
-	}
 
 	private static void addEgresados() {
 		EgresadoService service = EgresadoService.instanciar();
@@ -361,6 +345,10 @@ public class SistemaDeGestionDocumentaria {
 		for (T x : lista) {
 			System.out.println(Validation.infoColor + x.toString() + Validation.normalColor);
 		}
+	}
+	
+	private static <T> void imprimirElemento(T t) {
+		System.out.println(Validation.infoColor + t.toString() + Validation.normalColor);
 	}
 
 }

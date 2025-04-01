@@ -43,7 +43,7 @@ public abstract class Repository<T> {
         em = hc.getEntityManager();
         T t = em.find(typeClass, id);
         if (t == null) {
-            throw new ValidationException(Validation.showWarning("El " + className + " " + id + " no existe en la base de datos."));
+            throw new ValidationException("El " + className + " " + id + " no existe en la base de datos.");
         }
         em.getTransaction().begin();
         em.remove(t);
@@ -63,7 +63,7 @@ public abstract class Repository<T> {
         T t = em.find(typeClass, id);
         hc.closeConnection();
         if (t == null) {
-            throw new ValidationException(Validation.showWarning("El " + className + " " + id + " no existe en la base de datos."));
+            throw new ValidationException("El " + className + " " + id + " no existe en la base de datos.");
         }
         return t;
     }

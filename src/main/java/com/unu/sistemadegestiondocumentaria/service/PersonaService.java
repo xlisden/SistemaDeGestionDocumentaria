@@ -1,95 +1,89 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import javax.swing.JOptionPane;
-
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
-import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import com.unu.sistemadegestiondocumentaria.repository.GradoInstRepository;
+import com.unu.sistemadegestiondocumentaria.repository.PersonaRepository;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 import java.util.List;
 
-public class PersonaService extends Repository<Persona> {
+public class PersonaService {
 
-    private final GradoInstruccionService giService = GradoInstruccionService.instanciar();
+	private static PersonaService INSTANCIA;
 
-    private static PersonaService INSTANCIA;
+	private GradoInstRepository giRepository;
+	private PersonaRepository personaRepository;
 
-    private PersonaService(Class<Persona> type) {
-        super(type);
-    }
+	private PersonaService() {
+		giRepository = GradoInstRepository.instanciar();
+		personaRepository = PersonaRepository.instanciar();
+	}
 
-    public static PersonaService instanciar() {
-        if (INSTANCIA == null) {
-            INSTANCIA = new PersonaService(Persona.class);
-        }
-        return INSTANCIA;
-    }
+	public static PersonaService instanciar() {
+		if (INSTANCIA == null) {
+			INSTANCIA = new PersonaService();
+		}
+		return INSTANCIA;
+	}
 
-    @Override
-    public void add(Persona t) {
-        GradoInstruccion gi = null;
-        try {
-            gi = giService.getById(t.getIdGradoInst());
-            if (gi == null) {
-                 throw new ValidationException("El Grado de Instrucción de la Persona no puede estar vacío.");
-//                return;
-            }
-            t.setGradoInstruccion(gi);
+	public void add(Persona p) {
+		GradoInstruccion gi = giRepository.getById(p.getIdGradoInst());
+		if (gi == null) {
+			throw new ValidationException("El Grado de Instrucción de la Persona no puede estar vacío.");
+		}
+		p.setGradoInstruccion(gi);
 
-            Validation.validatePersona(t);
-            super.add(t);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta" ,JOptionPane.WARNING_MESSAGE);
-        }
-    }
+		personaRepository.add(p);
+	}
 
-    @Override
-    public void update(int id, Persona t) {
-        try {
-            Persona p = getById(id);
-            GradoInstruccion gi = giService.getById(t.getIdGradoInst());
-            if (p == null || gi == null) {
-                // throw new ValidationException(Validation.showWarning("La persona " + id + " no existe en la base de datos."));
-                return;
-            }
+	public void update(int id, Persona p) {
+		Persona persona = personaRepository.getById(id);
+		if (persona == null) {
+			return;
+		}
 
-            t.setGradoInstruccion(gi);
-            Validation.validatePersona(t);
+		GradoInstruccion gi = giRepository.getById(p.getIdGradoInst());
+		if (gi == null) {
+			return;
+		}
+//		throw new ValidationException("El Grado de Instrucción de la Persona no puede estar vacío.");
+		p.setGradoInstruccion(gi);
 
-            p.setNombre(t.getNombre());
-            p.setApellidoPaterno(t.getApellidoPaterno());
-            p.setApellidoMaterno(t.getApellidoMaterno());
-            p.setGradoInstruccion(t.getGradoInstruccion());
+		persona.setNombre(p.getNombre());
+		persona.setApellidoPaterno(p.getApellidoPaterno());
+		persona.setApellidoMaterno(p.getApellidoMaterno());
+		persona.setGradoInstruccion(p.getGradoInstruccion());
 
-            super.update(id, p);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+		personaRepository.update(id, persona);
+	}
 
-    @Override
-    public void delete(int id) {
-        try {
-            super.delete(id);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+	public void delete(int id) {
+		personaRepository.delete(id);
+	}
 
-    @Override
-    public Persona getById(int id) {
-        try {
-            return super.getById(id);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-        return null;
-    }
-    
-    public List<GradoInstruccion> getAllGradosInstruccion(){
-        return giService.getAll();
-    }
+	public Persona getById(int id) {
+		return personaRepository.getById(id);
+	}
+	
+	public int getLastId() {
+		return personaRepository.getLastId();
+	}
+	
+	public Persona getLast() {
+		return personaRepository.getLast();
+	}
+	
+	public List<Persona> getAll(){
+		return personaRepository.getAll();
+	}
+
+	/*
+	 * Esto no deberia estar aqui, pues aqui solo deberia haber todo lo referente a persona
+	 * Pero no quiero instanciar otra service, que pregunte si esta vacio para insertar y recien traer
+	 * De aqui defrente nomas
+	 */
+	public List<GradoInstruccion> getAllGradosInstruccion() {
+		return giRepository.getAll();
+	}
 
 }

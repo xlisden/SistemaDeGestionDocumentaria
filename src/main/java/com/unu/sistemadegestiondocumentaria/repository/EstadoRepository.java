@@ -22,11 +22,11 @@ public class EstadoRepository extends Repository<Estado> {
 
 	public Estado getByNombre(String nombre) {
 		Query query = null;
-		String sql = "SELECT est FROM Estado est WHERE est.nombre = :nombre";
+		String sql = "SELECT x FROM Estado x WHERE x.nombre = :nombre";
 
 		em = hc.getEntityManager();
 		query = em.createQuery(sql, Estado.class);
-		query.setParameter("nombre", nombre);
+		query.setParameter("nombre", nombre.toUpperCase());
 
 		try {
 			return (Estado) query.getSingleResult();
@@ -34,24 +34,8 @@ public class EstadoRepository extends Repository<Estado> {
 			return null;
 		} finally {
 			hc.closeConnection();
-		}		
+		}	
+		
 	}
 
 }
-/*
- * getByQuery("SELECT x FROM ActaSustentacionTesis x WHERE x.documento.id = :idDoc"
- * , parametros)
- * 
- * public T getByQuery(String query, Map<String, Object> parameters) { T t =
- * null; Query q = null;
- * 
- * em = hc.getEntityManager(); q = em.createQuery(query, typeClass);
- * 
- * if (!parameters.isEmpty()) { for (String key : parameters.keySet()) {
- * q.setParameter(key, parameters.get(key)); } }
- * 
- * List<T> resultados = q.getResultList(); if (!resultados.isEmpty()) { t =
- * resultados.get(0); }
- * 
- * hc.closeConnection(); return t; }
- */

@@ -1,11 +1,7 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import java.util.List;
-
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.repository.EstadoRepository;
-import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 public class EstadoService {
@@ -26,8 +22,8 @@ public class EstadoService {
         return INSTANCIA;
     }
 
-    public void add(Estado t) {
-        estRepository.add(t);
+    public void add(Estado est) {
+        estRepository.add(est);
     }
 
     public Estado getById(int id) {
