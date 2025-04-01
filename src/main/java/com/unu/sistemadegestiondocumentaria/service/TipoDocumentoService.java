@@ -1,69 +1,48 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
+import java.util.List;
+
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
+import com.unu.sistemadegestiondocumentaria.repository.TipoDocRepository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
-public class TipoDocumentoService extends Repository<TipoDocumento> {
+public class TipoDocumentoService {
 
-    private static TipoDocumentoService INSTANCIA;
+	private static TipoDocumentoService INSTANCIA;
 
-    private TipoDocumentoService(Class<TipoDocumento> type) {
-        super(type);
-    }
-    
-    public static TipoDocumentoService instanciar(){
-        if (INSTANCIA == null) {
-            INSTANCIA = new TipoDocumentoService(TipoDocumento.class);
-        }
-        return INSTANCIA;
-    }
+	private TipoDocRepository tdRepository;
 
-    @Override
-    public void add(TipoDocumento t) {
-        try {
-            Validation.validateTipoDocumento(t);
-            super.add(t);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+	private TipoDocumentoService() {
+		tdRepository = TipoDocRepository.instanciar();
+		addData();
+	}
 
-    @Override
-    public void update(int id, TipoDocumento t) {
-        try {
-            Validation.validateTipoDocumento(t);
-            
-            TipoDocumento td = getById(id);
-            if (td == null) {
-                return;
-            }            
-            td.setNombre(t.getNombre());
+	public static TipoDocumentoService instanciar() {
+		if (INSTANCIA == null) {
+			INSTANCIA = new TipoDocumentoService();
+		}
+		return INSTANCIA;
+	}
 
-            super.update(id, td);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+	public void add(TipoDocumento t) {
+		tdRepository.add(t);
+	}
 
-    @Override
-    public void delete(int id) {
-        try {
-            super.delete(id);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+	public List<TipoDocumento> getAll() {
+		return tdRepository.getAll();
+	}
+	
+	public TipoDocumento getById(int id) {
+		return tdRepository.getById(id);
+	}
 
-    @Override
-    public TipoDocumento getById(int id) {
-        try {
-            return super.getById(id);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-        return null; 
-    }
-
+	private void addData() {
+		if (getAll().isEmpty()) {
+			add(new TipoDocumento("OFICIO"));
+			add(new TipoDocumento("MEMORÁNDUM"));
+			add(new TipoDocumento("ACTAS DE SUSTENTACIÓN DE TESIS"));
+		}
+	}
 }

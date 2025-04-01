@@ -46,7 +46,7 @@ public class TipoDocumento{
 
     @Override
     public String toString() {
-        return nombre.toUpperCase();
+        return this.nombre.toUpperCase();
     }
 
 }

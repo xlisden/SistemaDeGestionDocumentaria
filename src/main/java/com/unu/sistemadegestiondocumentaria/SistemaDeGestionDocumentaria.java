@@ -57,7 +57,7 @@ public class SistemaDeGestionDocumentaria {
 		System.out.println("Hibernate");
 		long start = System.currentTimeMillis();
 
-		addGradosInstruccion();
+		addTiposDocumento();
 
 		long end = System.currentTimeMillis();
 		System.out.println("Tiempo de inserción: " + (end - start) + " ms");
@@ -65,7 +65,13 @@ public class SistemaDeGestionDocumentaria {
 //		System.out.println(Validation.showInMagenta("\nhola"));
 //		System.out.println(Validation.showInMagenta("\nfinalizo()"));
 	}
+	
+	
 
+	private static void addTiposDocumento() {
+		TipoDocumentoService service = TipoDocumentoService.instanciar();
+	}
+		
 	private static void addGradosInstruccion() {
 		GradoInstruccionService service = GradoInstruccionService.instanciar();
 	}
@@ -173,20 +179,6 @@ public class SistemaDeGestionDocumentaria {
 		}
 	}
 
-	private static void addTiposDocumento() {
-		TipoDocumentoService service = TipoDocumentoService.instanciar();
-		if (service.getAll().isEmpty()) {
-			service.add(new TipoDocumento("OFICIO"));
-			service.add(new TipoDocumento("MEMORÁNDUM"));
-			service.add(new TipoDocumento("ACTAS DE SUSTENTACIÓN DE TESIS"));
-		}
-		// service.update(5, new TipoDocumento("upda"));
-		// service.update(2, new TipoDocumento("updated"));
-		// service.delete(1);
-		// service.delete(39);
-
-//        imprimirElementos(service.getAll());
-	}
 
 	private static void addEstados() {
 		EstadoService service = EstadoService.instanciar();

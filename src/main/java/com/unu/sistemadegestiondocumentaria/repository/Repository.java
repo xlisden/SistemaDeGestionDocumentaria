@@ -9,7 +9,7 @@ import javax.persistence.Query;
 import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
 import com.unu.sistemadegestiondocumentaria.validations.*;
 
-public class Repository<T> {
+public abstract class Repository<T> {
 
 	private Class<T> typeClass;
     protected final HibernateConfig hc = HibernateConfig.instanciar();
