@@ -20,15 +20,4 @@ public class GradoInstRepository extends Repository<GradoInstruccion> {
 		return INSTANCIA;
 	}
 
-	@Override
-	public void update(int id, GradoInstruccion t) {
-		GradoInstruccion gi = getById(id);
-		if (gi == null) {
-			return;
-		}
-
-		gi.setNombre(t.getNombre());
-
-		super.update(id, gi);
-	}
 }

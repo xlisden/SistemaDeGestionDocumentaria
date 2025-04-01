@@ -46,7 +46,7 @@ public class Estado {
 
     @Override
     public String toString() {
-        return "Estado{" + "id=" + id + ", nombre=" + nombre + '}';
+        return this.nombre;
     }
 
 }

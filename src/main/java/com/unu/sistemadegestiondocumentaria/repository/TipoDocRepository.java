@@ -17,15 +17,4 @@ public class TipoDocRepository extends Repository<TipoDocumento> {
 		return INSTANCIA;
 	}
 
-	@Override
-	public void update(int id, TipoDocumento t) {
-		TipoDocumento gi = getById(id);
-		if (gi == null) {
-			return;
-		}
-
-		gi.setNombre(t.getNombre());
-
-		super.update(id, gi);
-	}
 }

@@ -1,79 +1,52 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
+import java.util.List;
+
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
+import com.unu.sistemadegestiondocumentaria.repository.EstadoRepository;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
-public class EstadoService extends Repository<Estado> {
+public class EstadoService {
 
     private static EstadoService INSTANCIA;
+    
+    private EstadoRepository estRepository;
 
-    private EstadoService(Class<Estado> type) {
-        super(type);
+    private EstadoService() {
+    	estRepository = EstadoRepository.instanciar();
+    	addData();
     }
 
     public static EstadoService instanciar() {
         if (INSTANCIA == null) {
-            INSTANCIA = new EstadoService(Estado.class);
+            INSTANCIA = new EstadoService();
         }
         return INSTANCIA;
     }
 
-    @Override
     public void add(Estado t) {
-        try {
-            Validation.validateEstado(t);
-            super.add(t);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
+        estRepository.add(t);
     }
 
-    @Override
-    public void update(int id, Estado t) {
-        try {
-            Validation.validateEstado(t);
-
-            Estado est = getById(id);
-            if (est == null) {
-                return;
-            }
-            est.setNombre(t.getNombre());
-
-            super.update(id, est);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
-
-    @Override
-    public void delete(int id) {
-        try {
-            super.delete(id);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
-
-    @Override
     public Estado getById(int id) {
-        try {
-            return super.getById(id);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-        return null;
+        return estRepository.getById(id);
     }
-
+    
     public Estado getByNombre(String nombre) {
-        Estado est = null;
-        for (Estado e : getAll()) {
-            if (e.getNombre().equals(nombre)) {
-                est = e;
-            }
-        }
-        return est;
+    	Estado est = estRepository.getByNombre(nombre);
+    	
+    	if(est == null) {
+    		throw new ValidationException("No se encontró un estado con el nombre '" + nombre + "'.");
+    	}
+    	return est;
     }
 
+    public void addData(){
+		if (estRepository.getAll().isEmpty()) {
+			add(new Estado("PENDIENTE"));
+			add(new Estado("ENTREGADO"));
+		}
+    }
 }

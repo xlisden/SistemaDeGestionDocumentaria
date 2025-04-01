@@ -57,7 +57,7 @@ public class SistemaDeGestionDocumentaria {
 		System.out.println("Hibernate");
 		long start = System.currentTimeMillis();
 
-		addTiposDocumento();
+		addEstados();
 
 		long end = System.currentTimeMillis();
 		System.out.println("Tiempo de inserción: " + (end - start) + " ms");
@@ -66,7 +66,15 @@ public class SistemaDeGestionDocumentaria {
 //		System.out.println(Validation.showInMagenta("\nfinalizo()"));
 	}
 	
-	
+
+	private static void addEstados() {
+		EstadoService service = EstadoService.instanciar();
+		try {
+			System.out.println("est = " + service.getByNombre("GATO"));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}	
 
 	private static void addTiposDocumento() {
 		TipoDocumentoService service = TipoDocumentoService.instanciar();
@@ -180,23 +188,6 @@ public class SistemaDeGestionDocumentaria {
 	}
 
 
-	private static void addEstados() {
-		EstadoService service = EstadoService.instanciar();
-
-		if (service.getAll().isEmpty()) {
-			service.add(new Estado("PENDIENTE"));
-			service.add(new Estado("ENTREGADO"));
-		}
-		// service.delete(2);
-		// service.update(3, new Estado("updateed1"));
-		// service.add(new Estado("PENDIENTE"));
-		// service.add(new Estado("ENTREGADO"));
-		// service.update(3, new Estado("updateed"));
-		// service.delete(23);
-		// service.update(93, new Estado("updateed"));
-
-//        imprimirElementos(service.getAll());
-	}
 
 	private static void addPersonas() {
 		PersonaService service = PersonaService.instanciar();
