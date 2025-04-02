@@ -13,6 +13,7 @@ import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleSustentacion;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
+import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.entity.Oficio;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
@@ -50,10 +51,10 @@ public class SistemaDeGestionDocumentaria {
 	public static void main(String[] args) {
 		Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 		addGradosInstruccion();
-		
+
 		long start = System.currentTimeMillis();
 
-		addAdministrativos();
+
 
 		long end = System.currentTimeMillis();
 		System.out.println("\ntiempo = " + (end - start) + " ms");
@@ -62,9 +63,12 @@ public class SistemaDeGestionDocumentaria {
 //		System.out.println(Validation.showInMagenta("\nfinalizo()"));
 	}
 
+	private static void addExpedientes() {
+		ExpedienteService service = ExpedienteService.instanciar();
+	}
+
 	private static void addAdministrativos() {
 		AdministrativoService service = AdministrativoService.instanciar();
-//		imprimirElementos(service.getAll());
 	}
 
 	private static void addPersonas() {
@@ -203,28 +207,6 @@ public class SistemaDeGestionDocumentaria {
 		// service.update(22, new Persona());
 		// service.update(2, new Persona("", "soy", "nuevo", 2));
 //        imprimirElementos(service.getAll());
-	}
-
-	private static void addExpedientes() {
-		ExpedienteService service = ExpedienteService.instanciar();
-
-		if (service.getAll().isEmpty()) {
-			for (int i = 1; i <= 6; i++) {
-				int idGradoInst = (int) (Math.random() * 5) + 1;
-				service.add(new Persona("exp*nom" + i, "exp*apPat" + i, "exp*apMat" + i, 1));
-			}
-		}
-//
-//        service.update(1, new Persona("hola", "soy", "nuevo", 2));
-//        service.delete(6);
-//        service.delete(7); 
-//        service.delete(38); 
-//        service.add(new Persona("soy8", "el8", "nro8", 2));
-		service.add(new Persona("hola, yo", "ser nueva", "persona", 9));
-		service.add(new Persona("hola, yo", "", "persona", 3));
-//       service.update(39, new Persona());
-
-//       imprimirElementos(service.getAll());
 	}
 
 	private static void addDocumentos() {

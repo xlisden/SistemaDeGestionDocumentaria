@@ -1,108 +1,130 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
-import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
-import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
-import java.util.ArrayList;
+import com.unu.sistemadegestiondocumentaria.repository.ExpedienteRepository;
+import com.unu.sistemadegestiondocumentaria.repository.GradoInstRepository;
+import com.unu.sistemadegestiondocumentaria.repository.PersonaRepository;
 import java.util.Collections;
 import java.util.List;
 
-public class ExpedienteService extends Repository<Expediente> {
+public class ExpedienteService {
 
-    private final EgresadoService egresadoService = EgresadoService.instanciar();
+	private static ExpedienteService INSTANCIA;
+	private ExpedienteRepository expRepository;
+	private GradoInstRepository giRepository;
+	private PersonaRepository personaRepository;
 
-    private static ExpedienteService INSTANCIA;
+	private ExpedienteService() {
+		expRepository = ExpedienteRepository.instanciar();
+		giRepository = GradoInstRepository.instanciar();
+		personaRepository = PersonaRepository.instanciar();
+	}
 
-    private ExpedienteService(Class<Expediente> type) {
-        super(type);
-    }
+	public static ExpedienteService instanciar() {
+		if (INSTANCIA == null) {
+			INSTANCIA = new ExpedienteService();
+		}
+		return INSTANCIA;
+	}
 
-    public static ExpedienteService instanciar() {
-        if (INSTANCIA == null) {
-            INSTANCIA = new ExpedienteService(Expediente.class);
-        }
-        return INSTANCIA;
-    }
+	public void add(Persona p) {
+		GradoInstruccion gi = giRepository.getById(p.getIdGradoInst()); // es que siempre seran bachilleres (eso creo)
+		if (gi == null) {
+			return;
+		}
+//			throw new ValidationException("El Grado de Instrucción de la Persona no puede estar vacío.");
+		p.setGradoInstruccion(gi);
 
-    public void add(Persona t) {
-        try {
-            egresadoService.add(t);
+		personaRepository.add(p);
 
-            Egresado eg = egresadoService.getLast();
-            if (!getAll().isEmpty() && eg.getId() == getLast().getEgresado().getId()) {
-                return;
-            }
+		int idPersona = personaRepository.getLastId();
+//            if (!getAll().isEmpty() && idPersona == getLast().getPersona().getId()) {
+//                return;
+//            }
+		p.setId(idPersona);
 
-            Expediente ex = new Expediente(eg);
-            ex.setNroExpediente(getNroExp());
-            super.add(ex);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+		Expediente exp = new Expediente(p);
+		exp.setNroExpediente(getNroExp());
+		expRepository.add(exp);
+	}
 
-    public void update(int id, Persona p) {
-        try {
-            Expediente exp = getById(id);
-            if (exp == null) {
-                // throw new ValidationException(Validation.showWarning("El Expediente no puede
-                // estar vacío."));
-                return;
-            }
+	public void update(int id, Persona p) {
+		Expediente exp = getById(id);
+		if (exp == null) {
+			return;
+		}
+		
+		int idPersona = exp.getPersona().getId();
+		Persona persona = personaRepository.getById(idPersona);
+		// se supone que existe
+//		if (persona == null) {
+//			return;
+//		}
 
-            egresadoService.update(exp.getEgresado().getId(), p);
-            // no hacemos update del nroExp porque se supone que va de acuerdo al egresado.
-            // Se supone que es unico, al igual que el egresado.
-            // si eliminamos al egresado 3, esta bien que el sgte exp sea el 4, asi ya no
-            // haya un exp 3
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+		GradoInstruccion gi = giRepository.getById(p.getIdGradoInst()); // es que siempre seran bachilleres (eso creo)
+		if (gi == null) {
+			return;
+		}
+//		throw new ValidationException("El Grado de Instrucción de la Persona no puede estar vacío.");
+		p.setGradoInstruccion(gi);
 
-    @Override
-    public void delete(int id) {
-        try {
-            super.delete(id);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+		persona.setNombre(p.getNombre());
+		persona.setApellidoPaterno(p.getApellidoPaterno());
+		persona.setApellidoMaterno(p.getApellidoMaterno());
+		persona.setGradoInstruccion(p.getGradoInstruccion());
 
-    @Override
-    public Expediente getById(int id) {
-        try {
-            return super.getById(id);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-        return null;
-    }
+		personaRepository.update(idPersona, persona);
+	}
 
-    public List<Expediente> getAllExpOrdenAlfNombre() {
-        List<Expediente> lista = super.getAll();
-        if (lista != null) {
-            Collections.sort(lista, (x, y) -> x.getEgresado().getPersona().getNombre().compareToIgnoreCase(y.getEgresado().getPersona().getNombre()));
-        }
-        return lista;
-    }
+	public void delete(int id) { // si elimino una persona, si se elimina exp. Pero no se elimina persona si elimino exp
+		Expediente exp = getById(id);
+		if (exp == null) {
+			return;
+		}
+		getById(id);
+		int idPersona = exp.getPersona().getId();
+		
+		personaRepository.delete(idPersona);
+	}
 
-    public List<Expediente> getAllExpOrdenAlfApPaterno() {
-        List<Expediente> lista = super.getAll();
-        if (lista != null) {
-            Collections.sort(lista, (x, y) -> x.getEgresado().getPersona().getApellidoPaterno().compareToIgnoreCase(y.getEgresado().getPersona().getApellidoPaterno()));
-        }
-        return lista;
-    }
+	public Expediente getById(int id) {
+		return expRepository.getById(id);
+	}
+	
+	public List<Expediente> getAll() {
+		return expRepository.getAll();
+	}
 
-    private int getNroExp() {
-        return (getAll().isEmpty()) ? 1 : getLastId() + 1;
-    }
+	public List<Expediente> getAllExpOrdenAlfNombre() {
+		List<Expediente> lista = expRepository.getAll();
+		if (lista != null) {
+			Collections.sort(lista,
+					(x, y) -> x.getPersona().getNombre().compareToIgnoreCase(y.getPersona().getNombre()));
+		}
+		return lista;
+	}
 
-//    public List<GradoInstruccion> getAllGradosInstruccion() {
-//        return egresadoService.getAllGradosInstruccion();
-//    }
+	public List<Expediente> getAllExpOrdenAlfApPaterno() {
+		List<Expediente> lista = expRepository.getAll();
+		if (lista != null) {
+			Collections.sort(lista, (x, y) -> x.getPersona().getApellidoPaterno().compareToIgnoreCase(y.getPersona().getApellidoPaterno()));
+		}
+		return lista;
+	}	
+	
+	private int getNroExp() {
+		return (expRepository.getAll().isEmpty()) ? 1 : expRepository.getLastId() + 1;
+	}
+
+	/*
+	 * Esto no deberia estar aqui, pues aqui solo deberia haber todo lo referente a
+	 * persona Pero no quiero instanciar otro service, que pregunte si esta vacio
+	 * para insertar y recien traer De aqui defrente nomas
+	 */
+	public List<GradoInstruccion> getAllGradosInstruccion() {
+		return giRepository.getAll();
+	}
+	
 }

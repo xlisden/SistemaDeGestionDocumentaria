@@ -34,6 +34,12 @@ public class Persona {
 	public Persona() {
 	}
 
+//	public Persona(String nombre, String apellidoPaterno, String apellidoMaterno) {
+//		this.nombre = nombre;
+//		this.apellidoPaterno = apellidoPaterno;
+//		this.apellidoMaterno = apellidoMaterno;
+//	}
+	
 	public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, int idGradoInst) {
 		this.nombre = nombre;
 		this.apellidoPaterno = apellidoPaterno;

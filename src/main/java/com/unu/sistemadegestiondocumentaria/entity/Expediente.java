@@ -16,63 +16,65 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "expedientes")
 public class Expediente {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-    private int nroExpediente;
+	private int nroExpediente;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id_egresado", foreignKey = @ForeignKey(name = "fk_egresado_expediente"))
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Egresado egresado;
+	@OneToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "id_persona", foreignKey = @ForeignKey(name = "fk_persona_expediente"))
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Persona persona;
 
-    public Expediente() {
-    }
+	public Expediente() {
+	}
 
-    public Expediente(Egresado egresado) {
-        this.egresado = egresado;
-    }
+	public Expediente(Persona persona) {
+		this.persona = persona;
+	}
 
-    public Expediente(int id, int nroExpediente, Egresado egresado) {
-        this.id = id;
-        this.nroExpediente = nroExpediente;
-        this.egresado = egresado;
-    }
+	public Expediente(int id, int nroExpediente, Persona persona) {
+		this.id = id;
+		this.nroExpediente = nroExpediente;
+		this.persona = persona;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public int getNroExpediente() {
-        return nroExpediente;
-    }
+	public int getNroExpediente() {
+		return nroExpediente;
+	}
 
-    public void setNroExpediente(int nroExpediente) {
-        this.nroExpediente = nroExpediente;
-    }
+	public void setNroExpediente(int nroExpediente) {
+		this.nroExpediente = nroExpediente;
+	}
 
-    public Egresado getEgresado() {
-        return egresado;
-    }
+	public Persona getPersona() {
+		return persona;
+	}
 
-    public void setEgresado(Egresado egresado) {
-        this.egresado = egresado;
-    }
+	public void setPersona(Persona persona) {
+		this.persona = persona;
+	}
 
-    @Override
-    public String toString() {
-//        return "Expediente{" + "id=" + id + ", nroExpediente=" + nroExpediente + ", egresado=" + egresado + '}';
-        String s = (egresado != null) ? egresado.getPersona().getNombre() + " " + egresado.getPersona().getApellidoPaterno() + " " + egresado.getPersona().getApellidoMaterno() : "";
-        return s;
-    }
+	@Override
+	public String toString() {
+    	return (persona != null) ? 
+    			((this.persona.getGradoInstruccion() != null) ? this.persona.getGradoInstruccion().getNombre() + " " : "")
+    				+ persona.getNombre() + " " + persona.getApellidoPaterno().toUpperCase() + " " + persona.getApellidoMaterno().toUpperCase() : "";
+	}
 
-    public String toStringPorAp() {
-        String s = (egresado != null) ? egresado.getPersona().getApellidoPaterno().toUpperCase() + " " + egresado.getPersona().getApellidoMaterno().toUpperCase() + ", " + egresado.getPersona().getNombre() : "";
-        return s;
-    }
+	public String toStringPorAp() {
+    	return (persona != null) ? 
+    			((this.persona.getGradoInstruccion() != null) ? this.persona.getGradoInstruccion().getNombre() + " " : "") 
+    				+ persona.getApellidoPaterno().toUpperCase() + " " + persona.getApellidoMaterno().toUpperCase() + ", "+ persona.getNombre() : "";
+	}
+
 }

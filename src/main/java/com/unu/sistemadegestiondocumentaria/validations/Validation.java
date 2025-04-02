@@ -63,12 +63,12 @@ public class Validation {
 //        validateGradoInstruccion(p.getGradoInstruccion());
     }
 
-    public static void validateEgresado(Egresado e) {
-        if (e.getPersona() == null) {
-            throw new ValidationException("La Persona del Egresado no puede estar vacía.");
-        }
-        validatePersona(e.getPersona());
-    }
+//    public static void validateEgresado(Egresado e) {
+//        if (e.getPersona() == null) {
+//            throw new ValidationException("La Persona del Egresado no puede estar vacía.");
+//        }
+//        validatePersona(e.getPersona());
+//    }
 
     public static void validateAdministrativo(Administrativo ad) {
         if (ad.getPersona() == null) {
@@ -78,10 +78,10 @@ public class Validation {
     }
 
     public static void validateExpediente(Expediente exp) {
-        if (exp.getEgresado() == null) {
-            throw new ValidationException("El Egresado del Expediente no puede estar vacío");
+        if (exp.getPersona() == null) {
+            throw new ValidationException("La Persona del Expediente no puede estar vacío");
         }
-        validateEgresado(exp.getEgresado());
+        validatePersona(exp.getPersona());
     }
 
     public static void validateDocumento(Documento doc) {

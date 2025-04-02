@@ -64,9 +64,9 @@ public class AdministrativoService {
 //		}
 
 		GradoInstruccion gi = giRepository.getById(p.getIdGradoInst());
-//		if (gi == null) {
-//			return;
-//		}
+		if (gi == null) {
+			return;
+		}
 //		throw new ValidationException("El Grado de Instrucción de la Persona no puede estar vacío.");
 		p.setGradoInstruccion(gi);
 
@@ -75,11 +75,18 @@ public class AdministrativoService {
 		persona.setApellidoMaterno(p.getApellidoMaterno());
 		persona.setGradoInstruccion(p.getGradoInstruccion());
 
-		personaRepository.update(id, persona);
+		personaRepository.update(idPersona, persona);
 	}
 
-	public void delete(int id) {
-		adRepository.delete(id);
+	public void delete(int id) { // si elimino una persona, si se elimina admin. Pero no se elimina persona si elimino admin
+		Administrativo ad = getById(id);
+		if (ad == null) {
+			return;
+		}
+
+		int idPersona = ad.getPersona().getId();
+		
+		personaRepository.delete(idPersona);
 	}
 
 	public Administrativo getById(int id) {

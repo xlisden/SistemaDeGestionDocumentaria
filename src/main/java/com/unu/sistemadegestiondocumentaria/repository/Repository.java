@@ -68,13 +68,13 @@ public abstract class Repository<T> {
         return t;
     }
 
-    public int getLastId() {
-        int id = -1;
-        em = hc.getEntityManager();
-        id = em.createQuery("SELECT x.id FROM " + className + " x ORDER BY x.id DESC", Integer.class).setMaxResults(1).getSingleResult();
-        hc.closeConnection();
-        return id;
-    }
+//    public int getLastId() {
+//        int id = -1;
+//        em = hc.getEntityManager();
+//        id = em.createQuery("SELECT x.id FROM " + className + " x ORDER BY x.id DESC", Integer.class).setMaxResults(1).getSingleResult();
+//        hc.closeConnection();
+//        return id;
+//    }
 
     public T getLast() {
         T t = null;
