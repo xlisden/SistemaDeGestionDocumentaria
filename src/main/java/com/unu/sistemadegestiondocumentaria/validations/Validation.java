@@ -6,7 +6,6 @@ import com.unu.sistemadegestiondocumentaria.entity.DetalleDestinatario;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDocumento;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleSustentacion;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
-import com.unu.sistemadegestiondocumentaria.entity.Egresado;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
@@ -62,13 +61,6 @@ public class Validation {
 //        }
 //        validateGradoInstruccion(p.getGradoInstruccion());
     }
-
-//    public static void validateEgresado(Egresado e) {
-//        if (e.getPersona() == null) {
-//            throw new ValidationException("La Persona del Egresado no puede estar vacía.");
-//        }
-//        validatePersona(e.getPersona());
-//    }
 
     public static void validateAdministrativo(Administrativo ad) {
         if (ad.getPersona() == null) {

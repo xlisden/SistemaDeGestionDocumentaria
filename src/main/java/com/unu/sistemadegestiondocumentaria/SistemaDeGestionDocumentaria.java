@@ -23,7 +23,6 @@ import com.unu.sistemadegestiondocumentaria.service.AdministrativoService;
 import com.unu.sistemadegestiondocumentaria.service.DetDestinatarioService;
 import com.unu.sistemadegestiondocumentaria.service.DetSustentacionService;
 import com.unu.sistemadegestiondocumentaria.service.DocumentoService;
-import com.unu.sistemadegestiondocumentaria.service.EgresadoService;
 import com.unu.sistemadegestiondocumentaria.service.EstadoService;
 import com.unu.sistemadegestiondocumentaria.service.ExpedienteService;
 import com.unu.sistemadegestiondocumentaria.service.GradoInstruccionService;
@@ -95,13 +94,6 @@ public class SistemaDeGestionDocumentaria {
 	private static void pruebaConValidate() {
 		try {
 
-			EgresadoService service = EgresadoService.instanciar();
-
-			Persona persona = new Persona("nom1", "appat1", "appmat", 2);
-			Validation.validatePersona(persona);
-
-			service.add(persona);
-			imprimirElementos(service.getAll());
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta", JOptionPane.WARNING_MESSAGE);
 		}
@@ -193,20 +185,6 @@ public class SistemaDeGestionDocumentaria {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta", JOptionPane.WARNING_MESSAGE);
 		}
-	}
-
-	private static void addEgresados() {
-		EgresadoService service = EgresadoService.instanciar();
-
-		// for (int i = 1; i <= 4; i++) {
-		// service.add(new Persona("*nombre_"+i, "*apPat_"+i, "*apMat_"+i, i));
-		// }
-		// service.delete(3);
-		// service.update(1, new Persona("hola", "soy", "nuevo", 2));
-		// service.delete(30);
-		// service.update(22, new Persona());
-		// service.update(2, new Persona("", "soy", "nuevo", 2));
-//        imprimirElementos(service.getAll());
 	}
 
 	private static void addDocumentos() {
