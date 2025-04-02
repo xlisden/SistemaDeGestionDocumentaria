@@ -17,6 +17,8 @@ public class Sustentacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
+    private String tesis;
 
     @ManyToOne()
     @JoinColumn(name = "id_jurado1", foreignKey = @ForeignKey(name = "fk_jurado1_sustentacion"))

@@ -1,8 +1,5 @@
 package com.unu.sistemadegestiondocumentaria;
 
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,11 +7,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
-import javax.xml.bind.Validator;
 
-import com.unu.sistemadegestiondocumentaria.config.HibernateConfig;
+import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleSustentacion;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.Estado;
@@ -36,7 +31,6 @@ import com.unu.sistemadegestiondocumentaria.service.PersonaService;
 import com.unu.sistemadegestiondocumentaria.service.SustentacionService;
 import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 import java.awt.Font;
 import javax.swing.JFrame;
@@ -55,24 +49,28 @@ public class SistemaDeGestionDocumentaria {
 
 	public static void main(String[] args) {
 		Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
+		addGradosInstruccion();
 		
 		long start = System.currentTimeMillis();
 
-		addPersonas();
+		addAdministrativos();
 
 		long end = System.currentTimeMillis();
 		System.out.println("\ntiempo = " + (end - start) + " ms");
-		
+
 //		System.out.println(Validation.showInMagenta("\nhola"));
 //		System.out.println(Validation.showInMagenta("\nfinalizo()"));
 	}
-	
 
+	private static void addAdministrativos() {
+		AdministrativoService service = AdministrativoService.instanciar();
+//		imprimirElementos(service.getAll());
+	}
 
 	private static void addPersonas() {
-		PersonaService service = PersonaService.instanciar();
+		PersonaService.instanciar();
 	}
-	
+
 	private static void addEstados() {
 		EstadoService service = EstadoService.instanciar();
 		try {
@@ -80,14 +78,14 @@ public class SistemaDeGestionDocumentaria {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-	}	
+	}
 
 	private static void addTiposDocumento() {
-		TipoDocumentoService service = TipoDocumentoService.instanciar();
+		TipoDocumentoService.instanciar();
 	}
-		
+
 	private static void addGradosInstruccion() {
-		GradoInstruccionService service = GradoInstruccionService.instanciar();
+		GradoInstruccionService.instanciar();
 	}
 
 	private static void pruebaConValidate() {
@@ -193,7 +191,6 @@ public class SistemaDeGestionDocumentaria {
 		}
 	}
 
-
 	private static void addEgresados() {
 		EgresadoService service = EgresadoService.instanciar();
 
@@ -206,24 +203,6 @@ public class SistemaDeGestionDocumentaria {
 		// service.update(22, new Persona());
 		// service.update(2, new Persona("", "soy", "nuevo", 2));
 //        imprimirElementos(service.getAll());
-	}
-
-	private static void addAdministrativos() {
-		AdministrativoService service = AdministrativoService.instanciar();
-
-		if (service.getAll().isEmpty()) {
-			for (int i = 1; i <= 6; i++) {
-				int idGradoInst = (int) (Math.random() * 5) + 1;
-				service.add(new Persona("*name*ad*" + i, "*appat*ad*" + i, "*apmat*ad*" + i, idGradoInst));
-			}
-		}
-
-		// service.update(3, new Persona("hola", "soy una", "nueva persona", 1));
-		// service.add(new Persona("we**", "are**", "banditos**", 9));
-		// service.update(1, new Persona("hola", "", "nuevo", 2));
-		// service.delete(5);
-		// service.delete(52);
-//         imprimirElementos(service.getAll());
 	}
 
 	private static void addExpedientes() {
@@ -346,7 +325,7 @@ public class SistemaDeGestionDocumentaria {
 			System.out.println(Validation.infoColor + x.toString() + Validation.normalColor);
 		}
 	}
-	
+
 	private static <T> void imprimirElemento(T t) {
 		System.out.println(Validation.infoColor + t.toString() + Validation.normalColor);
 	}

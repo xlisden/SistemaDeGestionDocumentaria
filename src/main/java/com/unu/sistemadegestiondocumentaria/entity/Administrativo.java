@@ -55,13 +55,14 @@ public class Administrativo {
 
     @Override
     public String toString() {
-//        return "Administrativo{" + "id=" + id + ", persona=" + persona + '}';
-        String s = (persona != null) ? persona.getGradoInstruccion().getNombre() + " " + persona.getNombre() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno() : "";
-        return s;
+    	return (persona != null) ? 
+    			((this.persona.getGradoInstruccion() != null) ? this.persona.getGradoInstruccion().getNombre() + " " : "")
+    				+ persona.getNombre() + " " + persona.getApellidoPaterno().toUpperCase() + " " + persona.getApellidoMaterno().toUpperCase() : "";
     }
 
     public String toStringPorAp() {
-        String s = (persona != null) ? persona.getGradoInstruccion().getNombre() + " " + persona.getApellidoPaterno().toUpperCase() + " " + persona.getApellidoMaterno().toUpperCase() + ", "+ persona.getNombre() : "";
-        return s;
+    	return (persona != null) ? 
+    			((this.persona.getGradoInstruccion() != null) ? this.persona.getGradoInstruccion().getNombre() + " " : "") 
+    				+ persona.getApellidoPaterno().toUpperCase() + " " + persona.getApellidoMaterno().toUpperCase() + ", "+ persona.getNombre() : "";
     }
 }

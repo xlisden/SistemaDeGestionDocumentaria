@@ -3,97 +3,142 @@ package com.unu.sistemadegestiondocumentaria.service;
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
-import com.unu.sistemadegestiondocumentaria.repository.Repository;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
+import com.unu.sistemadegestiondocumentaria.repository.AdministrativoRepository;
+import com.unu.sistemadegestiondocumentaria.repository.GradoInstRepository;
+import com.unu.sistemadegestiondocumentaria.repository.PersonaRepository;
 import java.util.Collections;
 import java.util.List;
 
-public class AdministrativoService extends Repository<Administrativo> {
+public class AdministrativoService {
 
-    private final PersonaService personaService = PersonaService.instanciar();
+	private static AdministrativoService INSTANCIA;
 
-    private static AdministrativoService INSTANCIA;
+	private AdministrativoRepository adRepository;
+	private GradoInstRepository giRepository;
+	private PersonaRepository personaRepository;
 
-    private AdministrativoService(Class<Administrativo> type) {
-        super(type);
-    }
+	private AdministrativoService() {
+		adRepository = AdministrativoRepository.instanciar();
+		giRepository = GradoInstRepository.instanciar();
+		personaRepository = PersonaRepository.instanciar();
+		addData();
+	}
 
-    public static AdministrativoService instanciar() {
-        if (INSTANCIA == null) {
-            INSTANCIA = new AdministrativoService(Administrativo.class);
-        }
-        return INSTANCIA;
-    }
+	public static AdministrativoService instanciar() {
+		if (INSTANCIA == null) {
+			INSTANCIA = new AdministrativoService();
+		}
+		return INSTANCIA;
+	}
 
-    public void add(Persona t) {
-        try {
-            personaService.add(t);
+	public void add(Persona p) {
+		GradoInstruccion gi = giRepository.getById(p.getIdGradoInst());
+		if (gi == null) {
+			return;
+		}
+//			throw new ValidationException("El Grado de Instrucción de la Persona no puede estar vacío.");
+		p.setGradoInstruccion(gi);
 
-            int idPersona = personaService.getLastId();
-            if (!getAll().isEmpty() && idPersona == getLast().getPersona().getId()) {
-                return;
-            }
-            t.setId(idPersona);
+		personaRepository.add(p);
 
-            Administrativo ad = new Administrativo(t);
-            super.add(ad);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+		int idPersona = personaRepository.getLastId();
+//            if (!getAll().isEmpty() && idPersona == getLast().getPersona().getId()) {
+//                return;
+//            }
+		p.setId(idPersona);
 
-    public void update(int id, Persona p) {
-        try {
-            Administrativo ad = getById(id);
-            if (ad == null) {
-                // throw new ValidationException(Validation.showWarning("El Administrativo no puede estar vacío."));
-                return;
-            }
+		adRepository.add(new Administrativo(p));
+	}
 
-            int idPersona = ad.getPersona().getId();
-            personaService.update(idPersona, p);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+	public void update(int id, Persona p) {
+		Administrativo ad = getById(id);
+		if (ad == null) {
+			return;
+		}
 
-    @Override
-    public void delete(int id) {
-        try {
-            super.delete(id);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+		int idPersona = ad.getPersona().getId();
+		Persona persona = personaRepository.getById(idPersona);
+		// se supone que existe
+//		if (persona == null) {
+//			return;
+//		}
 
-    @Override
-    public Administrativo getById(int id) {
-        try {
-            return super.getById(id);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-        return null;
-    }
+		GradoInstruccion gi = giRepository.getById(p.getIdGradoInst());
+//		if (gi == null) {
+//			return;
+//		}
+//		throw new ValidationException("El Grado de Instrucción de la Persona no puede estar vacío.");
+		p.setGradoInstruccion(gi);
 
-    public List<Administrativo> getAllAdminiOrdenAlfNombre() {
-        List<Administrativo> lista = super.getAll();
-        if (lista != null) {
-            Collections.sort(lista, (x, y) -> x.getPersona().getNombre().compareToIgnoreCase(y.getPersona().getNombre()));
-        }
-        return lista;
-    }
-    
-    public List<Administrativo> getAllAdminiOrdenAlfApPaterno() {
-        List<Administrativo> lista = super.getAll();
-        if (lista != null) {
-            Collections.sort(lista, (x, y) -> x.getPersona().getApellidoPaterno().compareToIgnoreCase(y.getPersona().getApellidoPaterno()));
-        }
-        return lista;
-    }
-    
-    public List<GradoInstruccion> getAllGradosInstruccion(){
-        return personaService.getAllGradosInstruccion();
-    }
+		persona.setNombre(p.getNombre());
+		persona.setApellidoPaterno(p.getApellidoPaterno());
+		persona.setApellidoMaterno(p.getApellidoMaterno());
+		persona.setGradoInstruccion(p.getGradoInstruccion());
+
+		personaRepository.update(id, persona);
+	}
+
+	public void delete(int id) {
+		adRepository.delete(id);
+	}
+
+	public Administrativo getById(int id) {
+		return adRepository.getById(id);
+	}
+
+	public List<Administrativo> getAll() {
+		return adRepository.getAll();
+	}
+
+	public List<Administrativo> getAllAdminOrdenAlfNombre() {
+		List<Administrativo> lista = adRepository.getAll();
+		if (lista != null) {
+			Collections.sort(lista,
+					(x, y) -> x.getPersona().getNombre().compareToIgnoreCase(y.getPersona().getNombre()));
+		}
+		return lista;
+	}
+
+	public List<Administrativo> getAllAdminOrdenAlfApPaterno() {
+		List<Administrativo> lista = adRepository.getAll();
+		if (lista != null) {
+			Collections.sort(lista, (x, y) -> x.getPersona().getApellidoPaterno()
+					.compareToIgnoreCase(y.getPersona().getApellidoPaterno()));
+		}
+		return lista;
+	}
+
+	/*
+	 * Esto no deberia estar aqui, pues aqui solo deberia haber todo lo referente a
+	 * persona Pero no quiero instanciar otro service, que pregunte si esta vacio
+	 * para insertar y recien traer De aqui defrente nomas
+	 */
+	public List<GradoInstruccion> getAllGradosInstruccion() {
+		return giRepository.getAll();
+	}
+
+	private void addData() {		
+		if (adRepository.getAll().isEmpty()) {
+			add(new Persona("Arturo", "Yupanqui", "Villanueva", 3));
+			add(new Persona("David Abel", "Gonzalez", "Manrique De Lara", 5));
+			add(new Persona("Clotilde", "Ríos", "Hidalgo De Cerna", 4));
+			add(new Persona("Nilton Cesar", "Ayra", "Apac", 5));
+//			add(new Persona("Oriana Olenka", "Montes", "Bellido", null));
+			add(new Persona("Horacio", "Soriano", "Alava", 3));
+			add(new Persona("Fernando", "Rafael", "Lean", 5));
+			add(new Persona("Eleuterio", "Pérez", "Ságartegui", 3));
+			add(new Persona("Walter G.", "Román", "Claros", 5));
+			add(new Persona("Daniel", "Pérez", "Castañón", 3));
+			add(new Persona("Joel Víctor", "Quispe", "Auccasi", 3));
+			add(new Persona("Devyn Omar", "Donayre", "Hernández", 3));
+			add(new Persona("Jorge Luis", "Hilario", "Rivas", 3));
+			add(new Persona("Freddy Elar", "Ferrari", "Fernandez", 3));
+			add(new Persona("Cesar Augusto", "Agurto", "Cherre", 3));
+			add(new Persona("Ronald", "Ulloa", "Gálvez", 3));
+			add(new Persona("Euclides", "Panduro", "Padilla", 3));
+			add(new Persona("Oscar Amado", "Ruiz", "Torres", 4));
+		}
+
+	}
 
 }

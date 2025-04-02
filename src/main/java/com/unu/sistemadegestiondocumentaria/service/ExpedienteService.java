@@ -102,7 +102,7 @@ public class ExpedienteService extends Repository<Expediente> {
         return (getAll().isEmpty()) ? 1 : getLastId() + 1;
     }
 
-    public List<GradoInstruccion> getAllGradosInstruccion() {
-        return egresadoService.getAllGradosInstruccion();
-    }
+//    public List<GradoInstruccion> getAllGradosInstruccion() {
+//        return egresadoService.getAllGradosInstruccion();
+//    }
 }

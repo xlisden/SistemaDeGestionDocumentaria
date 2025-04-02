@@ -14,7 +14,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     AdministrativoService adservice = AdministrativoService.instanciar();
 
-    List<Administrativo> administrativos = adservice.getAllAdminiOrdenAlfNombre();
+    List<Administrativo> administrativos = adservice.getAllAdminOrdenAlfNombre();
     int[] idAdmins = new int[administrativos.size()];
 
     ExpedienteService expservice = ExpedienteService.instanciar();

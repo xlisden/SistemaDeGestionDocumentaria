@@ -76,7 +76,7 @@ public class EgresadoService extends Repository<Egresado> {
         return null;
     }
 
-    public List<GradoInstruccion> getAllGradosInstruccion() {
-        return personaService.getAllGradosInstruccion();
-    }
+//    public List<GradoInstruccion> getAllGradosInstruccion() {
+//        return personaService.getAllGradosInstruccion();
+//    }
 }

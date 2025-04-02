@@ -4,7 +4,6 @@ import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.GradoInstRepository;
 import com.unu.sistemadegestiondocumentaria.repository.PersonaRepository;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 import java.util.List;
 
 public class PersonaService {
@@ -29,8 +28,9 @@ public class PersonaService {
 	public void add(Persona p) {
 		GradoInstruccion gi = giRepository.getById(p.getIdGradoInst());
 		if (gi == null) {
-			throw new ValidationException("El Grado de Instrucción de la Persona no puede estar vacío.");
+			return;
 		}
+//		throw new ValidationException("El Grado de Instrucción de la Persona no puede estar vacío.");
 		p.setGradoInstruccion(gi);
 
 		personaRepository.add(p);
@@ -77,13 +77,13 @@ public class PersonaService {
 		return personaRepository.getAll();
 	}
 
-	/*
-	 * Esto no deberia estar aqui, pues aqui solo deberia haber todo lo referente a persona
-	 * Pero no quiero instanciar otra service, que pregunte si esta vacio para insertar y recien traer
-	 * De aqui defrente nomas
-	 */
-	public List<GradoInstruccion> getAllGradosInstruccion() {
-		return giRepository.getAll();
-	}
+//	/*
+//	 * Esto no deberia estar aqui, pues aqui solo deberia haber todo lo referente a persona
+//	 * Pero no quiero instanciar otra service, que pregunte si esta vacio para insertar y recien traer
+//	 * De aqui defrente nomas
+//	 */
+//	public List<GradoInstruccion> getAllGradosInstruccion() {
+//		return giRepository.getAll();
+//	}
 
 }
