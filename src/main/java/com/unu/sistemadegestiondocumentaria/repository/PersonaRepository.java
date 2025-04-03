@@ -28,8 +28,7 @@ public class PersonaRepository extends Repository<Persona> {
 			return -1;
 		} finally {
 			hc.closeConnection();
-		}	
-		
+		}			
 	}
 	
     public Persona getLast() {
@@ -41,7 +40,6 @@ public class PersonaRepository extends Repository<Persona> {
 			return null;
 		} finally {
 			hc.closeConnection();
-		}	
-		
+		}			
     }	
 }

@@ -28,8 +28,7 @@ public class ExpedienteRepository extends Repository<Expediente> {
 			return -1;
 		} finally {
 			hc.closeConnection();
-		}	
-		
+		}			
 	}
 	
     public Expediente getLast() {
@@ -41,8 +40,7 @@ public class ExpedienteRepository extends Repository<Expediente> {
 			return null;
 		} finally {
 			hc.closeConnection();
-		}	
-		
+		}			
     }		
 	
 }

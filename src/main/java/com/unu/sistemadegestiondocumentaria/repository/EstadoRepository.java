@@ -21,11 +21,10 @@ public class EstadoRepository extends Repository<Estado> {
 	}
 
 	public Estado getByNombre(String nombre) {
-		Query query = null;
 		String sql = "SELECT x FROM Estado x WHERE x.nombre = :nombre";
 
 		em = hc.getEntityManager();
-		query = em.createQuery(sql, Estado.class);
+		Query query = em.createQuery(sql, Estado.class);
 		query.setParameter("nombre", nombre.toUpperCase());
 
 		try {
@@ -34,8 +33,7 @@ public class EstadoRepository extends Repository<Estado> {
 			return null;
 		} finally {
 			hc.closeConnection();
-		}	
-		
+		}			
 	}
 
 }
