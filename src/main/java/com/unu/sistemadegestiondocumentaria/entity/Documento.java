@@ -12,12 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-//import org.hibernate.annotations.Cache;
-//import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 @Entity
-//@Cache(usage = CacheConcurrencyStrategy.READ_ONLY) 
 @Table(name = "documentos")
 public class Documento implements IDocumento{
 
@@ -52,9 +49,9 @@ public class Documento implements IDocumento{
     @Transient
     private List<Administrativo> destinatarios;
     @Transient
-    private int idExpediente;
+    private List<Integer> idExpedientes;
     @Transient
-    private Expediente expediente;
+    private List<Expediente> expedientes;
     @Transient
     private IDocumento tipoDoc;
 
@@ -70,7 +67,6 @@ public class Documento implements IDocumento{
         this.idEmisor = idEmisor;
         this.idDestinatarios = idDestinatarios;
         destinatarios = new ArrayList<>();
-        this.idExpediente = idExpediente;
     }
 
     public Documento(int id, String correlativo, Date fechaEmision, TipoDocumento tipoDocumento, Estado estado, Administrativo emisor) {
@@ -177,23 +173,24 @@ public class Documento implements IDocumento{
         this.idDestinatarios = idDestinatarios;
     }
 
-    public int getIdExpediente() {
-        return idExpediente;
-    }
 
-    public void setIdExpediente(int idExpediente) {
-        this.idExpediente = idExpediente;
-    }
+    public List<Integer> getIdExpedientes() {
+		return idExpedientes;
+	}
 
-    public Expediente getExpediente() {
-        return expediente;
-    }
+	public void setIdExpedientes(List<Integer> idExpedientes) {
+		this.idExpedientes = idExpedientes;
+	}
 
-    public void setExpediente(Expediente expediente) {
-        this.expediente = expediente;
-    }
+	public List<Expediente> getExpedientes() {
+		return expedientes;
+	}
 
-    public String getNombre() {
+	public void setExpedientes(List<Expediente> expedientes) {
+		this.expedientes = expedientes;
+	}
+
+	public String getNombre() {
         return tipoDocumento.getNombre() + " " + correlativo;
     }
 

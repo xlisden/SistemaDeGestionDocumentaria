@@ -2,18 +2,14 @@ package com.unu.sistemadegestiondocumentaria.repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDocumento;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
-import com.unu.sistemadegestiondocumentaria.entity.Estado;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
-import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 
 public class DetalleDocumentoRepository extends Repository<DetalleDocumento> {
 
@@ -39,7 +35,7 @@ public class DetalleDocumentoRepository extends Repository<DetalleDocumento> {
 		query.setParameter("idExp", idExp);
 		
 		try {
-			DetalleDocumento detDoc = (DetalleDocumento) query.getSingleResult();
+			DetalleDocumento detDoc = (DetalleDocumento) query.setMaxResults(1).getSingleResult();
 			return detDoc.getId();
 		} catch (NoResultException e) {
 			return -1;
@@ -67,6 +63,27 @@ public class DetalleDocumentoRepository extends Repository<DetalleDocumento> {
 			hc.closeConnection();
 		}		
 	}
+
+	public void deleteByExp(int idExp) {
+		String sql = "DELETE FROM DetalleDocumento x WHERE x.expediente.id = :idExp";
+		
+		em = hc.getEntityManager();
+		Query query = em.createQuery(sql);
+		query.setParameter("idExp", idExp);
+		
+		try {
+            em.getTransaction().begin();
+            query.executeUpdate();
+            em.getTransaction().commit();
+		} catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+		} finally {
+			hc.closeConnection();
+		}		
+	}
+		
 	
 	public List<Expediente> getExpedientesByDoc(int idDoc) {
 		String sql = "SELECT x FROM DetalleDocumento x WHERE x.documento.id = :idDoc";
@@ -82,7 +99,7 @@ public class DetalleDocumentoRepository extends Repository<DetalleDocumento> {
 				expedientes.add(detdoc.getExpediente());
 			}
 			return expedientes;
-		} catch (NoResultException e) {
+		} catch (Exception e) {
 			return Collections.emptyList();
 		} finally {
 			hc.closeConnection();
@@ -104,7 +121,7 @@ public class DetalleDocumentoRepository extends Repository<DetalleDocumento> {
 				documentos.add(detdoc.getDocumento());
 			}
 			return documentos;
-		} catch (NoResultException e) {
+		} catch (Exception e) {
 			return Collections.emptyList();
 		} finally {
 			hc.closeConnection();

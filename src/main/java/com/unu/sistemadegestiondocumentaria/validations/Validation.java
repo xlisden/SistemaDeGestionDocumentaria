@@ -96,10 +96,9 @@ public class Validation {
         }
         validateAdministrativo(doc.getEmisor());
 
-        if (doc.getIdExpediente() == 0) {
-            throw new ValidationException("El expediente del Documento no puede estar vacío.");
+        if (doc.getIdExpedientes().isEmpty() && doc.getIdExpedientes().isEmpty()) {
+            throw new ValidationException("El documento no puede estar sin expediente(s).");
         }
-        validateExpediente(doc.getExpediente());
 
         if (doc.getIdDestinatarios().isEmpty() && doc.getDestinatarios().isEmpty()) {
             throw new ValidationException("El documento no puede estar sin destinatarios.");

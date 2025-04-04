@@ -64,7 +64,7 @@ public class FormDocumentos extends TabbedForm {
     private void getDocumentos(List<Documento> documentos) {
         for (Documento doc : documentos) {
             Object[] row = new Object[5];
-            row[0] = doc.getExpediente().getId();
+            row[0] = getLista(doc.getExpedientes());
             row[1] = doc.getNombre();
             String asunto = "";
             switch (doc.getTipoDocumento().getId()) {
@@ -74,7 +74,7 @@ public class FormDocumentos extends TabbedForm {
 //                    row[2] = Objects.requireNonNullElse(ofService.getAsuntoByDoc(doc.getId()), "");
             }
             row[2] = (asunto != null) ? asunto : "";
-            row[3] = getDestinatarios(doc.getDestinatarios());
+            row[3] = getLista(doc.getDestinatarios());
             row[4] = doc.getFechaEmision().toString();
             dataTabla.add(row);
         }
@@ -89,7 +89,7 @@ public class FormDocumentos extends TabbedForm {
         tblDocumentos.setModel(modTabla);
     }
 
-    private String getDestinatarios(List<Administrativo> destinatarios) {
+    private <T> String getLista(List<T> destinatarios) {
         String s = "";
         int cantComas = destinatarios.size() - 1;
         for (int i = 0; i < cantComas; i++) {

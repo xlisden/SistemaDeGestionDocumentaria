@@ -15,6 +15,7 @@ import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import com.unu.sistemadegestiondocumentaria.validations.ValidationException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class DocumentoService extends Repository<Documento> {
 
     private final AdministrativoService administrativoService = AdministrativoService.instanciar();
     private final DetDestinatarioService detDestinatarioService = DetDestinatarioService.instanciar();
-    private final DetExpedienteService detExpedienteService = DetExpedienteService.instanciar();
+    private final DetalleDocumentoService detExpedienteService = DetalleDocumentoService.instanciar();
     private final EstadoService estadoService = EstadoService.instanciar();
     private final ExpedienteService expedienteService = ExpedienteService.instanciar();
     private final TipoDocumentoService tdService = TipoDocumentoService.instanciar();
@@ -48,10 +49,10 @@ public class DocumentoService extends Repository<Documento> {
         try {
             TipoDocumento td = tdService.getById(t.getIdTipoDoc());
             Administrativo emisor = administrativoService.getById(t.getIdEmisor());
-            Expediente exp = expedienteService.getById(t.getIdExpediente());
+//            Expediente exp = expedienteService.getById(t.getIdExpediente());
 //            Administrativo dest = administrativoService.getById(t.getIdDestinatarios().get(0));
 //            || dest == null
-            if (td == null || emisor == null || exp == null) {
+            if (td == null || emisor == null) {
                 return;
             }
 
@@ -59,13 +60,12 @@ public class DocumentoService extends Repository<Documento> {
             t.setEmisor(emisor);
             t.setEstado(estadoService.getByNombre("PENDIENTE"));
             t.setCorrelativo(setCorrelativo());
-            t.setExpediente(exp);
+//            t.setExpediente(exp);
 
             Validation.validateDocumento(t);
             super.add(t);
-
-            System.out.println("exp = " + exp);
-            detExpedienteService.add(new DetalleDocumento(t, exp));
+            
+//            detExpedienteService.add(new DetalleDocumento(t, exp));
 
             Administrativo dest = null;
             for (Integer i : t.getIdDestinatarios()) {
@@ -87,8 +87,8 @@ public class DocumentoService extends Repository<Documento> {
         try {
             TipoDocumento td = tdService.getById(t.getIdTipoDoc());
             Administrativo emisor = administrativoService.getById(t.getIdEmisor());
-            Expediente exp = expedienteService.getById(t.getIdExpediente());
-            if (td == null || emisor == null || exp == null) {
+//            Expediente exp = expedienteService.getById(t.getIdExpediente());
+            if (td == null || emisor == null) {
                 return false;
             }
 
@@ -96,12 +96,12 @@ public class DocumentoService extends Repository<Documento> {
             t.setEmisor(emisor);
             t.setEstado(estadoService.getByNombre("PENDIENTE"));
             t.setCorrelativo(setCorrelativo());
-            t.setExpediente(exp);
+//            t.setExpediente(exp);
 
             Validation.validateDocumento(t);
             super.add(t);
 
-            detExpedienteService.add(new DetalleDocumento(t, exp));
+//            detExpedienteService.add(new DetalleDocumento(t, exp));
 
             Administrativo dest = null;
             for (Integer i : t.getIdDestinatarios()) {
@@ -132,12 +132,12 @@ public class DocumentoService extends Repository<Documento> {
 
             TipoDocumento td = tdService.getById(t.getIdTipoDoc());
             Administrativo emisor = administrativoService.getById(t.getIdEmisor());
-            Expediente exp = expedienteService.getById(t.getIdExpediente());
+//            Expediente exp = expedienteService.getById(t.getIdExpediente());
             String correlativo = t.getCorrelativo() != null ? t.getCorrelativo() : doc.getCorrelativo();
             Estado estado = t.getEstado() != null ? t.getEstado() : doc.getEstado();
             Date fechaEmision = t.getFechaEmision() != null ? t.getFechaEmision() : doc.getFechaEmision();
 
-            if (emisor == null || td == null || exp == null || correlativo.isEmpty() || estado == null || fechaEmision == null) {
+            if (emisor == null || td == null || correlativo.isEmpty() || estado == null || fechaEmision == null) {
                 // throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
                 return;
             }
@@ -148,11 +148,11 @@ public class DocumentoService extends Repository<Documento> {
             doc.setEstado(estado);
             doc.setEmisor(emisor);
 
-            doc.setExpediente(getExpediente(doc.getId())); // para obtener su exp anterior
+//            doc.setExpediente(getExpediente(doc.getId())); // para obtener su exp anterior
 //            System.out.println("exp en t = " + exp.toString());
 //            System.out.println("exp en doc = " + doc.getExpediente().toString() + "\n");
-            updateExpediente(doc, doc.getExpediente(), exp);
-            doc.setExpediente(exp);
+//            updateExpediente(doc, doc.getExpediente(), exp);
+//            doc.setExpediente(exp);
 
             Administrativo dest = null;
             if (t.getIdDestinatarios() != null) {
@@ -184,7 +184,7 @@ public class DocumentoService extends Repository<Documento> {
         List<Documento> documentos = new ArrayList<Documento>();
         documentos = super.getAll();
         for (Documento doc : documentos) {
-            doc.setExpediente(getExpediente(doc.getId()));
+//            doc.setExpediente(getExpediente(doc.getId()));
             doc.setDestinatarios(getDestinatarios(doc.getId()));
             doc.getAsunto();
         }
@@ -206,7 +206,7 @@ public class DocumentoService extends Repository<Documento> {
         try {
             doc = super.getById(id);
             try {
-                doc.setExpediente(getExpediente(id));
+//                doc.setExpediente(getExpediente(id));
             } catch (ValidationException e) { // para que me traiga los destinatarios si no hay exp
                 e.printConsoleMessage();
             }
@@ -311,7 +311,7 @@ public class DocumentoService extends Repository<Documento> {
             // if (nuevoExp == null) {
             //     throw new ValidationException(Validation.showWarning("El nuevo Expediente no puede estar vacío."));
             // }
-            detExpedienteService.update(new DetalleDocumento(doc, antExp), nuevoExp);
+            detExpedienteService.updateExp(new DetalleDocumento(doc, antExp), nuevoExp);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
@@ -324,7 +324,7 @@ public class DocumentoService extends Repository<Documento> {
                 return;
             }
 
-            detExpedienteService.update(new DetalleDocumento(doc, antExp), nuevoExp);
+            detExpedienteService.updateExp(new DetalleDocumento(doc, antExp), nuevoExp);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
@@ -356,14 +356,13 @@ public class DocumentoService extends Repository<Documento> {
         return destinatarios;
     }
 
-    public Expediente getExpediente(int idDoc) {
-        Expediente exp = null;
+    public List<Expediente> getExpediente(int idDoc) {
         try {
-            exp = detExpedienteService.getExpedienteByDoc(idDoc);
+            return detExpedienteService.getExpedientesByDoc(idDoc);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
-        return exp;
+        return Collections.emptyList();
     }
 
     public List<TipoDocumento> getAllTiposDocumento() {

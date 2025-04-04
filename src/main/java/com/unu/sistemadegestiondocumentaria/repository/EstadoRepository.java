@@ -28,7 +28,7 @@ public class EstadoRepository extends Repository<Estado> {
 		query.setParameter("nombre", nombre.toUpperCase());
 
 		try {
-			return (Estado) query.getSingleResult();
+			return (Estado) query.setMaxResults(1).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		} finally {
