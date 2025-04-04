@@ -9,15 +9,7 @@ public class DocumentoDto {
 
 	private int id;
 
-	private String correlativo;
-
-	private Date fechaEmision;
-
-	private TipoDocumento tipoDocumento;
-
-	private Estado estado;
-
-	private Administrativo emisor;
+	private Documento doc;
 
 	private List<Administrativo> destinatarios;
 
@@ -28,10 +20,15 @@ public class DocumentoDto {
 		expedientes = new ArrayList<>();
 	}
 
-	public DocumentoDto(Date fechaEmision, TipoDocumento tipoDoc, Administrativo emisor, List<Administrativo> destinatarios, List<Expediente> expedientes) {
-		this.fechaEmision = fechaEmision;
-		this.tipoDocumento = tipoDoc;
-		this.emisor = emisor;
+	public DocumentoDto(Documento doc, List<Administrativo> destinatarios, List<Expediente> expedientes) {
+		this.doc = doc;
+		this.destinatarios = destinatarios;
+		this.expedientes = expedientes;
+	}
+
+	public DocumentoDto(int id, String correlativo, Date fechaEmision, TipoDocumento tipoDocumento, Estado estado,
+			Administrativo emisor, List<Administrativo> destinatarios, List<Expediente> expedientes) {
+		doc = new Documento(id, correlativo, fechaEmision, tipoDocumento, estado, emisor);
 		this.destinatarios = destinatarios;
 		this.expedientes = expedientes;
 	}
@@ -44,50 +41,12 @@ public class DocumentoDto {
 		this.id = id;
 	}
 
-	public String getCorrelativo() {
-		return correlativo;
+	public Documento getDoc() {
+		return doc;
 	}
 
-	public void setCorrelativo(String correlativo) {
-		this.correlativo = correlativo;
-	}
-
-	public Date getFechaEmision() {
-		return fechaEmision;
-	}
-
-	public void setFechaEmision(Date fechaEmision) {
-		this.fechaEmision = fechaEmision;
-	}
-
-	public TipoDocumento getTipoDocumento() {
-		return tipoDocumento;
-	}
-
-	public void setTipoDocumento(TipoDocumento tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
-	}
-
-	public Estado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
-
-	public Administrativo getEmisor() {
-		return emisor;
-	}
-
-	public void setEmisor(Administrativo emisor) {
-		this.emisor = emisor;
-	}
-
-	@Override
-	public String toString() {
-		return "Documento{" + "id=" + id + ", correlativo=" + correlativo + ", fechaEmision=" + fechaEmision
-				+ ", tipoDocumento=" + tipoDocumento + ", estado=" + estado + ", emisor=" + emisor + '}';
+	public void setDoc(Documento doc) {
+		this.doc = doc;
 	}
 
 	public List<Administrativo> getDestinatarios() {
@@ -106,8 +65,14 @@ public class DocumentoDto {
 		this.expedientes = expedientes;
 	}
 
+	@Override
+	public String toString() {
+		return "DocumentoDto [id=" + id + ", doc=" + doc + ", destinatarios=" + destinatarios + ", expedientes="
+				+ expedientes + "]";
+	}
+
 	public String getNombre() {
-		return tipoDocumento.getNombre() + " " + correlativo;
+		return doc.getTipoDocumento().getNombre() + " " + doc.getCorrelativo();
 	}
 
 }

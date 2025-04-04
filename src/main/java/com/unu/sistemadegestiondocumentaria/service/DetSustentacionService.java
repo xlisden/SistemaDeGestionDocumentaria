@@ -52,16 +52,16 @@ public class DetSustentacionService extends Repository<DetalleSustentacion> {
 			
 			sustService.add(s);
 			
-			Sustentacion sust = sustService.getLast();
-			if (!getAll().isEmpty()) {
-				if(sust.getId() == getLast().getSustentacion().getId()) {
-					return;
-				}
-			}
+//			Sustentacion sust = sustService.getLast();
+//			if (!getAll().isEmpty()) {
+//				if(sust.getId() == getLast().getSustentacion().getId()) {
+//					return;
+//				}
+//			}
 			
 			DetalleSustentacion detSust = new DetalleSustentacion();
 			detSust.setExpediente(exp);
-			detSust.setSustentacion(sust);
+//			detSust.setSustentacion(sust);
 			Validation.validateDetSustentacion(detSust);
 
 			super.add(detSust);

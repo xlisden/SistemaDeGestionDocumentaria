@@ -36,11 +36,11 @@ public class ActaSustService extends Repository<ActaSustentacionTesis> {
             if (doc == null) {
                 return;
             }
-            boolean isCorrect = docService.addDoc(doc);
-            if (isCorrect) {
-                Validation.validateActaSust(t);
-                super.add(t);
-            }
+//            boolean isCorrect = docService.addDoc(doc);
+//            if (isCorrect) {
+//                Validation.validateActaSust(t);
+//                super.add(t);
+//            }
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
@@ -55,20 +55,20 @@ public class ActaSustService extends Repository<ActaSustentacionTesis> {
                 return;
             }
 
-            int idDoc = acta.getDocumento().getId();
-            Documento doc = docService.getById(idDoc);
-            if (doc == null) {
-                return;
-            }
+//            int idDoc = acta.getDocumento().getId();
+//            Documento doc = docService.getById(idDoc);
+//            if (doc == null) {
+//                return;
+//            }
 
 //            doc = docService.setDocumento(doc, t.getDocumento());
 //          no se porque validar, si ya documento validara en update
-            t.setDocumento(doc);
-
-            Validation.validateActaSust(t);
-            docService.update(idDoc, doc);
-            acta.setTema(t.getTema());
-            acta.setCalificacion(t.getCalificacion());
+//            t.setDocumento(doc);
+//
+//            Validation.validateActaSust(t);
+//            docService.update(idDoc, doc);
+//            acta.setTema(t.getTema());
+//            acta.setCalificacion(t.getCalificacion());
 
             super.update(id, acta);
         } catch (ValidationException e) {

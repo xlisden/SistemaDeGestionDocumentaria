@@ -49,11 +49,11 @@ public class SistemaDeGestionDocumentaria {
 
 	public static void main(String[] args) {
 		Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
-		addGradosInstruccion();
+//		addGradosInstruccion();
 
 		long start = System.currentTimeMillis();
 
-
+		addExpedientes();
 
 		long end = System.currentTimeMillis();
 		System.out.println("\ntiempo = " + (end - start) + " ms");
@@ -67,7 +67,7 @@ public class SistemaDeGestionDocumentaria {
 	}
 
 	private static void addAdministrativos() {
-		AdministrativoService service = AdministrativoService.instanciar();
+		AdministrativoService service = AdministrativoService.instanciar();		
 	}
 
 	private static void addPersonas() {

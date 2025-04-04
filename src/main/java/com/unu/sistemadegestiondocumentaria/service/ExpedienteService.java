@@ -1,6 +1,7 @@
 package com.unu.sistemadegestiondocumentaria.service;
 
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
+import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
 import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.repository.ExpedienteRepository;
@@ -97,22 +98,33 @@ public class ExpedienteService {
 		return expRepository.getAll();
 	}
 
+
 	public List<Expediente> getAllExpOrdenAlfNombre() {
-		List<Expediente> lista = expRepository.getAll();
+		return expRepository.getAllExpOrdenAlfNombre();
+	}
+	
+	// por si crean filtros para ordenar alfabeticamente, no estar llamando de nuevo a la database
+	public List<Expediente> getAllOrdenAlfNombre(List<Expediente> lista) {
 		if (lista != null) {
 			Collections.sort(lista,
 					(x, y) -> x.getPersona().getNombre().compareToIgnoreCase(y.getPersona().getNombre()));
 		}
 		return lista;
 	}
-
+	
 	public List<Expediente> getAllExpOrdenAlfApPaterno() {
-		List<Expediente> lista = expRepository.getAll();
+		return expRepository.getAllExpOrdenAlfApPaterno();
+	}
+
+	// por si crean filtros para ordenar alfabeticamente, no estar llamando de nuevo a la database
+	public List<Expediente> getAllOrdenAlfApPaterno(List<Expediente> lista) {
 		if (lista != null) {
-			Collections.sort(lista, (x, y) -> x.getPersona().getApellidoPaterno().compareToIgnoreCase(y.getPersona().getApellidoPaterno()));
+			Collections.sort(lista, (x, y) -> x.getPersona().getApellidoPaterno()
+					.compareToIgnoreCase(y.getPersona().getApellidoPaterno()));
 		}
 		return lista;
-	}	
+	}
+
 	
 	private int getNroExp() {
 		return (expRepository.getAll().isEmpty()) ? 1 : expRepository.getLastId() + 1;

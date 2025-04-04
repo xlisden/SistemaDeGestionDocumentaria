@@ -98,23 +98,31 @@ public class AdministrativoService {
 	}
 
 	public List<Administrativo> getAllAdminOrdenAlfNombre() {
-		List<Administrativo> lista = adRepository.getAll();
+		return adRepository.getAllAdminOrdenAlfNombre();
+	}
+	
+	// por si crean filtros para ordenar alfabeticamente, no estar llamando de nuevo a la database
+	public List<Administrativo> getAllOrdenAlfNombre(List<Administrativo> lista) {
 		if (lista != null) {
 			Collections.sort(lista,
 					(x, y) -> x.getPersona().getNombre().compareToIgnoreCase(y.getPersona().getNombre()));
 		}
 		return lista;
 	}
-
+	
 	public List<Administrativo> getAllAdminOrdenAlfApPaterno() {
-		List<Administrativo> lista = adRepository.getAll();
+		return adRepository.getAllAdminOrdenAlfApPaterno();
+	}
+
+	// por si crean filtros para ordenar alfabeticamente, no estar llamando de nuevo a la database
+	public List<Administrativo> getAllOrdenAlfApPaterno(List<Administrativo> lista) {
 		if (lista != null) {
 			Collections.sort(lista, (x, y) -> x.getPersona().getApellidoPaterno()
 					.compareToIgnoreCase(y.getPersona().getApellidoPaterno()));
 		}
 		return lista;
 	}
-
+	
 	/*
 	 * Esto no deberia estar aqui, pues aqui solo deberia haber todo lo referente a
 	 * persona Pero no quiero instanciar otro service, que pregunte si esta vacio

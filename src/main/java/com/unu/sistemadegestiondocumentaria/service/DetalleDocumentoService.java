@@ -29,17 +29,18 @@ public class DetalleDocumentoService {
 		detDocRepository.add(t);
 	}
 
+	// no hacemos update verificando si hay mas o menos expedientes, porque solo son dos
+	// entonces se eliminan los restantes si se separan los bachilleres
 	public void updateExp(DetalleDocumento t, Expediente exp) {
 		int id = getId(t.getDocumento().getId(), t.getExpediente().getId());
 		DetalleDocumento detExp = getById(id);
-		// el id se trae de la bd, claro que existe
-//            if (detExp == null) {
-//                return;
-//            }
+		// el id se trae de la bd, claro que existe (mejor no, por si acaso)
+		if (detExp == null) {
+			return;
+		}
 
 		detExp.setExpediente(exp); // se supone que docService valido que exp existe
 		detDocRepository.update(id, detExp);
-
 	}
 
 	public void delete(int idDoc, int idExp) {
@@ -48,7 +49,7 @@ public class DetalleDocumentoService {
 	}
 
 	public DetalleDocumento getById(int id) {
-        return detDocRepository.getById(id);
+		return detDocRepository.getById(id);
 	}
 
 	public int getId(int idDoc, int idExp) {
@@ -58,10 +59,10 @@ public class DetalleDocumentoService {
 	public void deleteByDoc(int idDoc) {
 		detDocRepository.deleteByDoc(idDoc);
 	}
-	
+
 	public void deleteByExp(int idExp) {
 		detDocRepository.deleteByExp(idExp);
-	}	
+	}
 
 	public List<Expediente> getExpedientesByDoc(int idDoc) {
 		return detDocRepository.getExpedientesByDoc(idDoc);

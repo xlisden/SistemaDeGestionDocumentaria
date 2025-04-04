@@ -3,6 +3,7 @@ package com.unu.sistemadegestiondocumentaria.service;
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleDestinatario;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
+import com.unu.sistemadegestiondocumentaria.repository.DetalleDestinatarioRepository;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
 import java.util.ArrayList;
@@ -11,29 +12,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DetDestinatarioService extends Repository<DetalleDestinatario> {
+public class DetDestinatarioService {
 
     private static DetDestinatarioService INSTANCIA;
+    
+    private DetalleDestinatarioRepository detDestRepository;
 
-    private DetDestinatarioService(Class<DetalleDestinatario> type) {
-        super(type);
+    private DetDestinatarioService() {
+        detDestRepository = DetalleDestinatarioRepository.instanciar();
     }
 
     public static DetDestinatarioService instanciar() {
         if (INSTANCIA == null) {
-            INSTANCIA = new DetDestinatarioService(DetalleDestinatario.class);
+            INSTANCIA = new DetDestinatarioService();
         }
         return INSTANCIA;
     }
 
-    @Override
+    
     public void add(DetalleDestinatario t) {
-        try {
-            Validation.validateDetDestinatario(t);
-            super.add(t);
-        } catch (ValidationException e) {
-            System.out.println(e.getMessage());
-        }
+        detDestRepository.add(t);
     }
 
     public void update(DetalleDestinatario t, Administrativo nuevoDest) {
@@ -49,7 +47,7 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
             Validation.validateDetDestinatario(t);
             detDest.setDestinatario(nuevoDest);
 
-            super.update(id, detDest);
+//            super.update(id, detDest);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
@@ -58,16 +56,16 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
     public void delete(int idDoc, int idDest) {        
         try {
             int id = getId(idDoc, idDest);
-            super.delete(id);
+//            super.delete(id);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
     }
 
-    @Override
+    
     public DetalleDestinatario getById(int id) {
         try {
-            return super.getById(id);
+//            return super.getById(id);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
@@ -81,12 +79,12 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
             parametros.put("idDoc", idDoc);
             parametros.put("idDest", idDest);
 
-            DetalleDestinatario detDest = getByQuery( "SELECT x FROM DetalleDestinatario x WHERE x.documento.id = :idDoc AND x.destinatario.id = :idDest", parametros);
-            if (detDest == null){
-                return 0;
-            }
-
-            id = detDest.getId();
+//            DetalleDestinatario detDest = getByQuery( "SELECT x FROM DetalleDestinatario x WHERE x.documento.id = :idDoc AND x.destinatario.id = :idDest", parametros);
+//            if (detDest == null){
+//                return 0;
+//            }
+//
+//            id = detDest.getId();
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
@@ -98,7 +96,7 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("idDoc", idDoc);
             
-            deleteOrUpdateByQuery("DELETE FROM DetalleDestinatario x WHERE x.documento.id = :idDoc", parametros);
+//            deleteOrUpdateByQuery("DELETE FROM DetalleDestinatario x WHERE x.documento.id = :idDoc", parametros);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
@@ -107,11 +105,11 @@ public class DetDestinatarioService extends Repository<DetalleDestinatario> {
     public List<Administrativo> getDestinatariosByDoc(int idDoc) {
         List<Administrativo> destinatarios = new ArrayList<>();
         try {
-            for(DetalleDestinatario detDest: getAll()){
-                if (detDest.getDocumento().getId() == idDoc) {
-                    destinatarios.add(detDest.getDestinatario());
-                }
-            }
+//            for(DetalleDestinatario detDest: getAll()){
+//                if (detDest.getDocumento().getId() == idDoc) {
+//                    destinatarios.add(detDest.getDestinatario());
+//                }
+//            }
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }

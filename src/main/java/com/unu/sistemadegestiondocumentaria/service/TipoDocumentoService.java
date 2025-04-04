@@ -3,16 +3,16 @@ package com.unu.sistemadegestiondocumentaria.service;
 import java.util.List;
 
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
-import com.unu.sistemadegestiondocumentaria.repository.TipoDocRepository;
+import com.unu.sistemadegestiondocumentaria.repository.TipoDocumentoRepository;
 
 public class TipoDocumentoService {
 
 	private static TipoDocumentoService INSTANCIA;
 
-	private TipoDocRepository tdRepository;
+	private TipoDocumentoRepository tdRepository;
 
 	private TipoDocumentoService() {
-		tdRepository = TipoDocRepository.instanciar();
+		tdRepository = TipoDocumentoRepository.instanciar();
 		addData();
 	}
 

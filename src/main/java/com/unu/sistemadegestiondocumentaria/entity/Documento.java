@@ -60,7 +60,7 @@ public class Documento implements IDocumento{
         destinatarios = new ArrayList<>();
     }
 
-    //no estado porque se supone que es pendiente. A menos que el ing. ingrese los docs. una vez entregados
+	//no estado porque se supone que es pendiente. A menos que el ing. ingrese los docs. una vez entregados
     public Documento(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, int idExpediente) {
         this.fechaEmision = fechaEmision;
         this.idTipoDoc = idTipoDoc;

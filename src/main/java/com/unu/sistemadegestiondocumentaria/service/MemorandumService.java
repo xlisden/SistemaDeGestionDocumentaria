@@ -36,11 +36,11 @@ public class MemorandumService extends Repository<Memorandum> {
             if (doc == null) {
                 return;
             }
-            boolean isCorrect = docService.addDoc(doc);
-            if (isCorrect) {
-                Validation.validateMemorandum(t);
-                super.add(t);
-            }
+//            boolean isCorrect = docService.addDoc(doc);
+//            if (isCorrect) {
+//                Validation.validateMemorandum(t);
+//                super.add(t);
+//            }
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
@@ -56,21 +56,21 @@ public class MemorandumService extends Repository<Memorandum> {
             }
 
             int idDoc = memorandum.getDocumento().getId();
-            Documento doc = docService.getById(idDoc);
-            if (doc == null) {
-                return;
-            }
-
-//            doc = docService.setDocumento(doc, t.getDocumento());
-//          no se porque validar, si ya documento validara en update
-            t.setDocumento(doc);
-
-            Validation.validateMemorandum(t);
-            docService.update(idDoc, doc);
-            memorandum.setAsunto(t.getAsunto());
-            memorandum.setReferencia(t.getReferencia());
-
-            super.update(id, memorandum);
+//            Documento doc = docService.getById(idDoc);
+//            if (doc == null) {
+//                return;
+//            }
+//
+////            doc = docService.setDocumento(doc, t.getDocumento());
+////          no se porque validar, si ya documento validara en update
+//            t.setDocumento(doc);
+//
+//            Validation.validateMemorandum(t);
+//            docService.update(idDoc, doc);
+//            memorandum.setAsunto(t.getAsunto());
+//            memorandum.setReferencia(t.getReferencia());
+//
+//            super.update(id, memorandum);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }

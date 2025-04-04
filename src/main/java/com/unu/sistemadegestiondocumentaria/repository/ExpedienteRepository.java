@@ -1,6 +1,10 @@
 package com.unu.sistemadegestiondocumentaria.repository;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 
@@ -42,5 +46,35 @@ public class ExpedienteRepository extends Repository<Expediente> {
 			hc.closeConnection();
 		}			
     }		
+	
+	public List<Expediente> getAllExpOrdenAlfNombre(){
+		String sql = "SELECT x FROM Expediente x ORDER BY x.persona.nombre ASC";
+		
+		em = hc.getEntityManager();
+		Query query = em.createQuery(sql, Expediente.class);
+		
+		try {
+			return query.getResultList();
+		} catch (Exception e) {
+			return Collections.emptyList();
+		} finally {
+			hc.closeConnection();
+		}
+	}
+	    
+	public List<Expediente> getAllExpOrdenAlfApPaterno(){
+		String sql = "SELECT x FROM Expediente x ORDER BY x.persona.apellidoPaterno ASC";
+		
+		em = hc.getEntityManager();
+		Query query = em.createQuery(sql, Expediente.class);
+		
+		try {
+			return query.getResultList();
+		} catch (Exception e) {
+			return Collections.emptyList();
+		} finally {
+			hc.closeConnection();
+		}
+	}
 	
 }

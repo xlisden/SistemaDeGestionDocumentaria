@@ -36,11 +36,11 @@ public class OficioService extends Repository<Oficio> {
             if (doc == null) {
                 return;
             }
-            boolean isCorrect = docService.addDoc(doc);
-            if (isCorrect) {
-                Validation.validateOficio(t);
-                super.add(t);
-            }
+//            boolean isCorrect = docService.addDoc(doc);
+//            if (isCorrect) {
+//                Validation.validateOficio(t);
+//                super.add(t);
+//            }
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
@@ -49,28 +49,28 @@ public class OficioService extends Repository<Oficio> {
     @Override
     public void update(int id, Oficio t) {
         try {
-            Oficio oficio = getById(id);
-            if (oficio == null) {
-                // throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
-                return;
-            }
+//            Oficio oficio = getById(id);
+//            if (oficio == null) {
+//                // throw new ValidationException(Validation.showWarning("El Oficio no puede estar vacío."));
+//                return;
+//            }
+//
+//            int idDoc = oficio.getDocumento().getId();
+////            Documento doc = docService.getById(idDoc);
+//            if (doc == null) {
+//                return;
+//            }
+//
+////            doc = docService.setDocumento(doc, t.getDocumento());
+////          no se porque validar, si ya documento validara en update
+//            t.setDocumento(doc);
+//
+//            Validation.validateOficio(t);
+//            docService.update(idDoc, doc);
+//            oficio.setAsunto(t.getAsunto());
+//            oficio.setReferencia(t.getReferencia());
 
-            int idDoc = oficio.getDocumento().getId();
-            Documento doc = docService.getById(idDoc);
-            if (doc == null) {
-                return;
-            }
-
-//            doc = docService.setDocumento(doc, t.getDocumento());
-//          no se porque validar, si ya documento validara en update
-            t.setDocumento(doc);
-
-            Validation.validateOficio(t);
-            docService.update(idDoc, doc);
-            oficio.setAsunto(t.getAsunto());
-            oficio.setReferencia(t.getReferencia());
-
-            super.update(id, oficio);
+//            super.update(id, oficio);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }

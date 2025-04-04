@@ -76,17 +76,17 @@ public abstract class Repository<T> {
 //        return id;
 //    }
 
-    public T getLast() {
-        T t = null;
-        em = hc.getEntityManager();
-        t = em.createQuery("SELECT x FROM " + className + " x ORDER BY x.id DESC", typeClass).setMaxResults(1).getSingleResult();
-        hc.closeConnection();
-//        List<T> list = getAll();
-//        if (!list.isEmpty()) {
-//            t = list.getLast();
-//        }
-        return t;
-    }
+//    public T getLast() {
+//        T t = null;
+//        em = hc.getEntityManager();
+//        t = em.createQuery("SELECT x FROM " + className + " x ORDER BY x.id DESC", typeClass).setMaxResults(1).getSingleResult();
+//        hc.closeConnection();
+////        List<T> list = getAll();
+////        if (!list.isEmpty()) {
+////            t = list.getLast();
+////        }
+//        return t;
+//    }
 
     public T getByQuery(String query, Map<String, Object> parameters) {
         T t = null;
