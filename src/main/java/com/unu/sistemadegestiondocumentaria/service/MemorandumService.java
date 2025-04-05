@@ -143,8 +143,9 @@ public class MemorandumService extends Repository<Memorandum> {
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("idDoc", idDoc);
 
-        Memorandum memorandum = getByQuery("SELECT x FROM Memorandum x WHERE x.documento.id = :idDoc", parametros);
-        return memorandum.getAsunto();
+//        Memorandum memorandum = getByQuery("SELECT x FROM Memorandum x WHERE x.documento.id = :idDoc", parametros);
+//        return memorandum.getAsunto();
+        return "";
     }
 
 }

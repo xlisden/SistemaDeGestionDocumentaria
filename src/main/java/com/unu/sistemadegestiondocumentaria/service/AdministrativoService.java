@@ -103,11 +103,11 @@ public class AdministrativoService {
 	
 	// por si crean filtros para ordenar alfabeticamente, no estar llamando de nuevo a la database
 	public List<Administrativo> getAllOrdenAlfNombre(List<Administrativo> lista) {
-		if (lista != null) {
-			Collections.sort(lista,
-					(x, y) -> x.getPersona().getNombre().compareToIgnoreCase(y.getPersona().getNombre()));
-		}
-		return lista;
+		return orderByNombre(lista);
+	}
+
+	public List<Administrativo> orderByNombre(List<Administrativo> lista) {
+		return adRepository.orderByNombre(lista);
 	}
 	
 	public List<Administrativo> getAllAdminOrdenAlfApPaterno() {
@@ -116,11 +116,11 @@ public class AdministrativoService {
 
 	// por si crean filtros para ordenar alfabeticamente, no estar llamando de nuevo a la database
 	public List<Administrativo> getAllOrdenAlfApPaterno(List<Administrativo> lista) {
-		if (lista != null) {
-			Collections.sort(lista, (x, y) -> x.getPersona().getApellidoPaterno()
-					.compareToIgnoreCase(y.getPersona().getApellidoPaterno()));
-		}
-		return lista;
+		return orderByApPaterno(lista);
+	}
+
+	public List<Administrativo> orderByApPaterno(List<Administrativo> lista) {
+		return adRepository.orderByApPaterno(lista);
 	}
 	
 	/*

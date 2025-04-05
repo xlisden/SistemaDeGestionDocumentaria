@@ -30,222 +30,225 @@ import java.util.Map;
 import com.unu.sistemadegestiondocumentaria.entity.IDocumento;
 
 public class DocumentoService {
-    
-    private AdministrativoRepository adminRepository;
-    private DetalleDestinatarioRepository detDestRepository;
-    private DetalleDocumentoRepository detDocRepository;
-    private DocumentoRepository docRepository;
-    private EstadoRepository estRepository;
-    private ExpedienteRepository expRepository;
-    private TipoDocumentoRepository tipoDocRepository;
 
-    private static DocumentoService INSTANCIA;
+	private AdministrativoRepository adminRepository;
+	private DetalleDestinatarioRepository detDestRepository;
+	private DetalleDocumentoRepository detDocRepository;
+	private DocumentoRepository docRepository;
+	private EstadoRepository estRepository;
+	private ExpedienteRepository expRepository;
+	private TipoDocumentoRepository tipoDocRepository;
 
-    private DocumentoService() {
-    	adminRepository = AdministrativoRepository.instanciar();
-    	detDestRepository = DetalleDestinatarioRepository.instanciar();
-    	detDocRepository = DetalleDocumentoRepository.instanciar();
-    	docRepository = DocumentoRepository.instanciar();
-    	estRepository = EstadoRepository.instanciar();
-    	tipoDocRepository = TipoDocumentoRepository.instanciar();
-    }
+	private static DocumentoService INSTANCIA;
 
-    public static DocumentoService instanciar() {
-        if (INSTANCIA == null) {
-            INSTANCIA = new DocumentoService();
-        }
-        return INSTANCIA;
-    }
+	private DocumentoService() {
+		adminRepository = AdministrativoRepository.instanciar();
+		detDestRepository = DetalleDestinatarioRepository.instanciar();
+		detDocRepository = DetalleDocumentoRepository.instanciar();
+		docRepository = DocumentoRepository.instanciar();
+		estRepository = EstadoRepository.instanciar();
+		tipoDocRepository = TipoDocumentoRepository.instanciar();
+	}
 
-    
-    public void add(Documento t) {
-            TipoDocumento td = tipoDocRepository.getById(t.getIdTipoDoc());
-            Administrativo emisor = adminRepository.getById(t.getIdEmisor());
-            if (td == null || emisor == null) {
-                return;
-            }
+	public static DocumentoService instanciar() {
+		if (INSTANCIA == null) {
+			INSTANCIA = new DocumentoService();
+		}
+		return INSTANCIA;
+	}
 
-            t.setTipoDocumento(td);
-            t.setEmisor(emisor);
-            t.setEstado(estRepository.getByNombre("PENDIENTE"));
-            t.setCorrelativo(setCorrelativo());
+	public void add(Documento t) {
+		TipoDocumento td = tipoDocRepository.getById(t.getIdTipoDoc());
+		Administrativo emisor = adminRepository.getById(t.getIdEmisor());
+		if (td == null || emisor == null) {
+			return;
+		}
 
-            docRepository.add(t);            
-           
-            for (Integer i : t.getIdDestinatarios()) {
-                Administrativo dest  = adminRepository.getById(i);
-                // aqui es != porque no queremos que termine el proceso si un dest es incorrecto, queremos que siga
-                if (dest != null) {
-                    t.getDestinatarios().add(dest);
-                    detDestRepository.add(new DetalleDestinatario(t, dest));
-                }
-            }
-            
-            for (Integer i : t.getIdExpedientes()) {
-                Expediente exp  = expRepository.getById(i);
-                // aqui es != porque no queremos que termine el proceso si un dest es incorrecto, queremos que siga
-                if (exp != null) {
-                    t.getExpedientes().add(exp);
-                    detDocRepository.add(new DetalleDocumento(t, exp));
-                }
-            }            
-    }
-    
-    public void update(int id, Documento t) {
-        try {
-            Documento doc = docRepository.getById(id);
-            if (doc == null) {
+		t.setTipoDocumento(td);
+		t.setEmisor(emisor);
+		t.setEstado(estRepository.getByNombre("PENDIENTE"));
+		t.setCorrelativo(setCorrelativo());
+
+		docRepository.add(t);
+
+		for (Integer i : t.getIdDestinatarios()) {
+			Administrativo dest = adminRepository.getById(i);
+			t.getDestinatarios().add(dest);
+			detDestRepository.add(new DetalleDestinatario(t, dest));
+//                if (dest != null) {
+//                }
+		}
+
+		for (Integer i : t.getIdExpedientes()) {
+			Expediente exp = expRepository.getById(i);
+			t.getExpedientes().add(exp);
+			detDocRepository.add(new DetalleDocumento(t, exp));
+//                if (exp != null) {
+//                }
+		}
+	}
+
+	public void update(int id, Documento t) {
+		Documento doc = docRepository.getById(id);
+		if (doc == null) {
 //                throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
-                return;
-            }
+			return;
+		}
 
-            TipoDocumento td = tipoDocRepository.getById(t.getIdTipoDoc());
-            Administrativo emisor = adminRepository.getById(t.getIdEmisor());
-            String correlativo = t.getCorrelativo() != null ? t.getCorrelativo() : doc.getCorrelativo();
-            Estado estado = t.getEstado() != null ? t.getEstado() : doc.getEstado();
-            Date fechaEmision = t.getFechaEmision() != null ? t.getFechaEmision() : doc.getFechaEmision();
+		TipoDocumento td = tipoDocRepository.getById(t.getIdTipoDoc());
+		Administrativo emisor = adminRepository.getById(t.getIdEmisor());
+		String correlativo = (t.getCorrelativo() != null && !t.getCorrelativo().isEmpty()) ? t.getCorrelativo()
+				: doc.getCorrelativo();
+		Estado estado = t.getEstado() != null ? t.getEstado() : doc.getEstado();
+		Date fechaEmision = t.getFechaEmision() != null ? t.getFechaEmision() : doc.getFechaEmision();
 
-            if (emisor == null || td == null || correlativo.isEmpty() || estado == null || fechaEmision == null) {
-                // throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
-                return;
-            }
+		if (emisor == null || td == null || correlativo.isEmpty() || estado == null || fechaEmision == null) {
+			return;
+		}
 
-            doc.setCorrelativo(correlativo);
-            doc.setFechaEmision(fechaEmision);
-            doc.setTipoDocumento(td);
-            doc.setEstado(estado);
-            doc.setEmisor(emisor);
-            
-            docRepository.update(id, t);
+		doc.setCorrelativo(correlativo);
+		doc.setFechaEmision(fechaEmision);
+		doc.setTipoDocumento(td);
+		doc.setEstado(estado);
+		doc.setEmisor(emisor);
 
-            if (t.getIdDestinatarios() != null) {
-                for (Integer i : t.getIdDestinatarios()) {
-                	Administrativo dest = adminRepository.getById(i);
+		docRepository.update(id, t);
 
-                    if (dest != null) { // aqui es != porque no queremos que termine el proceso si un dest es incorrecto, queremos que siga
-                        t.getDestinatarios().add(dest);
-                    }
-                }
-            }            
-            if (t.getDestinatarios() != null && !t.getDestinatarios().isEmpty()) { // si es nulo, no hay necesidad de actualizar
-                updateDestinatarios(doc, t.getDestinatarios());
-            }
-//            doc.setDestinatarios(getDestinatarios(doc.getId()));
+		if (t.getIdDestinatarios() != null) {
+			for (Integer i : t.getIdDestinatarios()) {
+				Administrativo dest = adminRepository.getById(i);
+				t.getDestinatarios().add(dest);
+			}
+		}
+		if (t.getDestinatarios() != null && !t.getDestinatarios().isEmpty()) { // si es nulo, no hay necesidad de
+																				// actualizar
+			updateDestinatarios(doc, t.getDestinatarios());
+		}
 
-//            setDocumento(doc, t);
-//            Validation.validateDocumento(doc);
+		if (t.getIdExpedientes() != null) {
+			for (Integer i : t.getIdExpedientes()) {
+				Expediente exp = expRepository.getById(i);
+				t.getExpedientes().add(exp);
+			}
+		}
+		if (t.getExpedientes() != null && !t.getExpedientes().isEmpty()) {
+//            	updateExpediente(doc, null, null);
+		}
+	}
 
+	public List<DocumentoDto> getAll() {
+		List<Documento> docs = docRepository.getAll();
+		List<DocumentoDto> documentos = new ArrayList<DocumentoDto>();
 
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+		for (Documento doc : docs) {
+			List<Expediente> expedientes = detDocRepository.getExpedientesByDoc(doc.getId());
+			List<Administrativo> destinatarios = detDestRepository.getDestsByDoc(doc.getId());
 
-    
-    public List<DocumentoDto> getAll() {
-    	List<Documento> docs = docRepository.getAll();
-        List<DocumentoDto> documentos = new ArrayList<DocumentoDto>();
-        
-        for (Documento doc : docs) {
-            List<Expediente> expedientes = detDocRepository.getExpedientesByDoc(doc.getId());
-            List<Administrativo> destinatarios = detDestRepository.getDestsByDoc(doc.getId());
-            
-            documentos.add(new DocumentoDto(doc, destinatarios, expedientes));
-        }
-        
-        return documentos;
-    }
-    
-    public void delete(int id) {
+			documentos.add(new DocumentoDto(doc, destinatarios, expedientes));
+		}
+
+		return documentos;
+	}
+
+	public void delete(int id) {
 //        Documento doc = docRepository.getById(id);
 //        if (doc == null) {
 //        	return;
 //        }
-        
-        // tienen que ir en oficio, memo y acta. Porque estos 3 tienen delete en cascada para doc
-        // por lo que deben ser eliminados alla primero
+
+		// tienen que ir en oficio, memo y acta. Porque estos 3 tienen delete en cascada
+		// para doc
+		// por lo que deben ser eliminados alla primero
 //        detDestRepository.deleteByDoc(id);
 //        detDocRepository.deleteByDoc(id);
-        docRepository.delete(id);
-    }
+		docRepository.delete(id);
+	}
 
-    public DocumentoDto getById(int id) {
-        Documento doc = docRepository.getById(id);
-        List<Expediente> expedientes = detDocRepository.getExpedientesByDoc(doc.getId());
-        List<Administrativo> destinatarios = detDestRepository.getDestsByDoc(doc.getId());
-        
-        DocumentoDto dto = new DocumentoDto(doc, destinatarios, expedientes);
-        return dto;
-    }
-    
-    /* propios de doc service */
-    private String setCorrelativo() {
-        if (docRepository.getAll().isEmpty()) {
-            return "001";
-        } else {
-            Documento doc = docRepository.getLast();
-            if (doc.getFechaEmision().getYear() + 1900 < LocalDate.now().getYear()) {
-                return "001";
-            } else {
-                int n = Integer.parseInt(doc.getCorrelativo().trim());
-                n++;
-                return String.format("%03d%n", n);
-            }
-        }
-    }
-    
-    /* vienen de otros repository */
-    
-    public void updateEstadoDocumento(int id) {
-        try {
-        	// verificar el add y update de docservice. Guiarse de add en booleano
-//            Documento doc = getById(id);
-//            Estado est = estadoService.getByNombre("ENTREGADO");
-//            if (doc == null || est == null) {
-//                // throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
-//                return;
-//            }
-//
-//            doc.setEstado(est);
-//            super.update(id, doc);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+	public DocumentoDto getById(int id) {
+		Documento doc = docRepository.getById(id);
+		List<Expediente> expedientes = detDocRepository.getExpedientesByDoc(doc.getId());
+		List<Administrativo> destinatarios = detDestRepository.getDestsByDoc(doc.getId());
 
-    public void updateDestinatario(int idDoc, int idAntDest, int idNuevoDest) {
-        try {
-//            Documento doc = getById(idDoc);
-//            Administrativo nuevoDest = administrativoService.getById(idNuevoDest);
-//            Administrativo antDest = administrativoService.getById(idAntDest);
-//            if (doc == null || nuevoDest == null || antDest == null) {
-//                throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
-//            }
-//
-//            detDestinatarioService.update(new DetalleDestinatario(doc, antDest), nuevoDest);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+		DocumentoDto dto = new DocumentoDto(doc, destinatarios, expedientes);
+		return dto;
+	}
 
-    public void updateDestinatarios(Documento doc, List<Administrativo> nuevosDest) {
-        try {
-//            if (doc == null || nuevosDest.isEmpty()) {
-//                System.out.println("en el return");
-//                if (nuevosDest.isEmpty()) {
-//                    System.out.println("nuevosDest.isEmpty()");
-//                }
-//                return;
-//            }
-//
-//            detDestinatarioService.updateDestinatariosByDoc(doc, nuevosDest);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+	/* propios de doc service */
+	private String setCorrelativo() {
+		if (docRepository.getAll().isEmpty()) {
+			return "001";
+		} else {
+			Documento doc = docRepository.getLast();
+			if (doc.getFechaEmision().getYear() + 1900 < LocalDate.now().getYear()) {
+				return "001";
+			} else {
+				int n = Integer.parseInt(doc.getCorrelativo().trim());
+				n++;
+				return String.format("%03d%n", n);
+			}
+		}
+	}
 
-    public void deleteDestinatario(int idDoc, int idDest) {
-//        try {
+	/* vienen de otros repository */
+	public void updateEstadoDocumento(int id) {
+		Documento doc = docRepository.getById(id);
+		Estado est = estRepository.getByNombre("ENTREGADO");
+		if (doc == null || est == null) {
+			return;
+		}
+		
+		doc.setEstado(est);
+		docRepository.update(id, doc);
+	}
+
+	public void updateDestinatarios(Documento doc, List<Administrativo> nuevosDest) {
+		List<Administrativo> antiguosDest = detDestRepository.getDestsByDoc(doc.getId());
+		int cantAntiguos = antiguosDest.size();
+		int cantNuevos = nuevosDest.size();
+		
+		adminRepository.orderByApPaterno(antiguosDest);
+		adminRepository.orderByApPaterno(nuevosDest);
+		
+		for (int i = 0; i < Math.max(cantAntiguos, cantNuevos); i++) {
+			if (i < cantNuevos && i < cantAntiguos) {
+				int idDetDest = detDestRepository.getId(doc.getId(), antiguosDest.get(i).getId());
+				detDestRepository.update(idDetDest, new DetalleDestinatario(doc, nuevosDest.get(i)));
+			}
+			
+			if (i >= cantNuevos) {
+				// si los nuevos son menos
+				int idDetDest = detDestRepository.getId(doc.getId(), antiguosDest.get(i).getId());
+				detDestRepository.delete(idDetDest);
+			}
+			
+			if (i >= cantAntiguos) {
+				// si hay mas nuevos
+				detDestRepository.add(new DetalleDestinatario(doc, nuevosDest.get(i)));
+			}
+		}
+		
+		/*
+			for (int i = 0; i < Math.max(antSize, nuevoSize); i++) {
+				if (i < nuevoSize && i < antSize) {
+					update(new DetalleDestinatario(doc, antiguosDest.get(i)), nuevosDest.get(i));
+				}
+				
+				if (i >= nuevoSize) {
+					// si los nuevos son menos
+					delete(doc.getId(), antiguosDest.get(i).getId());
+				}
+				
+				if (i >= antSize) {
+					// si hay mas nuevos
+					add(new DetalleDestinatario(doc, nuevosDest.get(i)));
+				}
+			}
+		 */
+		
+	}
+
+	public void deleteDestinatario(int idDoc, int idDest) {
+//        
 //            Documento doc = getById(idDoc);
 //            Administrativo dest = administrativoService.getById(idDest);
 //            if (doc == null || dest == null) {
@@ -254,13 +257,11 @@ public class DocumentoService {
 //            }
 //
 //            detDestinatarioService.delete(idDoc, idDest);
-//        } catch (ValidationException e) {
-//            e.printConsoleMessage();
-//        }
-    }
+//        
+	}
 
-    public void deleteDocDependencias(int idDoc) {
-        try {
+	public void deleteDocDependencias(int idDoc) {
+		
 //            Documento doc = getById(idDoc);
 //            if (doc == null) {
 //                // throw new ValidationException(Validation.showWarning("El Documento no puede estar vacío."));
@@ -269,14 +270,18 @@ public class DocumentoService {
 //
 //            detDestinatarioService.deleteByDoc(idDoc);
 //            detExpedienteService.deleteByDoc(idDoc);
-            // aqui tambien se puede borrar segun tipo de doc, pero se tendria que instanciar a oficioservice y no es posible
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+			// aqui tambien se puede borrar segun tipo de doc, pero se tendria que
+			// instanciar a oficioservice y no es posible
+		
+	}
 
-    public void updateExpediente(int idDoc, int idAntExp, int idNuevoExp) {
-        try {
+	public void updateExpediente(int idDoc, int idAntExp, int idNuevoExp) {
+		
+			// una lista de exp por si son dos
+			// traer todos los expedientes porque son dos nada mas
+			// eliminar los dos
+			// aumentar los dos (o solo uno)
+
 //            Documento doc = getById(idDoc);
 //            Expediente antExp = expedienteService.getById(idAntExp);
 //            Expediente nuevoExp = expedienteService.getById(idNuevoExp);
@@ -292,45 +297,34 @@ public class DocumentoService {
 //            //     throw new ValidationException(Validation.showWarning("El nuevo Expediente no puede estar vacío."));
 //            // }
 //            detExpedienteService.updateExp(new DetalleDocumento(doc, antExp), nuevoExp);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+		
+	}
 
-    public void updateExpediente(Documento doc, Expediente antExp, Expediente nuevoExp) {
-        // si los objetos ya fueron verificados que existen en la database
-        try {
-            if (doc == null || antExp == null || nuevoExp == null) {
-                return;
-            }
+	public void updateExpediente(Documento doc, Expediente antExp, Expediente nuevoExp) {
+		// si los objetos ya fueron verificados que existen en la database
+		
+			if (doc == null || antExp == null || nuevoExp == null) {
+				return;
+			}
 
 //            detExpedienteService.updateExp(new DetalleDocumento(doc, antExp), nuevoExp);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+		
+	}
 
-
-
-    public List<Administrativo> getDestinatarios(int idDoc) {
-        List<Administrativo> destinatarios = new ArrayList<>();
-        try {
+	public List<Administrativo> getDestinatarios(int idDoc) {
+		List<Administrativo> destinatarios = new ArrayList<>();
+		
 //            destinatarios = detDestinatarioService.getDestinatariosByDoc(idDoc);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-        return destinatarios;
-    }
+		
+		return destinatarios;
+	}
 
-    public List<Expediente> getExpediente(int idDoc) {
-        try {
+	public List<Expediente> getExpediente(int idDoc) {
+		
 //            return detExpedienteService.getExpedientesByDoc(idDoc);
-        } catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-        return Collections.emptyList();
-    }
-
+		
+		return Collections.emptyList();
+	}
 
 //    public String getAsunto(int idDoc) {
 //        Map<String, Object> parametros = new HashMap<>();
@@ -341,8 +335,8 @@ public class DocumentoService {
 //        return doc.getAsunto();
 //    }
 
-    public void updateDestinatariosByDoc(Documento doc, List<Administrativo> nuevosDest) {
-    	try {
+	public void updateDestinatariosByDoc(Documento doc, List<Administrativo> nuevosDest) {
+		
 ////    		System.out.println(Validation.showInMagenta(doc.toString()));
 ////    		List<Administrativo> antiguosDest = getDestinatariosByDoc(doc.getId());
 ////            int antSize = antiguosDest.size();
@@ -372,14 +366,12 @@ public class DocumentoService {
 //				}
 //			}
 //			
-    	} catch (ValidationException e) {
-            e.printConsoleMessage();
-        }
-    }
+		
+	}
 
-    /* para no instanciar otros service */    
-    public List<TipoDocumento> getAllTiposDocumento() {
-        return tipoDocRepository.getAll();
-    }    
-    
+	/* para no instanciar otros service */
+	public List<TipoDocumento> getAllTiposDocumento() {
+		return tipoDocRepository.getAll();
+	}
+
 }

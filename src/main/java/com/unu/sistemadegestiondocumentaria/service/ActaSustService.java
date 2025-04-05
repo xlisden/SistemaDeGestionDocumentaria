@@ -143,8 +143,9 @@ public class ActaSustService extends Repository<ActaSustentacionTesis> {
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("idDoc", idDoc);
 
-        ActaSustentacionTesis acta = getByQuery("SELECT x FROM ActaSustentacionTesis x WHERE x.documento.id = :idDoc", parametros);
-        return acta.getTema();
+//        ActaSustentacionTesis acta = getByQuery("SELECT x FROM ActaSustentacionTesis x WHERE x.documento.id = :idDoc", parametros);
+//        return acta.getTema();
+        return "";
     }
 
 }

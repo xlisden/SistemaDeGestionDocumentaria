@@ -137,7 +137,8 @@ public class FormDocumentos extends TabbedForm {
 //        new Thread(() -> documentos = docService.getAll()).start();
 //        new Thread(() -> expedientes = expService.getAllExpOrdenAlfApPaterno()).start();
 //        new Thread(() -> tiposDoc = docService.getAllTiposDocumento()).start();
-        documentos = docService.getAll();
+//        documentos = docService.getAll();
+    	documentos = new ArrayList<Documento>();
         expedientes = expService.getAllExpOrdenAlfApPaterno();
         tiposDoc = docService.getAllTiposDocumento();
 //        expHilo.join();

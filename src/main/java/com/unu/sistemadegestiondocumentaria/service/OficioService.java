@@ -143,8 +143,9 @@ public class OficioService extends Repository<Oficio> {
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("idDoc", idDoc);
 
-        Oficio oficio = getByQuery("SELECT x FROM Oficio x WHERE x.documento.id = :idDoc", parametros);
-        return oficio.getAsunto();
+//        Oficio oficio = getByQuery("SELECT x FROM Oficio x WHERE x.documento.id = :idDoc", parametros);
+//        return oficio.getAsunto();
+        return "";
     }
 
 }
