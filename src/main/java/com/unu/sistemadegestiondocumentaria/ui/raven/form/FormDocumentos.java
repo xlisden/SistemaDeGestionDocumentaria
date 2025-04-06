@@ -3,6 +3,7 @@ package com.unu.sistemadegestiondocumentaria.ui.raven.form;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
+import com.unu.sistemadegestiondocumentaria.entity.DocumentoDto;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 import com.unu.sistemadegestiondocumentaria.service.DocumentoService;
@@ -26,6 +27,7 @@ import com.unu.sistemadegestiondocumentaria.entity.IDocumento;
 import com.unu.sistemadegestiondocumentaria.entity.Memorandum;
 import com.unu.sistemadegestiondocumentaria.service.ActaSustService;
 import com.unu.sistemadegestiondocumentaria.service.MemorandumService;
+import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import java.util.Objects;
 import javax.swing.table.DefaultTableModel;
@@ -36,12 +38,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FormDocumentos extends TabbedForm {
 
+    private final TipoDocumentoService ayuda = TipoDocumentoService.instanciar();
+
     private final DocumentoService docService = DocumentoService.instanciar();
     private final ExpedienteService expService = ExpedienteService.instanciar();
-    private final OficioService ofService = OficioService.instanciar();
+//    private final OficioService ofService = OficioService.instanciar();
     private final MemorandumService memoService = MemorandumService.instanciar();
     private final ActaSustService actaService = ActaSustService.instanciar();
-    private List<Documento> documentos;
+    private List<DocumentoDto> documentos;
     private List<TipoDocumento> tiposDoc;
     private List<Expediente> expedientes;
     private List<Object[]> dataTabla = new ArrayList<>();
@@ -61,26 +65,26 @@ public class FormDocumentos extends TabbedForm {
         setExpedientes(cboExpedientes, "EXP.", idexps);
     }
 
-    private void getDocumentos(List<Documento> documentos) {
-        for (Documento doc : documentos) {
+    private void getDocumentos(List<DocumentoDto> documentos) {
+        for (DocumentoDto docDto : documentos) {
             Object[] row = new Object[5];
-            row[0] = getLista(doc.getExpedientes());
-            row[1] = doc.getNombre();
+            row[0] = getLista(docDto.getIdExpedientes());
+            row[1] = docDto.getNombre();
             String asunto = "";
-            switch (doc.getTipoDocumento().getId()) {
-                case 1 -> asunto = ofService.getAsuntoByDoc(doc.getId());
-                case 2 -> asunto = memoService.getAsuntoByDoc(doc.getId());
-                case 3 -> asunto = actaService.getTemaByDoc(doc.getId());
-//                    row[2] = Objects.requireNonNullElse(ofService.getAsuntoByDoc(doc.getId()), "");
-            }
+//            switch (doc.getTipoDocumento().getId()) {
+//                case 1 -> asunto = ofService.getAsuntoByDoc(doc.getId());
+//                case 2 -> asunto = memoService.getAsuntoByDoc(doc.getId());
+//                case 3 -> asunto = actaService.getTemaByDoc(doc.getId());
+////                    row[2] = Objects.requireNonNullElse(ofService.getAsuntoByDoc(doc.getId()), "");
+//            }
             row[2] = (asunto != null) ? asunto : "";
-            row[3] = getLista(doc.getDestinatarios());
-            row[4] = doc.getFechaEmision().toString();
+            row[3] = getLista(docDto.getDestinatarios());
+            row[4] = docDto.getFechaEmision();
             dataTabla.add(row);
         }
     }
 
-    private void setDocumentos(List<Documento> documentos, List<Object[]> dataTabla) {
+    private void setDocumentos(List<DocumentoDto> documentos, List<Object[]> dataTabla) {
         modTabla.setRowCount(0);
         getDocumentos(documentos);
         for (Object[] o : dataTabla) {
@@ -89,13 +93,15 @@ public class FormDocumentos extends TabbedForm {
         tblDocumentos.setModel(modTabla);
     }
 
-    private <T> String getLista(List<T> destinatarios) {
+    private <T> String getLista(List<T> lista) {
         String s = "";
-        int cantComas = destinatarios.size() - 1;
-        for (int i = 0; i < cantComas; i++) {
-            s += destinatarios.get(i) + ", ";
+        if (!lista.isEmpty()) {
+            int cantComas = lista.size() - 1;
+            for (int i = 0; i < cantComas; i++) {
+                s += lista.get(i) + ", ";
+            }
+            s += lista.get(cantComas);
         }
-        s += destinatarios.get(cantComas);
         return s;
     }
 
@@ -137,8 +143,7 @@ public class FormDocumentos extends TabbedForm {
 //        new Thread(() -> documentos = docService.getAll()).start();
 //        new Thread(() -> expedientes = expService.getAllExpOrdenAlfApPaterno()).start();
 //        new Thread(() -> tiposDoc = docService.getAllTiposDocumento()).start();
-//        documentos = docService.getAll();
-    	documentos = new ArrayList<Documento>();
+        documentos = docService.getAll();
         expedientes = expService.getAllExpOrdenAlfApPaterno();
         tiposDoc = docService.getAllTiposDocumento();
 //        expHilo.join();
@@ -288,14 +293,17 @@ public class FormDocumentos extends TabbedForm {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cboEgresadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboEgresadosActionPerformed
-        if(cboEgresados.getSelectedIndex() != 0 && cboEgresados.getSelectedIndex() != -1){
+        if (cboEgresados.getSelectedIndex() != 0 && cboEgresados.getSelectedIndex() != -1) {
             int idxEgresados = cboEgresados.getSelectedIndex();
             cboExpedientes.setSelectedIndex(idxEgresados);
         }
     }//GEN-LAST:event_cboEgresadosActionPerformed
 
     private void cboExpedientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboExpedientesActionPerformed
-        // TODO add your handling code here:
+        if (cboExpedientes.getSelectedIndex() != 0 && cboExpedientes.getSelectedIndex() != -1) {
+            int idxEgresados = cboExpedientes.getSelectedIndex();
+            cboEgresados.setSelectedIndex(idxEgresados);
+        }
     }//GEN-LAST:event_cboExpedientesActionPerformed
 
     @Override

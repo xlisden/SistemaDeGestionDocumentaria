@@ -20,16 +20,16 @@ public abstract class DocumentoAtributos {
     protected List<Integer> idDestinatarios;
 
     @Transient
-    protected int idExpediente;
+    protected List<Integer> idExpedientes;
 
     public DocumentoAtributos() {
     }
 
-    public DocumentoAtributos(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, int idExpediente) {
+    public DocumentoAtributos(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, List<Integer> idExpedientes) {
         this.fechaEmision = fechaEmision;
         this.idDestinatarios = idDestinatarios;
         this.idEmisor = idEmisor;
-        this.idExpediente = idExpediente;
+        this.idExpedientes = idExpedientes;
         this.idTipoDoc = idTipoDoc;
     }
 
@@ -65,12 +65,12 @@ public abstract class DocumentoAtributos {
         this.idDestinatarios = idDestinatarios;
     }
 
-    public int getIdExpediente() {
-        return idExpediente;
+    public List<Integer> getIdExpedientes() {
+        return idExpedientes;
     }
 
-    public void setIdExpediente(int idExpediente) {
-        this.idExpediente = idExpediente;
+    public void setIdExpedientes(List<Integer> idExpedientes) {
+        this.idExpedientes = idExpedientes;
     }
 
 }

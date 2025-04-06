@@ -7,39 +7,39 @@ import com.unu.sistemadegestiondocumentaria.repository.TipoDocumentoRepository;
 
 public class TipoDocumentoService {
 
-	private static TipoDocumentoService INSTANCIA;
+    private static TipoDocumentoService INSTANCIA;
 
-	private TipoDocumentoRepository tdRepository;
+    private TipoDocumentoRepository tdRepository;
 
-	private TipoDocumentoService() {
-		tdRepository = TipoDocumentoRepository.instanciar();
-		addData();
-	}
+    private TipoDocumentoService() {
+        tdRepository = TipoDocumentoRepository.instanciar();
+        addData();
+    }
 
-	public static TipoDocumentoService instanciar() {
-		if (INSTANCIA == null) {
-			INSTANCIA = new TipoDocumentoService();
-		}
-		return INSTANCIA;
-	}
+    public static TipoDocumentoService instanciar() {
+        if (INSTANCIA == null) {
+            INSTANCIA = new TipoDocumentoService();
+        }
+        return INSTANCIA;
+    }
 
-	public void add(TipoDocumento td) {
-		tdRepository.add(td);
-	}
+    public void add(TipoDocumento td) {
+        tdRepository.add(td);
+    }
 
-	public List<TipoDocumento> getAll() {
-		return tdRepository.getAll();
-	}
-	
-	public TipoDocumento getById(int id) {
-		return tdRepository.getById(id);
-	}
+    public List<TipoDocumento> getAll() {
+        return tdRepository.getAll();
+    }
 
-	private void addData() {
-		if (getAll().isEmpty()) {
-			add(new TipoDocumento("OFICIO"));
-			add(new TipoDocumento("MEMORÁNDUM"));
-			add(new TipoDocumento("ACTAS DE SUSTENTACIÓN DE TESIS"));
-		}
-	}
+    public TipoDocumento getById(int id) {
+        return tdRepository.getById(id);
+    }
+
+    private void addData() {
+        if (getAll().isEmpty()) {
+            add(new TipoDocumento("OFICIO"));
+            add(new TipoDocumento("MEMORÁNDUM"));
+            add(new TipoDocumento("ACTAS DE SUSTENTACIÓN DE TESIS"));
+        }
+    }
 }

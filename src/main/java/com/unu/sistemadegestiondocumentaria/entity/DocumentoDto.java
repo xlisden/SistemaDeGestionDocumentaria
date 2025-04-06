@@ -7,72 +7,87 @@ import java.util.List;
 // Para mostrar Datos
 public class DocumentoDto {
 
-	private int id;
+    private int id;
 
-	private Documento doc;
+    private Documento doc;
 
-	private List<Administrativo> destinatarios;
+    private List<Administrativo> destinatarios;
 
-	private List<Expediente> expedientes;
+    List<Integer> idExpedientes;
 
-	public DocumentoDto() {
-		destinatarios = new ArrayList<>();
-		expedientes = new ArrayList<>();
-	}
+    private List<Expediente> expedientes;
 
-	public DocumentoDto(Documento doc, List<Administrativo> destinatarios, List<Expediente> expedientes) {
-		this.doc = doc;
-		this.destinatarios = destinatarios;
-		this.expedientes = expedientes;
-	}
+    public DocumentoDto() {
+        destinatarios = new ArrayList<>();
+        expedientes = new ArrayList<>();
+    }
 
-	public DocumentoDto(int id, String correlativo, Date fechaEmision, TipoDocumento tipoDocumento, Estado estado,
-			Administrativo emisor, List<Administrativo> destinatarios, List<Expediente> expedientes) {
-		doc = new Documento(id, correlativo, fechaEmision, tipoDocumento, estado, emisor);
-		this.destinatarios = destinatarios;
-		this.expedientes = expedientes;
-	}
+    public DocumentoDto(Documento doc, List<Administrativo> destinatarios, List<Expediente> expedientes, List<Integer> idExpedientes) {
+        this.doc = doc;
+        this.destinatarios = destinatarios;
+        this.expedientes = expedientes;
+        this.idExpedientes = idExpedientes;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public DocumentoDto(int id, String correlativo, Date fechaEmision, TipoDocumento tipoDocumento, Estado estado,
+            Administrativo emisor, List<Administrativo> destinatarios, List<Expediente> expedientes) {
+        doc = new Documento(id, correlativo, fechaEmision, tipoDocumento, estado, emisor);
+        this.destinatarios = destinatarios;
+        this.expedientes = expedientes;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public Documento getDoc() {
-		return doc;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setDoc(Documento doc) {
-		this.doc = doc;
-	}
+    public Documento getDoc() {
+        return doc;
+    }
 
-	public List<Administrativo> getDestinatarios() {
-		return destinatarios;
-	}
+    public void setDoc(Documento doc) {
+        this.doc = doc;
+    }
 
-	public void setDestinatarios(List<Administrativo> destinatarios) {
-		this.destinatarios = destinatarios;
-	}
+    public List<Administrativo> getDestinatarios() {
+        return destinatarios;
+    }
 
-	public List<Expediente> getExpedientes() {
-		return expedientes;
-	}
+    public void setDestinatarios(List<Administrativo> destinatarios) {
+        this.destinatarios = destinatarios;
+    }
 
-	public void setExpedientes(List<Expediente> expedientes) {
-		this.expedientes = expedientes;
-	}
+    public List<Expediente> getExpedientes() {
+        return expedientes;
+    }
 
-	@Override
-	public String toString() {
-		return "DocumentoDto [id=" + id + ", doc=" + doc + ", destinatarios=" + destinatarios + ", expedientes="
-				+ expedientes + "]";
-	}
+    public void setExpedientes(List<Expediente> expedientes) {
+        this.expedientes = expedientes;
+    }
 
-	public String getNombre() {
-		return doc.getTipoDocumento().getNombre() + " " + doc.getCorrelativo();
-	}
+    public List<Integer> getIdExpedientes() {
+        return idExpedientes;
+    }
+
+    public void setIdExpedientes(List<Integer> idExpedientes) {
+        this.idExpedientes = idExpedientes;
+    }
+
+    @Override
+    public String toString() {
+        return "DocumentoDto [id=" + id + ", doc=" + doc + ", destinatarios=" + destinatarios + ", expedientes="
+                + expedientes + "]";
+    }
+
+    public String getNombre() {
+        return doc.getTipoDocumento().getNombre() + " " + doc.getCorrelativo();
+    }
+
+    public String getFechaEmision() {
+        return doc.getFechaEmision().toString();
+    }
 
 }

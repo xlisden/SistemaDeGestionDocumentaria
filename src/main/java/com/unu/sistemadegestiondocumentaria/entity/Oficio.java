@@ -36,11 +36,11 @@ public class Oficio extends DocumentoAtributos implements IDocumento{
     public Oficio() {
     }
 
-    public Oficio(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, int idExpediente, String asunto, String referencia) {
-        super(fechaEmision, idTipoDoc, idEmisor, idDestinatarios, idExpediente);
+    public Oficio(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, List<Integer> idExpedientes, String asunto, String referencia) {
+        super(fechaEmision, idTipoDoc, idEmisor, idDestinatarios, idExpedientes);
         this.asunto = asunto;
         this.referencia = referencia;
-        this.documento = new Documento(fechaEmision, idTipoDoc, idEmisor, idDestinatarios, idExpediente);
+        this.documento = new Documento(fechaEmision, idTipoDoc, idEmisor, idDestinatarios, idExpedientes);
     }
 
     public Oficio(int id, String asunto, String referencia, Documento documento) {
@@ -91,7 +91,7 @@ public class Oficio extends DocumentoAtributos implements IDocumento{
 		return "Oficio [id=" + id + ", asunto=" + asunto + ", referencia=" + referencia
 				+ ", getIdTipoDoc()=" + getIdTipoDoc() + ", getIdEmisor()=" + getIdEmisor() + ", getFechaEmision()="
 				+ getFechaEmision() + ", getIdDestinatarios()=" + getIdDestinatarios() + ", getIdExpediente()="
-				+ getIdExpediente() + "]";
+				+ getIdExpedientes() + "]";
 	}
 
 }

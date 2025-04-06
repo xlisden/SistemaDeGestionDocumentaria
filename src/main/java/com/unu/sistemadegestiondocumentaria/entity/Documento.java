@@ -61,12 +61,14 @@ public class Documento implements IDocumento{
     }
 
 	//no estado porque se supone que es pendiente. A menos que el ing. ingrese los docs. una vez entregados
-    public Documento(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, int idExpediente) {
+    public Documento(Date fechaEmision, int idTipoDoc, int idEmisor, List<Integer> idDestinatarios, List<Integer> idExpedientes) {
         this.fechaEmision = fechaEmision;
         this.idTipoDoc = idTipoDoc;
         this.idEmisor = idEmisor;
         this.idDestinatarios = idDestinatarios;
         destinatarios = new ArrayList<>();
+        this.idExpedientes = idExpedientes;
+        expedientes = new ArrayList<>();
     }
 
     public Documento(int id, String correlativo, Date fechaEmision, TipoDocumento tipoDocumento, Estado estado, Administrativo emisor) {

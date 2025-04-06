@@ -31,7 +31,7 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
-//        Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
+        Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
         init();
     }
 
@@ -90,7 +90,6 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String args[]) {
-//        HibernateConfig.instanciarServicios();
         FlatRobotoFont.install();
         FlatLaf.registerCustomDefaultsSource("Tema");
         FlatMacLightLaf.registerCustomDefaultsSource("Tema");

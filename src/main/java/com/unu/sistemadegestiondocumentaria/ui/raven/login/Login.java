@@ -2,6 +2,17 @@ package com.unu.sistemadegestiondocumentaria.ui.raven.login;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.unu.sistemadegestiondocumentaria.Main;
+import com.unu.sistemadegestiondocumentaria.service.ActaSustService;
+import com.unu.sistemadegestiondocumentaria.service.AdministrativoService;
+import com.unu.sistemadegestiondocumentaria.service.DocumentoService;
+import com.unu.sistemadegestiondocumentaria.service.EstadoService;
+import com.unu.sistemadegestiondocumentaria.service.ExpedienteService;
+import com.unu.sistemadegestiondocumentaria.service.GradoInstruccionService;
+import com.unu.sistemadegestiondocumentaria.service.MemorandumService;
+import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.concurrent.CompletableFuture;
 import javax.swing.JButton;
 //import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -15,8 +26,8 @@ import raven.popup.component.PopupController;
 
 public class Login extends JPanel {
 
-//    private String usuario = "ingyupanqui";
-//    private String contrasenia = "yupanqui2025";
+//    private String usuario = "oficinagradosytitulos";
+//    private String contrasenia = "ingyupanqui2025";
     private String usuario = "";
     private String contrasenia = "";
 
@@ -25,6 +36,7 @@ public class Login extends JPanel {
     }
 
     private void init() {
+        CompletableFuture<Void> unHilo = CompletableFuture.runAsync(() -> instanciarServicios());
         setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
         txtUsername = new JTextField();
         txtPassword = new JPasswordField();
@@ -47,6 +59,12 @@ public class Login extends JPanel {
 
         cmdLogin.addActionListener((e) -> {
             if (txtUsername.getText().equals(usuario) && txtPassword.getText().equals(contrasenia)) {
+                unHilo.join();
+                MessageAlerts.getInstance().showMessage("Bienvenido(a)", "Gracias por ingresar las credenciales correctas. Sea bienvenido(a)", MessageAlerts.MessageType.SUCCESS, MessageAlerts.DEFAULT_OPTION, new PopupCallbackAction() {
+                    @Override
+                    public void action(PopupController pc, int i) {
+                    }
+                });
                 Main.main.showMainForm();
             } else {
                 MessageAlerts.getInstance().showMessage("Error al iniciar sesión", "Por favor, ingresa las credenciales correctas.", MessageAlerts.MessageType.ERROR, MessageAlerts.DEFAULT_OPTION, new PopupCallbackAction() {
@@ -54,8 +72,17 @@ public class Login extends JPanel {
                     public void action(PopupController pc, int i) {
                     }
                 });
+                txtUsername.setText("");
+                txtPassword.setText("");
             }
         });
+        txtUsername.addActionListener((e) -> {
+            txtPassword.requestFocus();
+        });
+        txtPassword.addActionListener((e) -> {
+            cmdLogin.doClick();
+        });
+
         txtUsername.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ingresa tu usuario.");
         txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ingresa tu contraseña.");
 
@@ -80,4 +107,13 @@ public class Login extends JPanel {
     private JTextField txtUsername;
     private JPasswordField txtPassword;
     private JButton cmdLogin;
+
+    private void instanciarServicios() {
+        AdministrativoService.instanciar();
+        GradoInstruccionService.instanciar();
+        TipoDocumentoService.instanciar();
+        EstadoService.instanciar();
+        DocumentoService.instanciar();
+        ExpedienteService.instanciar();
+    }
 }

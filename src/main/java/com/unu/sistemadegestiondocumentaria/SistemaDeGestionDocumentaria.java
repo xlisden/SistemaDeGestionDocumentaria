@@ -47,108 +47,94 @@ import raven.popup.component.SimplePopupBorder;
  */
 public class SistemaDeGestionDocumentaria {
 
-	public static void main(String[] args) {
-		Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
+    public static void main(String[] args) {
+        Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 //		addGradosInstruccion();
 
-		long start = System.currentTimeMillis();
-
-		addExpedientes();
-
-		long end = System.currentTimeMillis();
-		System.out.println("\ntiempo = " + (end - start) + " ms");
+        long start = System.currentTimeMillis();
+        addDocumentos();
+        long end = System.currentTimeMillis();
+        System.out.println("\ntiempo = " + (end - start) + " ms");
 
 //		System.out.println(Validation.showInMagenta("\nhola"));
 //		System.out.println(Validation.showInMagenta("\nfinalizo()"));
-	}
+    }
 
-	private static void addExpedientes() {
-		ExpedienteService service = ExpedienteService.instanciar();
-	}
+    private static void addDocumentos() {
+        try {
+            DocumentoService service = DocumentoService.instanciar();
 
-	private static void addAdministrativos() {
-		AdministrativoService service = AdministrativoService.instanciar();		
-	}
+            List<Integer> dest = new ArrayList<>();
+            dest.add(3);
+            dest.add(12);
+            List<Integer> exp = new ArrayList<>();
+            exp.add(19);
+            exp.add(20);
 
-	private static void addPersonas() {
-		PersonaService.instanciar();
-	}
+            service.add(new Documento(Date.valueOf(LocalDate.now()), 2, 3, dest, exp));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-	private static void addEstados() {
-		EstadoService service = EstadoService.instanciar();
-		try {
-			System.out.println("est = " + service.getByNombre("PENDIENTE"));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
+    private static void pruebaConValidate() {
+        try {
 
-	private static void addTiposDocumento() {
-		TipoDocumentoService.instanciar();
-	}
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta", JOptionPane.WARNING_MESSAGE);
+        }
 
-	private static void addGradosInstruccion() {
-		GradoInstruccionService.instanciar();
-	}
+    }
 
-	private static void pruebaConValidate() {
-		try {
-
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta", JOptionPane.WARNING_MESSAGE);
-		}
-
-	}
-
-	private static void addDetSust() {
-		try {
-			DetSustentacionService service = DetSustentacionService.instanciar();
+    private static void addDetSust() {
+        try {
+            DetSustentacionService service = DetSustentacionService.instanciar();
 //			SustentacionService sustService = SustentacionService.instanciar();
-			Sustentacion sust = new Sustentacion();
+            Sustentacion sust = new Sustentacion();
 
-			// no existe el exp
-			sust = new Sustentacion();
-			sust.setIdAsesor(1);
-			sust.setIdJurado1(2);
-			sust.setIdJurado2(3);
-			sust.setIdJurado3(4);
-			service.addDet(22, sust);
+            // no existe el exp
+            sust = new Sustentacion();
+            sust.setIdAsesor(1);
+            sust.setIdJurado1(2);
+            sust.setIdJurado2(3);
+            sust.setIdJurado3(4);
+            service.addDet(22, sust);
 
-			// no existe el sust
-			sust = new Sustentacion();
-			sust.setIdAsesor(1);
-			sust.setIdJurado1(2);
-			sust.setIdJurado2(3);
-			sust.setIdJurado3(4);
-			service.add(new DetalleSustentacion(2, 88));
+            // no existe el sust
+            sust = new Sustentacion();
+            sust.setIdAsesor(1);
+            sust.setIdJurado1(2);
+            sust.setIdJurado2(3);
+            sust.setIdJurado3(4);
+            service.add(new DetalleSustentacion(2, 88));
 
-			// sin jurados el sust - no falla
-			sust = new Sustentacion();
-			sust.setIdAsesor(3);
-			service.addDet(3, sust);
+            // sin jurados el sust - no falla
+            sust = new Sustentacion();
+            sust.setIdAsesor(3);
+            service.addDet(3, sust);
 
-			// sust vacio - no falla
-			sust = new Sustentacion();
-			service.addDet(4, sust);
+            // sust vacio - no falla
+            sust = new Sustentacion();
+            service.addDet(4, sust);
 
-			// todo correcto
-			sust = new Sustentacion();
-			sust.setIdAsesor(5);
-			sust.setIdJurado1(4);
-			sust.setIdJurado2(3);
-			sust.setIdJurado3(2);
-			service.addDet(5, sust);
+            // todo correcto
+            sust = new Sustentacion();
+            sust.setIdAsesor(5);
+            sust.setIdJurado1(4);
+            sust.setIdJurado2(3);
+            sust.setIdJurado3(2);
+            service.addDet(5, sust);
 
-			imprimirElementos(service.getAll());
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta", JOptionPane.WARNING_MESSAGE);
-		}
-	}
+            imprimirElementos(service.getAll());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta", JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
-	private static void addSust() {
-		try {
-			SustentacionService service = SustentacionService.instanciar();
-			Sustentacion sust = new Sustentacion();
+    private static void addSust() {
+        try {
+            SustentacionService service = SustentacionService.instanciar();
+            Sustentacion sust = new Sustentacion();
 
 //			// solo asesor, no falla
 //			sust = new Sustentacion();
@@ -181,78 +167,51 @@ public class SistemaDeGestionDocumentaria {
 //			sust.setIdJurado2(77);
 //			sust.setIdJurado3(3);
 //			service.update(44, sust);
-			imprimirElementos(service.getAll());
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta", JOptionPane.WARNING_MESSAGE);
-		}
-	}
+            imprimirElementos(service.getAll());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Alerta", JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
-	private static void addDocumentos() {
-		DocumentoService service = DocumentoService.instanciar();
+    private static void addOficios() {
+        OficioService service = OficioService.instanciar();
 
-		List<Integer> dest1 = new ArrayList<>();
-		List<Integer> dest2 = new ArrayList<>();
-		dest1.add(3);
-		dest1.add(49);
-		dest1.add(6);
-		// un emisor correcto, uno no
+        List<Integer> vacio = new ArrayList<>();
+        List<Integer> dest1 = new ArrayList<>();
+        dest1.add(4);
+        dest1.add(6);
 
-//         service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest2, 2));
-//         service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest1, 2));
-//         service.update(4, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest1, 9));
-//          service.update(4, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest1, 3));
-		// expediente no existente
-//         service.update(1, new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest2, 9));
-//         service.update(1, new Documento(Date.valueOf("2024-02-20"), 1, 2, dest2, 1)); // si es nulo, no hay necesidad de actualizar, por eso no hay advertencia
-//         service.update(1, new Documento(Date.valueOf("2024-02-20"), 1, 2, dest1, 1));
-//         service.update(3, new Documento(Date.valueOf("2023-03-03"), 1, 2, dest2, 9));
-//         service.delete(7);
-//         service.delete(129);
-//         service.getById(2);
-//         service.updateEstadoDocumento(2);
-//         service.updateEstadoDocumento(1);
-		imprimirElementos(service.getAll());
-	}
-
-	private static void addOficios() {
-		OficioService service = OficioService.instanciar();
-
-		List<Integer> vacio = new ArrayList<>();
-		List<Integer> dest1 = new ArrayList<>();
-		dest1.add(4);
-		dest1.add(6);
-
-		// sin exp
+        // sin exp
 //         service.add(new Oficio(Date.valueOf(LocalDate.now()), 1, 1, dest1, 0, "asunto", "referencia"));
-		// error
-		// todo correcto
-		if (service.getAll().isEmpty()) {
-			for (int i = 1; i <= 6; i++) {
-				int idTipoDoc = (int) (Math.random() * 3) + 1;
-				int idEmisor = (int) (Math.random() * 6) + 1;
-				int idExp = (int) (Math.random() * 6) + 1;
-				List<Integer> dest = new ArrayList<>();
-				dest.add(4);
-				dest.add(2);
+        // error
+        // todo correcto
+        if (service.getAll().isEmpty()) {
+            for (int i = 1; i <= 6; i++) {
+                int idTipoDoc = (int) (Math.random() * 3) + 1;
+                int idEmisor = (int) (Math.random() * 6) + 1;
+                int idExp = (int) (Math.random() * 6) + 1;
+                List<Integer> dest = new ArrayList<>();
+                dest.add(4);
+                dest.add(2);
 
-				service.add(new Oficio(Date.valueOf(LocalDate.now()), idTipoDoc, idEmisor, dest, idExp, "asunto" + i,
-						"referencia" + i));
-			}
-		}
+//                service.add(new Oficio(Date.valueOf(LocalDate.now()), idTipoDoc, idEmisor, dest, idExp, "asunto" + i,
+//                        "referencia" + i));
+            }
+        }
 
-		// todo bien
+        // todo bien
 //         service.update(4, new Oficio(Date.valueOf("2024-04-10"), 1, 1, dest1, 3, "asunto**", "referencia4"));
-		// sin referencia
+        // sin referencia
 //         service.update(4, new Oficio(Date.valueOf("2022-02-12"), 2,2,dest1, 2, "**asunto", ""));
-		// no existe 7
+        // no existe 7
 //         service.delete(7);
-		// no existe 9
+        // no existe 9
 //         service.delete(129);
-		// existe 5
+        // existe 5
 //         service.delete(5);
-		// existe
+        // existe
 //        service.updateEstadoDocumento(4);
-		// no existe
+        // no existe
 //         service.updateEstadoDocumento(9);
 //         // sin dest
 //         service.add(new Oficio(Date.valueOf(LocalDate.now()), 1, 1, vacio, 1, "asunto", "referencia"));
@@ -260,34 +219,44 @@ public class SistemaDeGestionDocumentaria {
 //         service.add(new Oficio(Date.valueOf(LocalDate.now()), 8, 1, dest1, 1, "asunto", "referencia"));
 //         // sin fecha
 //         service.add(new Oficio(null, 3, 1, dest1, 1, "asunto", "referencia"));
-		imprimirElementos(service.getAll());
-	}
+        imprimirElementos(service.getAll());
+    }
 
-	private static void testDetalles() {
-		DetDestinatarioService service = DetDestinatarioService.instanciar();
-		// AdministrativoService adService = AdministrativoService.instanciar();
-		DocumentoService docService = DocumentoService.instanciar();
+    private static void testDetalles() {
+        DetDestinatarioService service = DetDestinatarioService.instanciar();
+        // AdministrativoService adService = AdministrativoService.instanciar();
+        DocumentoService docService = DocumentoService.instanciar();
 
-		// List<Integer> dest = new ArrayList<>();
-		// dest.add(4);
-		// int idDest = 1;
-		// docService.updateDestinatario(2, 2, 1);
-		// docService.updateDestinatario(3, 2, 3);
-		// docService.updateDestinatario(4, 2, 5);
-		// docService.deleteDestinatario(6, 3);
-		// docService.deleteDocDependencias(3);
-		docService.updateExpediente(5, 5, 1);
-		docService.updateExpediente(1, 6, 9);
-	}
+        // List<Integer> dest = new ArrayList<>();
+        // dest.add(4);
+        // int idDest = 1;
+        // docService.updateDestinatario(2, 2, 1);
+        // docService.updateDestinatario(3, 2, 3);
+        // docService.updateDestinatario(4, 2, 5);
+        // docService.deleteDestinatario(6, 3);
+        // docService.deleteDocDependencias(3);
+        docService.updateExpediente(5, 5, 1);
+        docService.updateExpediente(1, 6, 9);
+    }
 
-	private static <T> void imprimirElementos(List<T> lista) {
-		for (T x : lista) {
-			System.out.println(Validation.infoColor + x.toString() + Validation.normalColor);
-		}
-	}
+    private static <T> void imprimirElementos(List<T> lista) {
+        for (T x : lista) {
+            System.out.println(Validation.infoColor + x.toString() + Validation.normalColor);
+        }
+    }
 
-	private static <T> void imprimirElemento(T t) {
-		System.out.println(Validation.infoColor + t.toString() + Validation.normalColor);
-	}
+    private static <T> void imprimirElemento(T t) {
+        System.out.println(Validation.infoColor + t.toString() + Validation.normalColor);
+    }
 
 }
+
+/*
+    TESTEADOS
+    * AdministrativoService
+    * EstadoService
+    * ExpedienteService
+    * GradoInstruccionService
+    * PersonaService
+    * TipoDocumentoService
+ */
