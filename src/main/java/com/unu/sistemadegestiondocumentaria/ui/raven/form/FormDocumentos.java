@@ -311,10 +311,8 @@ elementosCreados = elementosCreados
             tblDocumentos.getColumnModel().getColumn(1).setMaxWidth(200);
             tblDocumentos.getColumnModel().getColumn(2).setMinWidth(200);
             tblDocumentos.getColumnModel().getColumn(2).setPreferredWidth(250);
-            tblDocumentos.getColumnModel().getColumn(2).setMaxWidth(300);
             tblDocumentos.getColumnModel().getColumn(3).setMinWidth(200);
             tblDocumentos.getColumnModel().getColumn(3).setPreferredWidth(250);
-            tblDocumentos.getColumnModel().getColumn(3).setMaxWidth(300);
             tblDocumentos.getColumnModel().getColumn(4).setMinWidth(100);
             tblDocumentos.getColumnModel().getColumn(4).setPreferredWidth(100);
             tblDocumentos.getColumnModel().getColumn(4).setMaxWidth(100);
@@ -401,6 +399,8 @@ elementosCreados = elementosCreados
         scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
                 + "background:$Table.background;"
                 + "track:$Table.background;"
+                + "trackInsets: 3,3,3,3;"
+                + "thumbInsets: 3,3,3,3;"
                 + "trackArc:999");
 
         tabla.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
@@ -415,7 +415,7 @@ elementosCreados = elementosCreados
                 Component com = antiguo.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 if (com instanceof JLabel) {
                     JLabel label = (JLabel) com;
-                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                    label.setHorizontalAlignment(SwingConstants.LEADING);
                 }
                 return com;
             }
