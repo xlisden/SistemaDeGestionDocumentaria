@@ -57,9 +57,14 @@ public class Administrativo {
     public String toString() {
     	return (persona != null) ? 
     			((this.persona.getGradoInstruccion() != null) ? this.persona.getGradoInstruccion().getNombre() + " " : "")
+    				+ persona.getApellidoPaterno().toUpperCase() + " " + persona.getApellidoMaterno().toUpperCase() : "";
+    }
+    public String toStringNormal() {
+    	return (persona != null) ? 
+    			((this.persona.getGradoInstruccion() != null) ? this.persona.getGradoInstruccion().getNombre() + " " : "")
     				+ persona.getNombre() + " " + persona.getApellidoPaterno().toUpperCase() + " " + persona.getApellidoMaterno().toUpperCase() : "";
     }
-
+    
     public String toStringPorAp() {
     	return (persona != null) ? 
     			((this.persona.getGradoInstruccion() != null) ? this.persona.getGradoInstruccion().getNombre() + " " : "") 

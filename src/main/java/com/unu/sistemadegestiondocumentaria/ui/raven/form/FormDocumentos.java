@@ -29,10 +29,12 @@ import com.unu.sistemadegestiondocumentaria.service.ActaService;
 import com.unu.sistemadegestiondocumentaria.service.MemorandumService;
 import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -276,6 +278,7 @@ elementosCreados = elementosCreados
 
         crazyPanel1.add(crazyPanel2);
 
+        tblDocumentos.setBackground(new java.awt.Color(246, 246, 246));
         tblDocumentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -300,6 +303,7 @@ elementosCreados = elementosCreados
             }
         });
         tblDocumentos.setColumnSelectionAllowed(true);
+        tblDocumentos.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblDocumentos);
         tblDocumentos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tblDocumentos.getColumnModel().getColumnCount() > 0) {
@@ -391,8 +395,7 @@ elementosCreados = elementosCreados
     private javax.swing.JTable tblDocumentos;
     private javax.swing.JTextField txtFecha;
     // End of variables declaration//GEN-END:variables
-    
-    
+
     private void aplicarDisenioTabla(JTable tabla) {
         JScrollPane scroll = (JScrollPane) tabla.getParent().getParent();
         scroll.setBorder(BorderFactory.createEmptyBorder());
@@ -403,9 +406,15 @@ elementosCreados = elementosCreados
                 + "thumbInsets: 3,3,3,3;"
                 + "trackArc:999");
 
+        tabla.setCellSelectionEnabled(false);
+        tabla.setRowSelectionAllowed(true);
+        tabla.setColumnSelectionAllowed(false);
+        tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
         tabla.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         tabla.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         tabla.getTableHeader().setDefaultRenderer(getAligmentCellRenderer(tblDocumentos.getTableHeader().getDefaultRenderer(), true));
+
     }
 
     private TableCellRenderer getAligmentCellRenderer(TableCellRenderer antiguo, boolean header) {
@@ -416,6 +425,7 @@ elementosCreados = elementosCreados
                 if (com instanceof JLabel) {
                     JLabel label = (JLabel) com;
                     label.setHorizontalAlignment(SwingConstants.LEADING);
+                    label.setBackground(new Color(246,246,246));
                 }
                 return com;
             }
