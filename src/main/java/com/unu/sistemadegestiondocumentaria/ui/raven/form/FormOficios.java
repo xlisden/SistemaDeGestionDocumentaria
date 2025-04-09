@@ -32,6 +32,7 @@ public class FormOficios extends TabbedForm {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         pnlFondo = new javax.swing.JPanel();
 
         setPreferredSize(new java.awt.Dimension(830, 504));
@@ -69,6 +70,7 @@ public class FormOficios extends TabbedForm {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel pnlFondo;
     // End of variables declaration//GEN-END:variables
 }

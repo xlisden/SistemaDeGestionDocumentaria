@@ -146,6 +146,11 @@
             <groupId>raven.pack</groupId>
             <artifactId>raven-bean-pack</artifactId>
             <version>2.0.0</version>
-        </dependency>                          
+        </dependency>
+        <dependency>
+            <groupId>raven.datechooser</groupId>
+            <artifactId>datechooser-swing</artifactId>
+            <version>1.4.2</version>
+        </dependency>
     </dependencies>
 </project>

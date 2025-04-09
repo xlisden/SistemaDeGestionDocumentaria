@@ -393,7 +393,8 @@ elementosCreados = elementosCreados
     private javax.swing.JTable tblDocumentos;
     private javax.swing.JTextField txtFecha;
     // End of variables declaration//GEN-END:variables
-
+    
+    
     private void aplicarDisenioTabla(JTable tabla) {
         JScrollPane scroll = (JScrollPane) tabla.getParent().getParent();
         scroll.setBorder(BorderFactory.createEmptyBorder());
