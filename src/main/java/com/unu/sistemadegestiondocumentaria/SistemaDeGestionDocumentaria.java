@@ -33,6 +33,8 @@ import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
 
 import java.awt.Font;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import raven.alerts.MessageAlerts;
@@ -60,6 +62,17 @@ public class SistemaDeGestionDocumentaria {
 //		System.out.println(Validation.showInMagenta("\nfinalizo()"));
     }
 
+    private static void hola() {
+        /*
+docs.stream().filter(x -> x.equals(x.getIdExpedientes().contains(idExp))).collect(Collectors.toList());        
+         */
+        List<Integer> lista = Arrays.asList(2, 3, 2, 22, 34, 2, 31, 9, 3);
+
+        lista = lista.stream().filter(x -> x.equals(2)).collect(Collectors.toList());
+
+        System.out.println(lista);
+    }
+
     private static void addDocumentos() {
         try {
             DocumentoService service = DocumentoService.instanciar();
@@ -71,7 +84,14 @@ public class SistemaDeGestionDocumentaria {
             exp.add(19);
             exp.add(20);
 
-            service.add(new Documento(Date.valueOf(LocalDate.now()), 2, 3, dest, exp));
+//            service.add(new Documento(Date.valueOf(LocalDate.now()), 2, 3, dest, exp));
+            dest.add(4);
+//            service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest, exp));
+            exp = new ArrayList<>();
+            exp.add(23);
+//            service.add(new Documento(Date.valueOf(LocalDate.now()), 2, 9, dest, exp));
+            dest.add(11);
+            service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 8, dest, exp));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

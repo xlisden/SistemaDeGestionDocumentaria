@@ -7,35 +7,37 @@ import java.util.List;
 
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
+import com.unu.sistemadegestiondocumentaria.repository.MemorandumRepository;
 import com.unu.sistemadegestiondocumentaria.repository.Repository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MemorandumService extends Repository<Memorandum> {
+public class MemorandumService {
 
     private final DocumentoService docService = DocumentoService.instanciar();
 
+    private MemorandumRepository memoRepository;
+
     private static MemorandumService INSTANCIA;
 
-    private MemorandumService(Class<Memorandum> type) {
-        super(type);
+    private MemorandumService() {
+        memoRepository = MemorandumRepository.instanciar();
     }
 
     public static MemorandumService instanciar() {
         if (INSTANCIA == null) {
-            INSTANCIA = new MemorandumService(Memorandum.class);
+            INSTANCIA = new MemorandumService();
         }
         return INSTANCIA;
     }
 
-    @Override
     public void add(Memorandum t) {
         try {
-            Documento doc = t.getDocumento();
-            if (doc == null) {
-                return;
-            }
+//            Documento doc = t.getDocumento();
+//            if (doc == null) {
+//                return;
+//            }
 //            boolean isCorrect = docService.addDoc(doc);
 //            if (isCorrect) {
 //                Validation.validateMemorandum(t);
@@ -46,16 +48,15 @@ public class MemorandumService extends Repository<Memorandum> {
         }
     }
 
-    @Override
     public void update(int id, Memorandum t) {
         try {
-            Memorandum memorandum = getById(id);
-            if (memorandum == null) {
-                // throw new ValidationException(Validation.showWarning("El Memorandum no puede estar vacío."));
-                return;
-            }
-
-            int idDoc = memorandum.getDocumento().getId();
+//            Memorandum memorandum = getById(id);
+//            if (memorandum == null) {
+//                // throw new ValidationException(Validation.showWarning("El Memorandum no puede estar vacío."));
+//                return;
+//            }
+//
+//            int idDoc = memorandum.getDocumento().getId();
 //            Documento doc = docService.getById(idDoc);
 //            if (doc == null) {
 //                return;
@@ -77,43 +78,41 @@ public class MemorandumService extends Repository<Memorandum> {
     }
 
     // borrar desde aqui porque en docservice se tendria que instaciar memorandumService creando un bucle
-    @Override
     public void delete(int id) {
         try {
-            Memorandum memorandum = getById(id);
-            if (memorandum == null) {
-                // throw new ValidationException(Validation.showWarning("El Memorandum no puede estar vacío."));
-                return;
-            }
-            docService.deleteDocDependencias(memorandum.getDocumento().getId());
-
-            super.delete(id);
+//            Memorandum memorandum = getById(id);
+//            if (memorandum == null) {
+//                // throw new ValidationException(Validation.showWarning("El Memorandum no puede estar vacío."));
+//                return;
+//            }
+//            docService.deleteDocDependencias(memorandum.getDocumento().getId());
+//
+//            super.delete(id);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
     }
 
-    @Override
     public Memorandum getById(int id) {
         try {
-            return super.getById(id);
+//            return super.getById(id);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
         return null;
     }
-    
+
     // ¿
     public void updateEstadoDocumento(int id) {
         try {
-            Memorandum memorandum = getById(id);
-            if (memorandum == null) {
-                // throw new ValidationException(Validation.showWarning("El Memorandum no puede estar vacío."));
-                return;
-            }
-
-            int idDoc = memorandum.getDocumento().getId();
-            docService.updateEstadoDocumento(idDoc);
+//            Memorandum memorandum = getById(id);
+//            if (memorandum == null) {
+//                // throw new ValidationException(Validation.showWarning("El Memorandum no puede estar vacío."));
+//                return;
+//            }
+//
+//            int idDoc = memorandum.getDocumento().getId();
+//            docService.updateEstadoDocumento(idDoc);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
@@ -123,16 +122,16 @@ public class MemorandumService extends Repository<Memorandum> {
     public List<Administrativo> getDestinatarios(int id) {
         List<Administrativo> destinatarios = new ArrayList<>();
         try {
-            Memorandum memorandum = getById(id);
-            if (memorandum == null) {
-                return null;
-            }
-
-            int idDoc = memorandum.getDocumento().getId();
-            if (docService.getById(idDoc) == null) {
-                return null;
-            }
-            destinatarios = docService.getDestinatarios(idDoc);
+//            Memorandum memorandum = getById(id);
+//            if (memorandum == null) {
+//                return null;
+//            }
+//
+//            int idDoc = memorandum.getDocumento().getId();
+//            if (docService.getById(idDoc) == null) {
+//                return null;
+//            }
+//            destinatarios = docService.getDestinatarios(idDoc);
         } catch (ValidationException e) {
             e.printConsoleMessage();
         }
@@ -140,12 +139,7 @@ public class MemorandumService extends Repository<Memorandum> {
     }
 
     public String getAsuntoByDoc(int idDoc) {
-        Map<String, Object> parametros = new HashMap<>();
-        parametros.put("idDoc", idDoc);
-
-//        Memorandum memorandum = getByQuery("SELECT x FROM Memorandum x WHERE x.documento.id = :idDoc", parametros);
-//        return memorandum.getAsunto();
-        return "";
+        return memoRepository.getAsunto(idDoc);
     }
 
 }

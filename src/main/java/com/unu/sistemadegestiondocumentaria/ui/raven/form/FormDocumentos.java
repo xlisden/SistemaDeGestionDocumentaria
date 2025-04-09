@@ -25,11 +25,14 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import com.unu.sistemadegestiondocumentaria.entity.IDocumento;
 import com.unu.sistemadegestiondocumentaria.entity.Memorandum;
-import com.unu.sistemadegestiondocumentaria.service.ActaSustService;
+import com.unu.sistemadegestiondocumentaria.service.ActaService;
 import com.unu.sistemadegestiondocumentaria.service.MemorandumService;
 import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,9 +45,10 @@ public class FormDocumentos extends TabbedForm {
 
     private final DocumentoService docService = DocumentoService.instanciar();
     private final ExpedienteService expService = ExpedienteService.instanciar();
-//    private final OficioService ofService = OficioService.instanciar();
+    private final OficioService ofService = OficioService.instanciar();
     private final MemorandumService memoService = MemorandumService.instanciar();
-    private final ActaSustService actaService = ActaSustService.instanciar();
+    private final ActaService actaService = ActaService.instanciar();
+
     private List<DocumentoDto> documentos;
     private List<TipoDocumento> tiposDoc;
     private List<Expediente> expedientes;
@@ -59,10 +63,11 @@ public class FormDocumentos extends TabbedForm {
         modTabla = (DefaultTableModel) tblDocumentos.getModel();
         unHilo.join();
 
-        setDocumentos(documentos, dataTabla);
+        setDocumentos(documentos);
         setTipoDocs(cboTipoDoc, "TIPO DOC.", tiposDoc);
         setEstudiantes(cboEgresados, "ESTUDIANTES", expedientes);
         setExpedientes(cboExpedientes, "EXP.", idexps);
+
     }
 
     private void getDocumentos(List<DocumentoDto> documentos) {
@@ -71,12 +76,14 @@ public class FormDocumentos extends TabbedForm {
             row[0] = getLista(docDto.getIdExpedientes());
             row[1] = docDto.getNombre();
             String asunto = "";
-//            switch (doc.getTipoDocumento().getId()) {
-//                case 1 -> asunto = ofService.getAsuntoByDoc(doc.getId());
-//                case 2 -> asunto = memoService.getAsuntoByDoc(doc.getId());
-//                case 3 -> asunto = actaService.getTemaByDoc(doc.getId());
-////                    row[2] = Objects.requireNonNullElse(ofService.getAsuntoByDoc(doc.getId()), "");
-//            }
+            switch (docDto.getIdTipoDoc()) {
+                case 1 ->
+                    asunto = ofService.getAsuntoByDoc(docDto.getId());
+                case 2 ->
+                    asunto = memoService.getAsuntoByDoc(docDto.getId());
+                case 3 ->
+                    asunto = actaService.getAsuntoByDoc(docDto.getId());
+            }
             row[2] = (asunto != null) ? asunto : "";
             row[3] = getLista(docDto.getDestinatarios());
             row[4] = docDto.getFechaEmision();
@@ -84,12 +91,15 @@ public class FormDocumentos extends TabbedForm {
         }
     }
 
-    private void setDocumentos(List<DocumentoDto> documentos, List<Object[]> dataTabla) {
+    private void setDocumentos(List<DocumentoDto> documentos) {
         modTabla.setRowCount(0);
+        dataTabla = new ArrayList<>();
+
         getDocumentos(documentos);
         for (Object[] o : dataTabla) {
             modTabla.addRow(o);
         }
+
         tblDocumentos.setModel(modTabla);
     }
 
@@ -157,6 +167,43 @@ public class FormDocumentos extends TabbedForm {
         }
     }
 
+    private void filtrarPorExp(int idExp) {
+        List<DocumentoDto> docs = new ArrayList<>();
+
+        for (DocumentoDto doc : documentos) {
+            if (doc.getIdExpedientes().contains(idExp)) {
+                docs.add(doc);
+            }
+        }
+
+        setDocumentos(docs);
+    }
+
+    private void filtrarPorTipoDoc(String tipoDoc) {
+//        lista = lista.stream().filter(x -> x.equals(2)).collect(Collectors.toList());
+
+        List<DocumentoDto> docs = documentos;
+
+        docs = docs.stream().filter(x -> x.getTipoDocumento().equals(tipoDoc)).collect(Collectors.toList());
+
+        setDocumentos(docs);
+    }
+
+    /*
+public Collection<Integer> findEvenNumbers(Collection<Integer> baseCollection) {
+    Predicate<Integer> streamsPredicate = item -> item % 2 == 0;
+
+    return baseCollection.stream()
+      .filter(streamsPredicate)
+      .collect(Collectors.toList());
+}   
+
+elementosCreados = elementosCreados
+    .stream()
+    .filter(x -> !x.equals("arbol"))
+    .collect(Collectors.toList());   
+   
+     */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -208,6 +255,11 @@ public class FormDocumentos extends TabbedForm {
         crazyPanel2.add(cboEgresados);
 
         cboTipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TIPO DOC." }));
+        cboTipoDoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTipoDocActionPerformed(evt);
+            }
+        });
         crazyPanel2.add(cboTipoDoc);
 
         txtFecha.setText("DD-MM-AAAA");
@@ -248,7 +300,6 @@ public class FormDocumentos extends TabbedForm {
             }
         });
         tblDocumentos.setColumnSelectionAllowed(true);
-        tblDocumentos.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblDocumentos);
         tblDocumentos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tblDocumentos.getColumnModel().getColumnCount() > 0) {
@@ -303,8 +354,16 @@ public class FormDocumentos extends TabbedForm {
         if (cboExpedientes.getSelectedIndex() != 0 && cboExpedientes.getSelectedIndex() != -1) {
             int idxEgresados = cboExpedientes.getSelectedIndex();
             cboEgresados.setSelectedIndex(idxEgresados);
+
+            filtrarPorExp((int) cboExpedientes.getSelectedItem());
         }
     }//GEN-LAST:event_cboExpedientesActionPerformed
+
+    private void cboTipoDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipoDocActionPerformed
+        if (cboTipoDoc.getSelectedIndex() != 0 && cboTipoDoc.getSelectedIndex() != -1) {
+            filtrarPorTipoDoc((String) cboTipoDoc.getSelectedItem());
+        }
+    }//GEN-LAST:event_cboTipoDocActionPerformed
 
     @Override
     public boolean formClose() {

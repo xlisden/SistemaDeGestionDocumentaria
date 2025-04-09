@@ -89,5 +89,13 @@ public class DocumentoDto {
     public String getFechaEmision() {
         return doc.getFechaEmision().toString();
     }
+    
+    public int getIdTipoDoc(){
+        return doc.getTipoDocumento().getId();
+    }
+    
+    public String getTipoDocumento() {
+        return doc.getTipoDocumento().getNombre();
+    }
 
 }

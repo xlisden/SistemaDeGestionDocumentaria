@@ -7,25 +7,25 @@ import java.util.List;
 
 import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
-import com.unu.sistemadegestiondocumentaria.repository.OficioRepository;
+import com.unu.sistemadegestiondocumentaria.repository.ActaRepository;
 import com.unu.sistemadegestiondocumentaria.validations.*;
 import java.util.Collections;
 
-public class OficioService {
+public class ActaService {
 
-    private static OficioService INSTANCIA;
+    private static ActaService INSTANCIA;
     
     private final DocumentoService docService = DocumentoService.instanciar();
-    private OficioRepository ofRepository ;
+    private ActaRepository actaRepository ;
 
 
-    private OficioService() {
-        ofRepository = OficioRepository.instanciar();
+    private ActaService() {
+        actaRepository = ActaRepository.instanciar();
     }
 
-    public static OficioService instanciar() {
+    public static ActaService instanciar() {
         if (INSTANCIA == null) {
-            INSTANCIA = new OficioService();
+            INSTANCIA = new ActaService();
         }
         return INSTANCIA;
     }
@@ -141,7 +141,7 @@ public class OficioService {
     }
 
     public String getAsuntoByDoc(int idDoc) {
-        return ofRepository.getAsunto(idDoc);
+        return actaRepository.getAsunto(idDoc);
     }
     
     public List<Oficio> getAll(){
