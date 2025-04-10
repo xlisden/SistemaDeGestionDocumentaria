@@ -184,8 +184,6 @@ public class FormDocumentos extends TabbedForm {
     }
 
     private void filtrarPorTipoDoc(String tipoDoc) {
-//        lista = lista.stream().filter(x -> x.equals(2)).collect(Collectors.toList());
-
         List<DocumentoDto> docs = documentos;
 
         docs = docs.stream().filter(x -> x.getTipoDocumento().equals(tipoDoc)).collect(Collectors.toList());
@@ -279,6 +277,11 @@ public class FormDocumentos extends TabbedForm {
         crazyPanel2.add(txtFecha);
 
         btnTodos.setText("Todos");
+        btnTodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTodosActionPerformed(evt);
+            }
+        });
         crazyPanel2.add(btnTodos);
 
         btnCambiarEstado.setText("Cambiar Estado");
@@ -377,6 +380,10 @@ public class FormDocumentos extends TabbedForm {
             filtrarPorTipoDoc((String) cboTipoDoc.getSelectedItem());
         }
     }//GEN-LAST:event_cboTipoDocActionPerformed
+
+    private void btnTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodosActionPerformed
+        setDocumentos(documentos);
+    }//GEN-LAST:event_btnTodosActionPerformed
 
     @Override
     public boolean formClose() {
