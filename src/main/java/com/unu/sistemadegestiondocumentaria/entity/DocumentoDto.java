@@ -85,11 +85,11 @@ public class DocumentoDto {
     public String getNombre() {
         return doc.getTipoDocumento().getNombre() + " " + doc.getCorrelativo();
     }
-
-    public String getFechaEmision() {
-        return doc.getFechaEmision().toString();
-    }
     
+    public Date getFechaEmision() {
+        return doc.getFechaEmision();
+    }
+
     public int getIdTipoDoc(){
         return doc.getTipoDocumento().getId();
     }

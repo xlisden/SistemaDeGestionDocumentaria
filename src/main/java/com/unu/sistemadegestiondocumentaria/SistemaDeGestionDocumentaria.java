@@ -1,47 +1,25 @@
 package com.unu.sistemadegestiondocumentaria;
 
+//<editor-fold defaultstate="collapsed" desc=" Librerías...">
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.swing.JOptionPane;
-
-import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
 import com.unu.sistemadegestiondocumentaria.entity.DetalleSustentacion;
 import com.unu.sistemadegestiondocumentaria.entity.Documento;
-import com.unu.sistemadegestiondocumentaria.entity.Estado;
-import com.unu.sistemadegestiondocumentaria.entity.Expediente;
-import com.unu.sistemadegestiondocumentaria.entity.GradoInstruccion;
-import com.unu.sistemadegestiondocumentaria.entity.Oficio;
-import com.unu.sistemadegestiondocumentaria.entity.Persona;
 import com.unu.sistemadegestiondocumentaria.entity.Sustentacion;
-import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
-import com.unu.sistemadegestiondocumentaria.service.AdministrativoService;
 import com.unu.sistemadegestiondocumentaria.service.DetDestinatarioService;
 import com.unu.sistemadegestiondocumentaria.service.DetSustentacionService;
 import com.unu.sistemadegestiondocumentaria.service.DocumentoService;
-import com.unu.sistemadegestiondocumentaria.service.EstadoService;
-import com.unu.sistemadegestiondocumentaria.service.ExpedienteService;
-import com.unu.sistemadegestiondocumentaria.service.GradoInstruccionService;
 import com.unu.sistemadegestiondocumentaria.service.OficioService;
-import com.unu.sistemadegestiondocumentaria.service.PersonaService;
 import com.unu.sistemadegestiondocumentaria.service.SustentacionService;
-import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
 import com.unu.sistemadegestiondocumentaria.validations.Validation;
-
-import java.awt.Font;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import raven.alerts.MessageAlerts;
-import raven.popup.GlassPanePopup;
-import raven.popup.component.PopupCallbackAction;
-import raven.popup.component.PopupController;
-import raven.popup.component.SimplePopupBorder;
+//</editor-fold>
 
 /**
  *
@@ -54,7 +32,7 @@ public class SistemaDeGestionDocumentaria {
 //		addGradosInstruccion();
 
         long start = System.currentTimeMillis();
-        addDocumentos();
+        hola();
         long end = System.currentTimeMillis();
         System.out.println("\ntiempo = " + (end - start) + " ms");
 
@@ -63,14 +41,29 @@ public class SistemaDeGestionDocumentaria {
     }
 
     private static void hola() {
-        /*
-docs.stream().filter(x -> x.equals(x.getIdExpedientes().contains(idExp))).collect(Collectors.toList());        
-         */
-        List<Integer> lista = Arrays.asList(2, 3, 2, 22, 34, 2, 31, 9, 3);
-
-        lista = lista.stream().filter(x -> x.equals(2)).collect(Collectors.toList());
-
-        System.out.println(lista);
+        Date fecha = Date.valueOf("2024-11-23");
+        Date fecha1 = Date.valueOf("2024-10-23");
+        Date fecha2 = Date.valueOf("2024-12-23");
+        
+        if(fecha2.compareTo(fecha1) >= 0){
+            System.out.println(">= 0");
+        }
+        if(fecha1.compareTo(fecha) <= 0){
+            System.out.println("<= 0");
+        }
+        
+        if(fecha1.compareTo(fecha) <= 0 && fecha2.compareTo(fecha) >= 0){
+            System.out.println("hola, esta dentro");
+        }
+        
+//        /*
+//docs.stream().filter(x -> x.equals(x.getIdExpedientes().contains(idExp))).collect(Collectors.toList());        
+//         */
+//        List<Integer> lista = Arrays.asList(2, 3, 2, 22, 34, 2, 31, 9, 3);
+//
+//        lista = lista.stream().filter(x -> x.equals(2)).collect(Collectors.toList());
+//
+//        System.out.println(lista);
     }
 
     private static void addDocumentos() {

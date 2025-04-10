@@ -1,14 +1,16 @@
 package com.unu.sistemadegestiondocumentaria.ui.raven.form;
 
+//<editor-fold defaultstate="collapsed" desc=" Librerías...">
 import com.formdev.flatlaf.FlatClientProperties;
-import com.unu.sistemadegestiondocumentaria.entity.Administrativo;
-import com.unu.sistemadegestiondocumentaria.entity.Documento;
+import com.raven.datechooser.DateBetween;
+import com.raven.datechooser.DateChooser;
+import com.raven.datechooser.listener.DateChooserAction;
+import com.raven.datechooser.listener.DateChooserAdapter;
 import com.unu.sistemadegestiondocumentaria.entity.DocumentoDto;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
 import com.unu.sistemadegestiondocumentaria.service.DocumentoService;
 import com.unu.sistemadegestiondocumentaria.service.ExpedienteService;
-import com.unu.sistemadegestiondocumentaria.service.INoSeElTipoDoc;
 import com.unu.sistemadegestiondocumentaria.service.OficioService;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.TabbedForm;
 import java.awt.Component;
@@ -23,19 +25,18 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-import com.unu.sistemadegestiondocumentaria.entity.IDocumento;
-import com.unu.sistemadegestiondocumentaria.entity.Memorandum;
 import com.unu.sistemadegestiondocumentaria.service.ActaService;
 import com.unu.sistemadegestiondocumentaria.service.MemorandumService;
 import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
-import com.unu.sistemadegestiondocumentaria.validations.Validation;
 import java.awt.Color;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.function.Predicate;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+//</editor-fold>
 
 /**
  *
@@ -63,6 +64,7 @@ public class FormDocumentos extends TabbedForm {
         initComponents();
         aplicarDisenioTabla(tblDocumentos);
         modTabla = (DefaultTableModel) tblDocumentos.getModel();
+        iniciarDateChooser();
         unHilo.join();
 
         setDocumentos(documentos);
@@ -88,7 +90,7 @@ public class FormDocumentos extends TabbedForm {
             }
             row[2] = (asunto != null) ? asunto : "";
             row[3] = getLista(docDto.getDestinatarios());
-            row[4] = docDto.getFechaEmision();
+            row[4] = docDto.getFechaEmision().toString();
             dataTabla.add(row);
         }
     }
@@ -191,21 +193,30 @@ public class FormDocumentos extends TabbedForm {
         setDocumentos(docs);
     }
 
-    /*
-public Collection<Integer> findEvenNumbers(Collection<Integer> baseCollection) {
-    Predicate<Integer> streamsPredicate = item -> item % 2 == 0;
+    private void filtrarPorFecha(String fechaInicialString, String fechaFinalString){
+        List<DocumentoDto> docs = new ArrayList<>();
+        Date fechaInicial = Date.valueOf(fechaInicialString);
+        Date fechaFinal = Date.valueOf(fechaFinalString);
 
-    return baseCollection.stream()
-      .filter(streamsPredicate)
-      .collect(Collectors.toList());
-}   
+        for (DocumentoDto doc : documentos) {
+            Date fecha = doc.getFechaEmision();
+            if (fechaInicial.compareTo(fecha) <= 0 && fechaFinal.compareTo(fecha) >= 0){
+                docs.add(doc);
+            }
+        }
 
-elementosCreados = elementosCreados
-    .stream()
-    .filter(x -> !x.equals("arbol"))
-    .collect(Collectors.toList());   
-   
-     */
+        setDocumentos(docs);
+/*
+        Date fecha = Date.valueOf("2024-11-23");
+        Date fecha1 = Date.valueOf("2024-10-23");
+        Date fecha2 = Date.valueOf("2024-12-23");
+        
+        if(fecha1.compareTo(fecha) <= 0 && fecha2.compareTo(fecha) >= 0){
+            System.out.println("hola, esta dentro");
+        }        
+*/        
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -396,6 +407,8 @@ elementosCreados = elementosCreados
     private javax.swing.JTextField txtFecha;
     // End of variables declaration//GEN-END:variables
 
+    private DateChooser dateChooser = new DateChooser();
+    
     private void aplicarDisenioTabla(JTable tabla) {
         JScrollPane scroll = (JScrollPane) tabla.getParent().getParent();
         scroll.setBorder(BorderFactory.createEmptyBorder());
@@ -432,5 +445,21 @@ elementosCreados = elementosCreados
 
         };
     }
+    private void iniciarDateChooser() {
+        dateChooser.setTextField(txtFecha);
+        dateChooser.setForeground(Color.WHITE);
+        dateChooser.setDateSelectionMode(DateChooser.DateSelectionMode.BETWEEN_DATE_SELECTED);
+        dateChooser.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        dateChooser.addActionDateChooserListener(new DateChooserAdapter() {
+            @Override
+            public void dateBetweenChanged(DateBetween date, DateChooserAction action) {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                String fechaInicial = format.format(date.getFromDate());
+                String fechaFinal = format.format(date.getToDate());
+                
+                filtrarPorFecha(fechaInicial, fechaFinal);
+            }
 
+        });
+    }
 }
