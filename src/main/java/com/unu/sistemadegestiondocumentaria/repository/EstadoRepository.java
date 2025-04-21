@@ -7,33 +7,33 @@ import com.unu.sistemadegestiondocumentaria.entity.Estado;
 
 public class EstadoRepository extends Repository<Estado> {
 
-	private static EstadoRepository INSTANCIA;
+    private static EstadoRepository INSTANCIA;
 
-	private EstadoRepository(Class<Estado> type) {
-		super(type);
-	}
+    private EstadoRepository(Class<Estado> type) {
+        super(type);
+    }
 
-	public static EstadoRepository instanciar() {
-		if (INSTANCIA == null) {
-			INSTANCIA = new EstadoRepository(Estado.class);
-		}
-		return INSTANCIA;
-	}
+    public static EstadoRepository instanciar() {
+        if (INSTANCIA == null) {
+            INSTANCIA = new EstadoRepository(Estado.class);
+        }
+        return INSTANCIA;
+    }
 
-	public Estado getByNombre(String nombre) {
-		String sql = "SELECT x FROM Estado x WHERE x.nombre = :nombre";
+    public Estado getByNombre(String nombre) {
+        String sql = "SELECT x FROM Estado x WHERE x.nombre = :nombre";
 
-		em = hc.getEntityManager();
-		Query query = em.createQuery(sql, Estado.class);
-		query.setParameter("nombre", nombre.toUpperCase());
+        em = hc.getEntityManager();
+        Query query = em.createQuery(sql, Estado.class);
+        query.setParameter("nombre", nombre.toUpperCase());
 
-		try {
-			return (Estado) query.setMaxResults(1).getSingleResult();
-		} catch (NoResultException e) {
-			return null;
-		} finally {
-			hc.closeConnection();
-		}			
-	}
+        try {
+            return (Estado) query.setMaxResults(1).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            hc.closeConnection();
+        }
+    }
 
 }

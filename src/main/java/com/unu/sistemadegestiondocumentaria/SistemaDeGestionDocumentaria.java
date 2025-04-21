@@ -32,7 +32,7 @@ public class SistemaDeGestionDocumentaria {
 //		addGradosInstruccion();
 
         long start = System.currentTimeMillis();
-        hola();
+        addDocumentos();
         long end = System.currentTimeMillis();
         System.out.println("\ntiempo = " + (end - start) + " ms");
 
@@ -69,22 +69,26 @@ public class SistemaDeGestionDocumentaria {
     private static void addDocumentos() {
         try {
             DocumentoService service = DocumentoService.instanciar();
+//            imprimirElementos(service.getAll());
+            System.out.println("--------------------------------------------------------");
+            System.out.println(service.getIdByNombre("MEMORÁNDUM 004"));
+            System.out.println(service.getIdByNombre("MEMORÁNDUM 003"));
 
-            List<Integer> dest = new ArrayList<>();
-            dest.add(3);
-            dest.add(12);
-            List<Integer> exp = new ArrayList<>();
-            exp.add(19);
-            exp.add(20);
+//            List<Integer> dest = new ArrayList<>();
+//            dest.add(3);
+//            dest.add(12);
+//            List<Integer> exp = new ArrayList<>();
+//            exp.add(19);
+//            exp.add(20);
 
 //            service.add(new Documento(Date.valueOf(LocalDate.now()), 2, 3, dest, exp));
-            dest.add(4);
+//            dest.add(4);
 //            service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 2, dest, exp));
-            exp = new ArrayList<>();
-            exp.add(23);
+//            exp = new ArrayList<>();
+//            exp.add(23);
 //            service.add(new Documento(Date.valueOf(LocalDate.now()), 2, 9, dest, exp));
-            dest.add(11);
-            service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 8, dest, exp));
+//            dest.add(11);
+//            service.add(new Documento(Date.valueOf(LocalDate.now()), 1, 8, dest, exp));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

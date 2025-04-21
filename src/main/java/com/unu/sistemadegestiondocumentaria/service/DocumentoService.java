@@ -61,7 +61,7 @@ public class DocumentoService {
         t.setTipoDocumento(td);
         t.setEmisor(emisor);
         t.setEstado(estRepository.getByNombre("PENDIENTE"));
-        t.setCorrelativo(setCorrelativo());
+        t.setCorrelativo(setCorrelativoPorTipoDoc(td.getId()));
 
         docRepository.add(t);
 
@@ -146,35 +146,33 @@ public class DocumentoService {
     }
 
     public void delete(int id) {
-//        Documento doc = docRepository.getById(id);
-//        if (doc == null) {
-//        	return;
-//        }
-
-        // tienen que ir en oficio, memo y acta. Porque estos 3 tienen delete en cascada
-        // para doc
-        // por lo que deben ser eliminados alla primero
-//        detDestRepository.deleteByDoc(id);
-//        detDocRepository.deleteByDoc(id);
         docRepository.delete(id);
     }
 
-    public DocumentoDto getById(int id) {
+    public DocumentoDto getDtoById(int id) {
         Documento doc = docRepository.getById(id);
         List<Expediente> expedientes = detDocRepository.getExpedientesByDoc(doc.getId());
-            List<Integer> idExpedientes = detDocRepository.getIdExpedientesByDoc(doc.getId());
+        List<Integer> idExpedientes = detDocRepository.getIdExpedientesByDoc(doc.getId());
         List<Administrativo> destinatarios = detDestRepository.getDestsByDoc(doc.getId());
 
         DocumentoDto dto = new DocumentoDto(doc, destinatarios, expedientes, idExpedientes);
         return dto;
     }
 
+    public int getIdByNombre(String nombre) {
+        return docRepository.getIdByNombre(nombre);
+    }
+
     /* propios de doc service */
-    private String setCorrelativo() {
-        if (docRepository.getAll().isEmpty()) {
+    public String setCorrelativoPorTipoDoc(int idTipoDoc) {
+        return setCorrelativo(getAllPorTipoDoc(idTipoDoc));
+    }
+
+    private String setCorrelativo(List<Documento> lista) {
+        if (lista.isEmpty()) {
             return "001";
         } else {
-            Documento doc = docRepository.getLast();
+            Documento doc = lista.get(lista.size()-1);
             if (doc.getFechaEmision().getYear() + 1900 < LocalDate.now().getYear()) {
                 return "001";
             } else {
@@ -186,6 +184,26 @@ public class DocumentoService {
     }
 
     /* vienen de otros repository */
+    public List<Documento> getAllPorTipoDoc(int idTipoDoc) {
+        return docRepository.getAllPorTipoDoc(idTipoDoc);
+    }
+    
+    public List<DocumentoDto> getAllPendientes() {
+        List<Documento> docs = docRepository.getAllPendientes();
+        List<DocumentoDto> documentos = new ArrayList<>();
+
+        for (Documento doc : docs) {
+            List<Expediente> expedientes = detDocRepository.getExpedientesByDoc(doc.getId());
+            List<Integer> idExpedientes = detDocRepository.getIdExpedientesByDoc(doc.getId());
+            List<Administrativo> destinatarios = detDestRepository.getDestsByDoc(doc.getId());
+
+            documentos.add(new DocumentoDto(doc, destinatarios, expedientes, idExpedientes));
+        }
+
+        return documentos;
+    }
+    
+    
     public void updateEstadoDocumento(int id) {
         Documento doc = docRepository.getById(id);
         Estado est = estRepository.getByNombre("ENTREGADO");

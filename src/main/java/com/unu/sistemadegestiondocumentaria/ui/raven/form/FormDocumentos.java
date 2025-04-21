@@ -6,6 +6,7 @@ import com.raven.datechooser.DateBetween;
 import com.raven.datechooser.DateChooser;
 import com.raven.datechooser.listener.DateChooserAction;
 import com.raven.datechooser.listener.DateChooserAdapter;
+import com.unu.sistemadegestiondocumentaria.entity.Documento;
 import com.unu.sistemadegestiondocumentaria.entity.DocumentoDto;
 import com.unu.sistemadegestiondocumentaria.entity.Expediente;
 import com.unu.sistemadegestiondocumentaria.entity.TipoDocumento;
@@ -71,7 +72,7 @@ public class FormDocumentos extends TabbedForm {
         setTipoDocs(cboTipoDoc, "TIPO DOC.", tiposDoc);
         setEstudiantes(cboEgresados, "ESTUDIANTES", expedientes);
         setExpedientes(cboExpedientes, "EXP.", idexps);
-
+        
     }
 
     private void getDocumentos(List<DocumentoDto> documentos) {
@@ -191,30 +192,35 @@ public class FormDocumentos extends TabbedForm {
         setDocumentos(docs);
     }
 
-    private void filtrarPorFecha(String fechaInicialString, String fechaFinalString){
+    private void filtrarPorFecha(String fechaInicialString, String fechaFinalString) {
         List<DocumentoDto> docs = new ArrayList<>();
         Date fechaInicial = Date.valueOf(fechaInicialString);
         Date fechaFinal = Date.valueOf(fechaFinalString);
 
         for (DocumentoDto doc : documentos) {
             Date fecha = doc.getFechaEmision();
-            if (fechaInicial.compareTo(fecha) <= 0 && fechaFinal.compareTo(fecha) >= 0){
+            if (fechaInicial.compareTo(fecha) <= 0 && fechaFinal.compareTo(fecha) >= 0) {
                 docs.add(doc);
             }
         }
 
         setDocumentos(docs);
-/*
-        Date fecha = Date.valueOf("2024-11-23");
-        Date fecha1 = Date.valueOf("2024-10-23");
-        Date fecha2 = Date.valueOf("2024-12-23");
-        
-        if(fecha1.compareTo(fecha) <= 0 && fecha2.compareTo(fecha) >= 0){
-            System.out.println("hola, esta dentro");
-        }        
-*/        
     }
-    
+
+    private void setEntregado(String nombre) {
+        try {
+            int id = docService.getIdByNombre(nombre);
+            docService.updateEstadoDocumento(id);
+            System.out.println("id = " + id);
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void mostrarPendientes() {
+        setDocumentos(docService.getAllPendientes());
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -227,6 +233,7 @@ public class FormDocumentos extends TabbedForm {
         btnTodos = new javax.swing.JButton();
         btnCambiarEstado = new javax.swing.JButton();
         btnEditarDoc = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDocumentos = new javax.swing.JTable();
 
@@ -285,10 +292,23 @@ public class FormDocumentos extends TabbedForm {
         crazyPanel2.add(btnTodos);
 
         btnCambiarEstado.setText("Cambiar Estado");
+        btnCambiarEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCambiarEstadoActionPerformed(evt);
+            }
+        });
         crazyPanel2.add(btnCambiarEstado);
 
         btnEditarDoc.setText("Editar Doc.");
         crazyPanel2.add(btnEditarDoc);
+
+        jButton1.setText("Pendientes");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        crazyPanel2.add(jButton1);
 
         crazyPanel1.add(crazyPanel2);
 
@@ -318,6 +338,11 @@ public class FormDocumentos extends TabbedForm {
         });
         tblDocumentos.setColumnSelectionAllowed(true);
         tblDocumentos.getTableHeader().setReorderingAllowed(false);
+        tblDocumentos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDocumentosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblDocumentos);
         tblDocumentos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tblDocumentos.getColumnModel().getColumnCount() > 0) {
@@ -347,7 +372,7 @@ public class FormDocumentos extends TabbedForm {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE)
+                .addComponent(crazyPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 858, Short.MAX_VALUE)
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
@@ -385,6 +410,26 @@ public class FormDocumentos extends TabbedForm {
         setDocumentos(documentos);
     }//GEN-LAST:event_btnTodosActionPerformed
 
+    private void btnCambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarEstadoActionPerformed
+        int fila = tblDocumentos.getSelectedRow();
+        if (fila != -1) {
+            String nombre = tblDocumentos.getValueAt(fila, 1).toString();
+            setEntregado(nombre); //si trae el id
+            mostrarPendientes();
+        }
+    }//GEN-LAST:event_btnCambiarEstadoActionPerformed
+
+    private void tblDocumentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDocumentosMouseClicked
+        if (evt.getClickCount() == 2) {
+            int fila = tblDocumentos.getSelectedRow();
+            String nombre = tblDocumentos.getValueAt(fila, 1).toString();
+        }
+    }//GEN-LAST:event_tblDocumentosMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        mostrarPendientes();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     @Override
     public boolean formClose() {
 //        if (txt.getText().trim().equals("")) {
@@ -409,13 +454,14 @@ public class FormDocumentos extends TabbedForm {
     private javax.swing.JComboBox<String> cboTipoDoc;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblDocumentos;
     private javax.swing.JTextField txtFecha;
     // End of variables declaration//GEN-END:variables
 
     private DateChooser dateChooser = new DateChooser();
-    
+
     private void aplicarDisenioTabla(JTable tabla) {
         JScrollPane scroll = (JScrollPane) tabla.getParent().getParent();
         scroll.setBorder(BorderFactory.createEmptyBorder());
@@ -430,7 +476,7 @@ public class FormDocumentos extends TabbedForm {
         tabla.setRowSelectionAllowed(true);
         tabla.setColumnSelectionAllowed(false);
         tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
+
         tabla.getTableHeader().putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         tabla.putClientProperty(FlatClientProperties.STYLE_CLASS, "table_style");
         tabla.getTableHeader().setDefaultRenderer(getAligmentCellRenderer(tblDocumentos.getTableHeader().getDefaultRenderer(), true));
@@ -445,13 +491,14 @@ public class FormDocumentos extends TabbedForm {
                 if (com instanceof JLabel) {
                     JLabel label = (JLabel) com;
                     label.setHorizontalAlignment(SwingConstants.LEADING);
-                    label.setBackground(new Color(246,246,246));
+                    label.setBackground(new Color(246, 246, 246));
                 }
                 return com;
             }
 
         };
     }
+
     private void iniciarDateChooser() {
         dateChooser.setTextField(txtFecha);
         dateChooser.setForeground(Color.WHITE);
@@ -463,10 +510,19 @@ public class FormDocumentos extends TabbedForm {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 String fechaInicial = format.format(date.getFromDate());
                 String fechaFinal = format.format(date.getToDate());
-                
+
                 filtrarPorFecha(fechaInicial, fechaFinal);
             }
 
         });
     }
+
+    private void marcarSoloUnCheck(int fila) {
+        for (int i = 0; i < modTabla.getRowCount(); i++) {
+            if (i != fila) {
+                modTabla.setValueAt(Boolean.FALSE, 5, fila);
+            }
+        }
+    }
+
 }
