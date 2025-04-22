@@ -9,6 +9,7 @@ import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
 import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormDocumentos;
 import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormDocumentos;
 import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormOficios;
+import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormOficios1;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.WindowsTabbed;
 import raven.drawer.component.SimpleDrawerBuilder;
 import raven.drawer.component.footer.SimpleFooterData;
@@ -69,7 +70,7 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
                             WindowsTabbed.getInstance().addTab("Documentos", new FormDocumentos());
                         } else if (index == 1 && subIndex == 1) {
                             // si es Esditar title = "Editar Oficio"
-                            WindowsTabbed.getInstance().addTab("Oficio", new FormOficios(true));
+                            WindowsTabbed.getInstance().addTab("Oficio", new FormOficios1(true));
                         } else if (index == 1 && subIndex == 2) {
 //                            WindowsTabbed.getInstance().addTab("Memorándum", new FormDocumentos());
                         } else if (index == 1 && subIndex == 3) {

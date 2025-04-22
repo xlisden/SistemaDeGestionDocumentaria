@@ -517,12 +517,4 @@ public class FormDocumentos extends TabbedForm {
         });
     }
 
-    private void marcarSoloUnCheck(int fila) {
-        for (int i = 0; i < modTabla.getRowCount(); i++) {
-            if (i != fila) {
-                modTabla.setValueAt(Boolean.FALSE, 5, fila);
-            }
-        }
-    }
-
 }
