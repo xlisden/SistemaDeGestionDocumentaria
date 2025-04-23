@@ -431,7 +431,7 @@ public class FormOficios extends TabbedForm {
         dateChooser.setTextField(txtFecha);
         dateChooser.setForeground(Color.WHITE);
         dateChooser.setDateSelectionMode(DateChooser.DateSelectionMode.SINGLE_DATE_SELECTED);
-        dateChooser.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        dateChooser.setDateFormat(new SimpleDateFormat("dd-MM-yyyy"));
         dateChooser.addActionDateChooserListener(new DateChooserAdapter() {
             @Override
             public void dateChanged(Date date, DateChooserAction action) {

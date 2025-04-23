@@ -1,8 +1,14 @@
 package com.unu.sistemadegestiondocumentaria.ui.raven.form;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.raven.datechooser.DateChooser;
+import com.raven.datechooser.listener.DateChooserAction;
+import com.raven.datechooser.listener.DateChooserAdapter;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.TabbedForm;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.WindowsTabbed;
+import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import raven.alerts.MessageAlerts;
 import raven.popup.component.PopupCallbackAction;
@@ -13,18 +19,18 @@ import raven.toast.Notifications;
  *
  * @author RAVEN
  */
-public class FormOficios1 extends TabbedForm {
+public class FormTipoDocumento extends TabbedForm {
 
     private boolean esAgregar = true;
 
     /**
      * Creates new form TestForm
      */
-    public FormOficios1(boolean esAgregar) {
+    public FormTipoDocumento(boolean esAgregar) {
         this.esAgregar = esAgregar;
-        initComponents(); 
-        String label = (this.esAgregar) ? "EsAgregar" : "EsEditar";
+        initComponents();
         setEstilo();
+        iniciarDateChooser();
     }
 
     /**
@@ -414,7 +420,7 @@ public class FormOficios1 extends TabbedForm {
     @Override
     public boolean formClose() {
 //        if (txt.getText().trim().equals("")) {
-            return true;
+        return true;
 //        }
 //        int opt = JOptionPane.showConfirmDialog(this, "¿Estás seguro de salir sin guardar correctamente los datos?", "Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 //        return opt == JOptionPane.YES_OPTION;
@@ -465,10 +471,27 @@ public class FormOficios1 extends TabbedForm {
     private javax.swing.JTextArea txtaAsunto;
     private javax.swing.JTextArea txtaReferencia;
     // End of variables declaration//GEN-END:variables
-    
-    private void setEstilo(){
+
+    private final DateChooser dateChooser = new DateChooser();
+
+    private void setEstilo() {
         lblAlumnos.putClientProperty(FlatClientProperties.STYLE, "font: bold");
         lblRegistrar.putClientProperty(FlatClientProperties.STYLE, "font: bold, 15");
         btnRegistrar.putClientProperty(FlatClientProperties.STYLE, "font: bold");
     }
+
+    private void iniciarDateChooser() {
+        dateChooser.setTextField(txtFecha);
+        dateChooser.setForeground(Color.WHITE);
+        dateChooser.setDateSelectionMode(DateChooser.DateSelectionMode.SINGLE_DATE_SELECTED);
+        dateChooser.setDateFormat(new SimpleDateFormat("dd-MM-yyyy"));
+        dateChooser.addActionDateChooserListener(new DateChooserAdapter() {
+            @Override
+            public void dateChanged(Date date, DateChooserAction action) {
+                SimpleDateFormat formatFecha = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");
+                lblFechaHoy.setText(formatFecha.format(date));
+            }
+        });
+    }
+    
 }

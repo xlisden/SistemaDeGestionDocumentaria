@@ -9,7 +9,7 @@ import com.unu.sistemadegestiondocumentaria.service.TipoDocumentoService;
 import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormDocumentos;
 import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormDocumentos;
 import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormOficios;
-import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormOficios1;
+import com.unu.sistemadegestiondocumentaria.ui.raven.form.FormTipoDocumento;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.WindowsTabbed;
 import raven.drawer.component.SimpleDrawerBuilder;
 import raven.drawer.component.footer.SimpleFooterData;
