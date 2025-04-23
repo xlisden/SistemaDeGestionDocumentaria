@@ -70,7 +70,7 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
                             WindowsTabbed.getInstance().addTab("Documentos", new FormDocumentos());
                         } else if (index == 1 && subIndex == 1) {
                             // si es Esditar title = "Editar Oficio"
-                            WindowsTabbed.getInstance().addTab("Oficio", new FormOficios1(true));
+                            WindowsTabbed.getInstance().addTab("Oficio", new FormOficios(true));
                         } else if (index == 1 && subIndex == 2) {
 //                            WindowsTabbed.getInstance().addTab("Memorándum", new FormDocumentos());
                         } else if (index == 1 && subIndex == 3) {

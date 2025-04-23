@@ -80,7 +80,7 @@ public class FormOficios1 extends TabbedForm {
 
         cboExp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "N°" }));
 
-        lblAlm.setText("Alumnos:");
+        lblAlm.setText("Alumno(s):");
 
         lblAlumnos.setText("Hola, Soy un Alumno Como Estas");
 
@@ -249,6 +249,7 @@ public class FormOficios1 extends TabbedForm {
                 return canEdit [columnIndex];
             }
         });
+        jTable2.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(jTable2);
         if (jTable2.getColumnModel().getColumnCount() > 0) {
             jTable2.getColumnModel().getColumn(0).setMaxWidth(30);
@@ -310,6 +311,7 @@ public class FormOficios1 extends TabbedForm {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setMaxWidth(30);

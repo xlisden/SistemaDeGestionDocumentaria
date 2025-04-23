@@ -212,7 +212,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblAlm">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Alumnos:"/>
+                <Property name="text" type="java.lang.String" value="Alumno(s):"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblAlumnos">
@@ -479,7 +479,7 @@
                           </TableColumnModel>
                         </Property>
                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                          <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                          <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                         </Property>
                       </Properties>
                     </Component>
@@ -570,7 +570,7 @@
                           </TableColumnModel>
                         </Property>
                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                          <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                          <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                         </Property>
                       </Properties>
                     </Component>
