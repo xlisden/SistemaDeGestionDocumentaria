@@ -460,7 +460,7 @@ public class FormDocumentos extends TabbedForm {
     private javax.swing.JTextField txtFecha;
     // End of variables declaration//GEN-END:variables
 
-    private DateChooser dateChooser = new DateChooser();
+    private final DateChooser dateChooser = new DateChooser();
 
     private void aplicarDisenioTabla(JTable tabla) {
         JScrollPane scroll = (JScrollPane) tabla.getParent().getParent();

@@ -1,13 +1,20 @@
 package com.unu.sistemadegestiondocumentaria.ui.raven.form;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.raven.datechooser.DateBetween;
+import com.raven.datechooser.DateChooser;
+import com.raven.datechooser.listener.DateChooserAction;
+import com.raven.datechooser.listener.DateChooserAdapter;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.TabbedForm;
 import com.unu.sistemadegestiondocumentaria.ui.raven.tabbed.WindowsTabbed;
+import java.awt.Color;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import raven.alerts.MessageAlerts;
 import raven.popup.component.PopupCallbackAction;
 import raven.popup.component.PopupController;
 import raven.toast.Notifications;
+import java.util.Date;
 
 /**
  *
@@ -22,8 +29,9 @@ public class FormOficios extends TabbedForm {
      */
     public FormOficios(boolean esAgregar) {
         this.esAgregar = esAgregar;
-        initComponents(); 
+        initComponents();
         setEstilo();
+        iniciarDateChooser();
     }
 
     /**
@@ -51,6 +59,7 @@ public class FormOficios extends TabbedForm {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtaReferencia = new javax.swing.JTextArea();
+        lblFechaHoy = new javax.swing.JLabel();
         pnlDerecha = new javax.swing.JPanel();
         rbtExp = new javax.swing.JRadioButton();
         rbtSust = new javax.swing.JRadioButton();
@@ -100,6 +109,9 @@ public class FormOficios extends TabbedForm {
         txtaReferencia.setRows(5);
         jScrollPane3.setViewportView(txtaReferencia);
 
+        lblFechaHoy.setText("Hoy");
+        lblFechaHoy.setToolTipText("");
+
         javax.swing.GroupLayout pnlIzquierdaLayout = new javax.swing.GroupLayout(pnlIzquierda);
         pnlIzquierda.setLayout(pnlIzquierdaLayout);
         pnlIzquierdaLayout.setHorizontalGroup(
@@ -130,7 +142,9 @@ public class FormOficios extends TabbedForm {
                 .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(327, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(lblFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlIzquierdaLayout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +178,9 @@ public class FormOficios extends TabbedForm {
                 .addGap(17, 17, 17)
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(100, 100, 100)
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlIzquierdaLayout.createSequentialGroup()
@@ -357,7 +373,7 @@ public class FormOficios extends TabbedForm {
     @Override
     public boolean formClose() {
 //        if (txt.getText().trim().equals("")) {
-            return true;
+        return true;
 //        }
 //        int opt = JOptionPane.showConfirmDialog(this, "¿Estás seguro de salir sin guardar correctamente los datos?", "Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 //        return opt == JOptionPane.YES_OPTION;
@@ -388,6 +404,7 @@ public class FormOficios extends TabbedForm {
     private javax.swing.JLabel lblAsunto;
     private javax.swing.JLabel lblExp;
     private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblFechaHoy;
     private javax.swing.JLabel lblRegistrar;
     private javax.swing.JLabel lblSust;
     private javax.swing.JPanel pnlDerecha;
@@ -401,10 +418,26 @@ public class FormOficios extends TabbedForm {
     private javax.swing.JTextArea txtaAsunto;
     private javax.swing.JTextArea txtaReferencia;
     // End of variables declaration//GEN-END:variables
-    
-    private void setEstilo(){
+
+    private final DateChooser dateChooser = new DateChooser();
+
+    private void setEstilo() {
         lblAlumnos.putClientProperty(FlatClientProperties.STYLE, "font: bold");
         lblRegistrar.putClientProperty(FlatClientProperties.STYLE, "font: bold, 15");
         btnRegistrar.putClientProperty(FlatClientProperties.STYLE, "font: bold");
+    }
+
+    private void iniciarDateChooser() {
+        dateChooser.setTextField(txtFecha);
+        dateChooser.setForeground(Color.WHITE);
+        dateChooser.setDateSelectionMode(DateChooser.DateSelectionMode.SINGLE_DATE_SELECTED);
+        dateChooser.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        dateChooser.addActionDateChooserListener(new DateChooserAdapter() {
+            @Override
+            public void dateChanged(Date date, DateChooserAction action) {
+                SimpleDateFormat formatFecha = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");
+                lblFechaHoy.setText(formatFecha.format(date));
+            }
+        });
     }
 }

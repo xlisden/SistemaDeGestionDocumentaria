@@ -58,6 +58,7 @@ public class FormOficios1 extends TabbedForm {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtaReferencia = new javax.swing.JTextArea();
+        lblFechaHoy = new javax.swing.JLabel();
         pnlDerecha = new javax.swing.JPanel();
         rbtExp = new javax.swing.JRadioButton();
         rbtSust = new javax.swing.JRadioButton();
@@ -121,6 +122,9 @@ public class FormOficios1 extends TabbedForm {
         txtaReferencia.setRows(5);
         jScrollPane3.setViewportView(txtaReferencia);
 
+        lblFechaHoy.setText("Hoy");
+        lblFechaHoy.setToolTipText("");
+
         javax.swing.GroupLayout pnlIzquierdaLayout = new javax.swing.GroupLayout(pnlIzquierda);
         pnlIzquierda.setLayout(pnlIzquierdaLayout);
         pnlIzquierdaLayout.setHorizontalGroup(
@@ -159,13 +163,17 @@ public class FormOficios1 extends TabbedForm {
                         .addComponent(lbl1Miem, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(20, 20, 20)
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbo1Jurado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbo2Jurado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbo3Jurado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnlIzquierdaLayout.createSequentialGroup()
+                        .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbo1Jurado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbo2Jurado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbo3Jurado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(150, 150, 150))
                     .addGroup(pnlIzquierdaLayout.createSequentialGroup()
                         .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(150, 150, 150))
+                        .addGap(30, 30, 30)
+                        .addComponent(lblFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(pnlIzquierdaLayout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,7 +207,9 @@ public class FormOficios1 extends TabbedForm {
                 .addGap(17, 17, 17)
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblFechaHoy, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(10, 10, 10)
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblPdte, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -440,6 +450,7 @@ public class FormOficios1 extends TabbedForm {
     private javax.swing.JLabel lblAsunto;
     private javax.swing.JLabel lblExp;
     private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblFechaHoy;
     private javax.swing.JLabel lblPdte;
     private javax.swing.JLabel lblRegistrar;
     private javax.swing.JLabel lblSust;
