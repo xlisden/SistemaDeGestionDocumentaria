@@ -65,7 +65,6 @@ public class FormOficios1 extends TabbedForm {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        btnAgregar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         cboDestinatarios = new javax.swing.JComboBox<>();
         pnlDocsPorExp = new javax.swing.JPanel();
@@ -135,7 +134,7 @@ public class FormOficios1 extends TabbedForm {
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblExp, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
                     .addComponent(lblAlm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(10, 10, 10)
+                .addGap(15, 15, 15)
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlIzquierdaLayout.createSequentialGroup()
                         .addComponent(lblAlumnos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -144,9 +143,9 @@ public class FormOficios1 extends TabbedForm {
                         .addComponent(cboExp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(lblSust, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
+                        .addGap(15, 15, 15)
                         .addComponent(cboSust, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(20, 20, 20))))
+                        .addGap(30, 30, 30))))
             .addGroup(pnlIzquierdaLayout.createSequentialGroup()
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlIzquierdaLayout.createSequentialGroup()
@@ -154,12 +153,11 @@ public class FormOficios1 extends TabbedForm {
                         .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lbl2Miem, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
                             .addComponent(lblPdte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(10, 10, 10))
+                            .addComponent(lblFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlIzquierdaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lbl1Miem, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGap(17, 17, 17)
+                        .addComponent(lbl1Miem, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20)
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbo1Jurado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cbo2Jurado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -179,9 +177,9 @@ public class FormOficios1 extends TabbedForm {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(66, 66, 66))
             .addGroup(pnlIzquierdaLayout.createSequentialGroup()
-                .addGap(230, 230, 230)
+                .addContainerGap(228, Short.MAX_VALUE)
                 .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(230, 230, 230))
+                .addContainerGap(230, Short.MAX_VALUE))
         );
         pnlIzquierdaLayout.setVerticalGroup(
             pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,19 +212,19 @@ public class FormOficios1 extends TabbedForm {
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lbl2Miem, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbo3Jurado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(40, 40, 40)
                 .addGroup(pnlIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlIzquierdaLayout.createSequentialGroup()
                         .addComponent(lblAsunto)
                         .addGap(12, 12, 12)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlIzquierdaLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(12, 12, 12)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)))
+                .addGap(80, 80, 80)
                 .addComponent(btnRegistrar)
-                .addGap(25, 25, 25))
+                .addGap(30, 30, 30))
         );
 
         rbtExp.setText("Expediente");
@@ -237,19 +235,25 @@ public class FormOficios1 extends TabbedForm {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+
             },
             new String [] {
                 "Id", "Administrativo"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
         if (jTable2.getColumnModel().getColumnCount() > 0) {
             jTable2.getColumnModel().getColumn(0).setMaxWidth(30);
             jTable2.getColumnModel().getColumn(1).setMaxWidth(300);
         }
-
-        btnAgregar.setText("Agregar");
 
         btnEliminar.setText("Eliminar");
 
@@ -268,12 +272,11 @@ public class FormOficios1 extends TabbedForm {
                         .addGap(10, 10, 10)
                         .addGroup(pnlDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlDestLayout.createSequentialGroup()
-                                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(10, 10, 10))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDestLayout.createSequentialGroup()
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69))
         );
         pnlDestLayout.setVerticalGroup(
             pnlDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -283,11 +286,9 @@ public class FormOficios1 extends TabbedForm {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cboDestinatarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar)
-                    .addComponent(btnEliminar))
+                .addComponent(btnEliminar)
                 .addContainerGap())
         );
 
@@ -295,12 +296,20 @@ public class FormOficios1 extends TabbedForm {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+
             },
             new String [] {
                 "Id", "Documento"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setMaxWidth(30);
@@ -326,7 +335,7 @@ public class FormOficios1 extends TabbedForm {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -357,10 +366,10 @@ public class FormOficios1 extends TabbedForm {
                     .addComponent(rbtExp)
                     .addComponent(rbtSust))
                 .addGap(15, 15, 15)
-                .addComponent(pnlDest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlDest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(20, 20, 20)
-                .addComponent(pnlDocsPorExp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                .addComponent(pnlDocsPorExp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(40, 40, 40))
         );
 
         javax.swing.GroupLayout pnlFondoLayout = new javax.swing.GroupLayout(pnlFondo);
@@ -405,7 +414,6 @@ public class FormOficios1 extends TabbedForm {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> cbo1Jurado;

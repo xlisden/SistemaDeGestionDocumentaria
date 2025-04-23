@@ -67,7 +67,7 @@
                           <Component id="lblExp" pref="69" max="32767" attributes="0"/>
                           <Component id="lblAlm" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lblAlumnos" max="32767" attributes="0"/>
@@ -77,9 +77,9 @@
                               <Component id="cboExp" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                               <Component id="lblSust" min="-2" pref="93" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                               <Component id="cboSust" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -92,14 +92,13 @@
                                   <Component id="lblPdte" alignment="0" max="32767" attributes="0"/>
                                   <Component id="lblFecha" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lbl1Miem" min="-2" pref="86" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                              <Component id="lbl1Miem" min="-2" pref="88" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="cbo1Jurado" max="32767" attributes="0"/>
                           <Component id="cbo2Jurado" max="32767" attributes="0"/>
@@ -125,9 +124,9 @@
                       <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
+                      <EmptySpace pref="228" max="32767" attributes="0"/>
                       <Component id="btnRegistrar" min="-2" pref="112" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
+                      <EmptySpace pref="230" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -168,22 +167,22 @@
                           <Component id="lbl2Miem" alignment="1" min="-2" pref="24" max="-2" attributes="0"/>
                           <Component id="cbo3Jurado" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="lblAsunto" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                              <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Component id="jScrollPane4" pref="33" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                              <Component id="jScrollPane3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Component id="jScrollPane3" pref="33" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
                       <Component id="btnRegistrar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -382,10 +381,10 @@
                           <Component id="rbtSust" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      <Component id="pnlDest" min="-2" max="-2" attributes="0"/>
+                      <Component id="pnlDest" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="pnlDocsPorExp" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                      <Component id="pnlDocsPorExp" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -417,15 +416,14 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                       <Component id="jScrollPane2" min="-2" pref="215" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="btnAgregar" min="-2" pref="94" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                          <Component id="btnEliminar" min="-2" pref="94" max="-2" attributes="0"/>
-                                      </Group>
                                   </Group>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="btnEliminar" min="-2" pref="94" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -437,12 +435,9 @@
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Component id="cboDestinatarios" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" pref="132" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="120" max="32767" attributes="0"/>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnAgregar" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="btnEliminar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -464,9 +459,9 @@
                     <Component class="javax.swing.JTable" name="jTable2">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="2" rowCount="1">
-                            <Column editable="true" title="Id" type="java.lang.Object"/>
-                            <Column editable="true" title="Administrativo" type="java.lang.Object"/>
+                          <Table columnCount="2" rowCount="0">
+                            <Column editable="false" title="Id" type="java.lang.Object"/>
+                            <Column editable="false" title="Administrativo" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -490,11 +485,6 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="btnAgregar">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Agregar"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JButton" name="btnEliminar">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Eliminar"/>
@@ -538,7 +528,7 @@
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="138" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="128" max="32767" attributes="0"/>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -560,9 +550,9 @@
                     <Component class="javax.swing.JTable" name="jTable1">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="2" rowCount="1">
-                            <Column editable="true" title="Id" type="java.lang.Object"/>
-                            <Column editable="true" title="Documento" type="java.lang.Object"/>
+                          <Table columnCount="2" rowCount="0">
+                            <Column editable="false" title="Id" type="java.lang.Object"/>
+                            <Column editable="false" title="Documento" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
