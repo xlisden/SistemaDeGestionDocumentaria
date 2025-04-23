@@ -35,7 +35,7 @@ public class Login extends JPanel {
     }
 
     private void init() {
-        CompletableFuture<Void> unHilo = CompletableFuture.runAsync(() -> instanciarServicios());
+//        CompletableFuture<Void> unHilo = CompletableFuture.runAsync(() -> instanciarServicios());
         setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
         txtUsername = new JTextField();
         txtPassword = new JPasswordField();
@@ -58,7 +58,7 @@ public class Login extends JPanel {
 
         cmdLogin.addActionListener((e) -> {
             if (txtUsername.getText().equals(usuario) && txtPassword.getText().equals(contrasenia)) {
-                unHilo.join();
+//                unHilo.join();
                 MessageAlerts.getInstance().showMessage("Bienvenido(a)", "Gracias por ingresar las credenciales correctas. Sea bienvenido(a)", MessageAlerts.MessageType.SUCCESS, MessageAlerts.DEFAULT_OPTION, new PopupCallbackAction() {
                     @Override
                     public void action(PopupController pc, int i) {
